@@ -14,10 +14,10 @@
 -compile(export_all).
 
 %%-----------------------------------------------------boss process
-sender([One], _N) ->
+sender(senderstart, [One], _N) ->
   One ! {null,null,1};
-sender(PidList, N) ->
-  sender(list_to_tuple(PidList) ,N, 1).
+sender(senderstart, PidList, N) ->
+  sender(list_to_tuple(PidList) ,N, 1);
 sender(PidTuple ,N, X) ->
   if
     X == 1 ->
@@ -33,6 +33,8 @@ sender(PidTuple ,N, X) ->
       element(X,PidTuple) ! {element(X-1,PidTuple), null, X}
   end.
 
+receiver(recivestart, _PidList, EndPid) ->
+  receiver([], EndPid).
 receiver(ResultList, EndPid) ->
   receive
     Msg ->

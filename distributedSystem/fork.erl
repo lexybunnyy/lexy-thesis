@@ -14,67 +14,61 @@
 -compile(export_all).
 
 %%-----------------------------------------------------boss process
-sender([One], _N) ->
-  One ! {null,null,0};
-sender(PidList, N) ->
-  sender(list_to_tuple(PidList) ,N, 1).
-sender(PidTuple ,N, X) ->
-  if
-    X == 1 ->
-      io:format("Send to process ~p : ~p\n",[ element(X,PidTuple), {null, element(X+1,PidTuple), X} ]),
-      element(X,PidTuple) ! {null, element(X+1,PidTuple), X},
-      sender(PidTuple ,N, X+1);
-    X < N ->
-      io:format("Send to process ~p : ~p\n",[element(X,PidTuple), {element(X-1,PidTuple), element(X+1,PidTuple), X}]),
-      element(X,PidTuple) ! {element(X-1,PidTuple), element(X+1,PidTuple), X},
-      sender(PidTuple ,N, X+1);
-    X == N ->
-      io:format("Send to process ~p : ~p \n",[element(X,PidTuple), {element(X-1,PidTuple), null, X} ]),
-      element(X,PidTuple) ! {element(X-1,PidTuple), null, X}
-  end.
+sender(senderstart, [], _N) ->
+  error;
+sender(senderstart,[One], _N) ->
+  One ! {forkdata,1,1};
+sender(senderstart, PidList, N) ->
+  sender(PidList ,N, N-1);
+sender([H] ,N, X) ->
+  H ! {forkdata, N-X , N-X};
+sender([H|T] ,N, X) ->
+  H ! {forkdata, N-X, N-X},
+  sender(T, N, X-1).
 
-receiver(ResultList) ->
+receiver(recivestart,PidList, _EndPid) ->
+  receiver(PidList, []).
+receiver([HeadPidList], ResultList) ->
   receive
-  %%{Pid, Number, Result} when Pid == EndPid->
-  %%	io:format("The Result: ~p ", [{Pid, Number, Result}]),
-  %%	erlang:append_element(resultList,{Pid, Number, Result}),
-  %%	io:format("The End Result: ~p ", [resultList]);
-  %%{Pid, Number, Result}  ->
-  %%	io:format("The Result: ~p ", [{Pid, Number, Result}]),
-  %%	receiver(erlang:append_element(resultList,{Pid, Number, Result}), EndPid);
-    Msg ->
-      io:format("I received: ~p \n", [Msg]),
-      receiver(ResultList) %%test1
+    {HeadPidList, forkresult, Number, Result} ->
+      ResultList++[{Number,Result}]
   after
-    10000 -> ok
+    10000 ->
+      [ResultList, afterEnded]
+  end;
+receiver([HeadPidList|TailPidList], ResultList) ->
+  receive
+    {HeadPidList, forkresult, Number, Result} ->
+      receiver(TailPidList, ResultList++[{Number,Result}])
+  after
+    10000 ->
+      [ResultList, afterEnded]
   end.
 
 %%-----------------------------------------------------worker processes
-worker_main(Ppid, X, Timeout) ->
+worker_main(Ppid, Number, Timeout) ->
+  Ppid ! {self(), workerstart, Number},
   receive
-    {null, SendPid, Data} ->
-      Ppid ! {self(), X, Data};
-    {RecPid, null, Data} ->
-      Ppid ! {self(), X, Data};
-    {RecPid, SendPid, Data} ->
-      %%recData = receiveData(recPid),
-      %%resultData = calculate(recData, Data),
-      %%Ppid ! {self(),X, Data};
-      %%sendPid ! {self(), resultData}
-      Ppid ! {self(), X, Data};
-    {Ppid,theEnd} ->
-      Ppid ! {self(), X, theEnd};
+    {forkdata, Number, Data} ->
+      Result = calculate(Data),
+      Ppid ! {self(), forkresult,Number, Result};
+    {forkdata, OtherNumber, Data} ->
+      Ppid ! {self(), error, Number ,OtherNumber, Data};
+    {theEnd, Number} ->
+      Ppid ! {self(), theEnd, Number};
     _Msg ->
-      Ppid ! _Msg,
-      worker_main(Ppid, X, Timeout)
+      Ppid ! {self(), _Msg},
+      worker_main(Ppid, Number, Timeout)
   after
-    Timeout -> Ppid ! {self(),X, theEnd}
+    Timeout -> Ppid ! {self(), theEnd, Number}
   end.
 
-receiveData(recPid) ->
+
+receiveData(RecPid) ->
   receive
-    {Pid , recData} when Pid == recPid ->
-      recData;
-    _Msg ->
-      receiveData(recPid)
+    {Pid , RecData} when Pid == RecPid ->
+      RecData
   end.
+
+calculate(Data) ->
+  Data + 1.
