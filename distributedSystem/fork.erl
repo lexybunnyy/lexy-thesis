@@ -71,4 +71,4 @@ receiveData(RecPid) ->
   end.
 
 calculate(Data) ->
-  Data + 1.
+  Data * 2.

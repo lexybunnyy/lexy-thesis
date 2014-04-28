@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Flot Examples</title>
+	<link href="plot_design.css" rel="stylesheet" type="text/css">
+	<style>
+
+	h3 {
+		margin-top: 30px;
+		margin-bottom: 5px;
+	}
+
+	</style>
+	<script language="javascript" type="text/javascript" src="../jquery.js"></script>
+	<script language="javascript" type="text/javascript" src="../jquery.flot.js"></script>
+	<script type="text/javascript">
+
+	$(function() {
+
+		// Add the Flot version string to the footer
+
+		$("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
+	});
+
+	</script>
+</head>
+<body>
+
+	<div id="header">
+		<h2>Flot Examples</h2>
+	</div>
+
+	<div id="content">
+
+		<h3>Distributed Interpolation: </h3>
+
+		<ul>
+            <li><a href="source/flot-0.8.2/examples/index.html">Plot Examples</a></li>
+            <li><a href="testplot.html">Result plot</a></li>
+            <li><a href="prepareplot.html">preparing plot</a></li>
+        </ul>
+
+        <h3>A szakdolgozat menete:</h3>
+
+        <pre>
+            GUI megvalósítás, közben a források feljegyzetelése,
+
+            Plotok létre hozása (pont be kattintgatás, adatbázis alapján pont megjeleítés, frissítés)
+            Eredmény: pontok és a polinóm kirajzolása,
+
+            Táblázatos szerkesztés és eredmény kirajzolás
+            Fájlba való kimentés/beolvasás (.csv fájl és json/ vagy valami lehetséges küldő formátum)
+
+            Erlang kommunikáció (Erlang Node feljelenkezés, üzenet küldése, eredmény vissza kapása)
+        </pre>
+
+	</div>
+
+	<div id="footer">
+		Copyright &copy; 2014 Alexandra Cselyuszka
+	</div>
+
+</body>
+</html>
