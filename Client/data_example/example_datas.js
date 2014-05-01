@@ -125,7 +125,7 @@ function example_datas(){
             { x: 1, y: [1]},
             { x: 3, y: [9]}
         ],
-        derivative_num: 0,
+        deriv_num: 0,
         type: 'L',
         inverse: false,
         succ: true,
