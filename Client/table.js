@@ -64,14 +64,23 @@ function table(aConfig){
 
     aConfig.debug.button.onclick = function(){
         result = [];
-        var cells = tableRows[0].getElementsByTagName("TD");
-        result.push(cells);
+        result_y = [];
+        var tableRow = tableRows[0].getElementsByTagName("INPUT");
+        for(var j = 0; j < numOfDatas; j++){
+            columnData = [];
+            for(var i = 0; i < tableRows.length; i++){
+                tableRow = tableRows[i].getElementsByTagName("INPUT");
+                columnData.push(tableRow[j+1].value);
+            }
+            result.push(columnData);
+        }
 
         var debugText = JSON.stringify(result);
         aConfig.debug.string.text(" " + debugText);
     }
 
     aConfig.newTableButton.onclick = function(){
+        aConfig.debug.string.text(" ");
         for(var i = aTable.rows.length; i > 0;i--)
         {
             aTable.deleteRow(i -1);
@@ -99,7 +108,7 @@ function table(aConfig){
     function setDatas(){
 
     }
-
+    aConfig.debug.string.text(" ");
     newTable();
 
 }
