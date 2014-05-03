@@ -15,7 +15,8 @@ var senderData = {
 function table(aConfig){
     var aTable = aConfig.table;
     var tableRows = [];
-    var numOfDatas = 1;
+    var numOfDatas = 1; //Colums
+    //var numOfDerivates = 0; //Rows-2
 
     function newTable(){
         numOfDatas = 1;
@@ -63,19 +64,12 @@ function table(aConfig){
     }
 
     aConfig.debug.button.onclick = function(){
-        result = [];
-        result_y = [];
-        var tableRow = tableRows[0].getElementsByTagName("INPUT");
-        for(var j = 0; j < numOfDatas; j++){
-            columnData = [];
-            for(var i = 0; i < tableRows.length; i++){
-                tableRow = tableRows[i].getElementsByTagName("INPUT");
-                columnData.push(tableRow[j+1].value);
-            }
-            result.push(columnData);
+        //getDatas();
+        var data = [parseInt("1000",10).toFixed(2)];
+        if(parseFloat("0.00") !== null){
+            data.push("null1");
         }
-
-        var debugText = JSON.stringify(result);
+        var debugText = JSON.stringify(getPoints());
         aConfig.debug.string.text(" " + debugText);
     }
 
@@ -102,13 +96,65 @@ function table(aConfig){
         addEmptyColumnToTable();
     }
 
-    function getDatas(){
+    function getPoints(){
+        var result = [];
+        var result_x = [];
+        var result_y = [];
+        var i, j, y;
+        var tableRow = tableRows[0].getElementsByTagName("INPUT");
+        for(j = 0; j < numOfDatas; j++){
+
+            tableRow = tableRows[0].getElementsByTagName("INPUT");
+            result_x = parseFloat(tableRow[j+1].value);
+            tableRow = tableRows[1].getElementsByTagName("INPUT");
+            y = parseFloat(tableRow[j+1].value);
+            if(isNaN(result_x) || isNaN(y)){break;}
+            result_y = [y];
+
+            for(i = 2; i < tableRows.length; i++){
+                tableRow = tableRows[i].getElementsByTagName("INPUT");
+                y = parseFloat(tableRow[j+1].value);
+                if(isNaN(y)){break;}
+                result_y.push(y);
+            }
+            result.push({
+                x: result_x,
+                y: result_y
+            });
+        }
+        return result;
     }
 
-    function setDatas(){
+    function setDatas(Data){
+        aConfig.debug.string.text(" ");
+        for(var i = aTable.rows.length; i > 0;i--)
+        {
+            aTable.deleteRow(i -1);
+        }
+
+        tableRows = [];
+        numOfDatas = 1;
+
+        tableRows[0] = addEmptyRowToTable();
+        tableRows[1] = addEmptyRowToTable();
+
+        addFirstCellToRow(tableRows[0], "x");
+        addFirstCellToRow(tableRows[1], "y");
+        addCellToRow(tableRows[0], Data.points[0].x);
+        addCellToRow(tableRows[1], Data.points[0].y[0]);
+
+        for(var i = 0; i <= Data.deriv_num; i++){
+            tableRows[i] = addEmptyRowToTable();
+        }
+
+        for(var i = 0; i <= Data.points.length; i++){
+            var dp = Data.points[i].x;
+        }
 
     }
+
     aConfig.debug.string.text(" ");
     newTable();
+    setDatas(senderData);
 
 }
