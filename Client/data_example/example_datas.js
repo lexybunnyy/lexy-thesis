@@ -76,7 +76,6 @@ function example_datas(){
     }];
 
     //-------------------------------example_prepare(interpolation_data)
-    _this.interpolation_data = []; // = [data1,data2];
 
     var data1 = {
         name: 'data1',
@@ -101,6 +100,10 @@ function example_datas(){
         type: 'L',
         inverse: false
     };
+
+    _this.proj_data = []; // = [data1,data2];
+    _this.proj_data.push(data1);
+    _this.proj_data.push(data2);
 
     //-------------------------------example_result(interpolation_data)
 
@@ -132,15 +135,19 @@ function example_datas(){
         polinome: [0,0,1]
     };
 
-    _this.interpolation_data.push(res_data1);
-    _this.interpolation_data.push(res_data2);
+    _this.proj_res_data = []; // = [data1,data2];
+    _this.proj_res_data.push(res_data1);
+    _this.proj_res_data.push(res_data2);
+
     /*
     push_result_data('data1', true, [0,1]);
     push_result_data('data2', true, [0,0,1]);
     var result_data = [];
     result_data.push(data1);
     result_data.push(data2);
-    this.interpolation_data = interpolation_data;*/
+    this.interpolation_data = interpolation_data;
+    JSON.stringify(result_data,null,2);
+    */
+
     return _this;
-    //JSON.stringify(result_data,null,2);
 };

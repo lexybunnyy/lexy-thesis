@@ -3,7 +3,6 @@
  */
 function prepare_datalist(aConfig){
     aConfig.debug.button.onclick=function(ebla){
-
         var myObject = {
             event: ebla,
             msg: "Hello"
@@ -12,6 +11,4 @@ function prepare_datalist(aConfig){
         aConfig.debug.string.text(" " + debugText);
 
     }
-
-
 }

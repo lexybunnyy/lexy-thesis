@@ -11,13 +11,13 @@ function plot(aConfig) {
 
 
     var showerArray = [];
-    var fori = {
+    var plotFor = {
         begin: -10,//-1000,
         end: 10,//1000,
         step:  0.5//0.01
     };
 
-    var result = make_plot_data(showerArray, examples.interpolation_data[1], 0, fori);
+    var result = make_plot_data(showerArray, examples.proj_res_data[1], 0, plotFor);
 
     //var plot =
         $.plot(placeHolder, result, aConfig.typeofPH);

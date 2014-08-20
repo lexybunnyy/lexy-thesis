@@ -31,7 +31,7 @@
  Olyan tömb vissza kapása amely a szeretett polinómot adja vissza
  **/
 
-function make_plot_data(showerArray,inData,numDerivate, fori){
+function make_plot_data(showerArray,inData,numDerivate, plotFor){
     var dataPoints = [];
     inData.points.forEach(function(point){
         dataPoints.push([point.x, point.y[numDerivate]])
@@ -39,7 +39,7 @@ function make_plot_data(showerArray,inData,numDerivate, fori){
 
     var dataPolinome = [];
     var y, x,i;
-    for (x = fori.begin; x <= fori.end; x += fori.step) {
+    for (x = plotFor.begin; x <= plotFor.end; x += plotFor.step) {
         y = 0;
         for (i = 0; i < inData.polinome.length; ++i) {
             y += inData.polinome[i]*Math.pow(x,i);
