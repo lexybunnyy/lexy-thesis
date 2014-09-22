@@ -149,5 +149,44 @@ function example_datas(){
     JSON.stringify(result_data,null,2);
     */
 
+
+
+    _this.polinomesObject3 = [{
+        label: 'data[0,0,0,1,1]',
+        polinome: [
+            -(2.897877494*10-9), //0
+            +(22.02671519), //1
+            -(16.74055236), //2
+            +(4.084731951), //3
+            -(3.827339558*10-1), //4
+            (1.183918774*10-2)
+        ]
+    }];
+    /*
+     (1.183918774·10-2) *x^5
+     -(3.827339558·10-1)*x^4
+     +(4.084731951)*x^3
+     -(16.74055236)*x^2
+     +(22.02671519)*x
+     -(2.897877494·10-9)
+     * */
+
+
+    _this.polinomesObject1 = [{
+        label: 'data[0,0,0,1,1]',
+        polinome: [0,0,0,0,0.000001,0.000001]
+    }];
+
+    _this.polinomesObject2 = [{
+        label: 'data[0,1]',
+        polinome: [0,1]
+    },{
+        label: 'data[0,0,1]',
+        polinome: [0,0,1]
+    },{
+        label: 'data[0,0,0,1,1]',
+        polinome: [0,0,0,1,1]
+    }];
+
     return _this;
 };

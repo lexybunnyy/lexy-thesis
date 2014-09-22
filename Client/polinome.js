@@ -27,31 +27,26 @@
  * polinome rajzoló: polinome_data segítségével vissza adunk egy
  * olyan tömböt, amely
  */
-/**
- Olyan tömb vissza kapása amely a szeretett polinómot adja vissza
- **/
 
-function make_plot_data(showerArray,inData,numDerivate, plotFor){
+/** Olyan tömb vissza kapása amely a szeretett polinómot adja vissza
+ * @param showerArray
+ * @param inData
+ * @param numDerivate
+ * @param plotFor
+ * @returns {*}
+ */
+function make_plot_data(showerArray, inData, numDerivate, plotFor){
     var dataPoints = [];
     inData.points.forEach(function(point){
         dataPoints.push([point.x, point.y[numDerivate]])
     });
 
-    var dataPolinome = [];
-    var y, x,i;
-    for (x = plotFor.begin; x <= plotFor.end; x += plotFor.step) {
-        y = 0;
-        for (i = 0; i < inData.polinome.length; ++i) {
-            y += inData.polinome[i]*Math.pow(x,i);
-        }
-        dataPolinome.push([x,y]);
-    }
-
     showerArray.push({
         label: inData.name,
-        data: dataPolinome,
+        data: makePolinome(inData.polinome, plotFor),
         lines: { show: true }
     });
+
     showerArray.push({
         label: inData.name,
         data: dataPoints,
@@ -59,6 +54,41 @@ function make_plot_data(showerArray,inData,numDerivate, plotFor){
     });
 
     return showerArray;
+}
+
+function makePolinome(inPolinome, plotFor){
+    var dataPolinome = [];
+    var y, x,i;
+    for (x = plotFor.begin; x <= plotFor.end; x += plotFor.step) {
+        y = 0;
+        for (i = 0; i < inPolinome.length; ++i) {
+            y += inPolinome[i]*Math.pow(x,i);
+        }
+        dataPolinome.push([x,y]);
+    }
+    return dataPolinome;
+}
+
+/**
+ * @param polinomesObject
+ * @param plotFor
+ */
+function generateForExamplePolinomes(polinomesObject, plotFor, debugstr){
+    plotFor = plotFor || {
+        begin: -10,//-1000,
+        end: 10,//1000,
+        step:  0.5//0.01
+    };
+    var result = [];
+    polinomesObject.forEach(function(polinome){
+        var resPlotData = {
+            label: polinome.label,
+            data: makePolinome(polinome.polinome, plotFor),
+            lines: { show: true }
+        };
+        result.push(resPlotData);
+    });
+    return result;
 }
 
 function push_result_data(name, succ, result){
@@ -69,7 +99,7 @@ function push_result_data(name, succ, result){
     }
 }
 
-function show_reslut(data){
+function show_reslut(data) {
     var resluts = [];
     for (var i = 0; i < data.length; ++i) {
         resluts.push({
