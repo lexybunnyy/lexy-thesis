@@ -149,8 +149,6 @@ function example_datas(){
     JSON.stringify(result_data,null,2);
     */
 
-
-
     _this.polinomesObject3 = [{
         label: 'data[0,0,0,1,1]',
         polinome: [
@@ -172,20 +170,27 @@ function example_datas(){
      * */
 
 
+    var one = 0.1;
     _this.polinomesObject1 = [{
-        label: 'data[0,0,0,1,1]',
-        polinome: [0,0,0,0,0.000001,0.000001]
-    }];
-
-    _this.polinomesObject2 = [{
-        label: 'data[0,1]',
-        polinome: [0,1]
-    },{
         label: 'data[0,0,1]',
         polinome: [0,0,1]
     },{
-        label: 'data[0,0,0,1,1]',
-        polinome: [0,0,0,1,1]
+        label: 'data[0,0,0.5]',
+        polinome: [0,0,0.5]
+    }];
+
+    _this.polinomesObject2 = [{
+        label: 'data1',
+        polinome: [0,6]
+    },{
+        label: 'data2',
+        polinome: [0,0,2]
+    },{
+        label: 'data3',
+        polinome: [0,0,0,2*one]
+    },{
+        label: 'data4',
+        polinome: [0,0,0,5*one]
     }];
 
     return _this;

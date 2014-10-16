@@ -12,13 +12,20 @@ function plot(aConfig) {
 
     var showerArray = [];
     var plotFor = {
-        begin: 0,//-1000,
-        end: 1000,//1000,
-        step: 0.5//0.01
+        begin: -3.5,//-1000,
+        end: 3.5,//1000,
+        step: 0.01//0.01
     };
 
-    var result = generateForExamplePolinomes(examples.polinomesObject3, plotFor, aConfig.debugstring);
-    var result2 = make_plot_data(showerArray, examples.proj_res_data[1], 0, plotFor);
+    var result = generateForExamplePolinomes(examples.polinomesObject1, plotFor, aConfig.debugstring);
+    //var result2 = make_plot_data(showerArray, examples.proj_res_data[1], 0, plotFor);
+
+    result.push({
+        label: 'points',
+        data: [[0,0], [1,1], [-1,1],[-3,9],[3,9]],
+        points: { show: true }
+    });
+
     aConfig.debugstring.text(JSON.stringify(result));
     //var plot =
         $.plot(placeHolder, result, aConfig.typeofPH);

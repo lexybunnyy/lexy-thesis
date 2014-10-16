@@ -50,17 +50,17 @@ var gTypeInterpolationPlot =  {
     },
     xaxis: {
         zoomRange: [0.1, 1],
-        panRange: [-1000, 1000]
+        panRange: [0, 1000]
     },
     yaxis: {
         zoomRange: [0.1, 100],
-        panRange: [-1000, 1000]
+        panRange: [0, 1000]
     },
     zoom: {
-        interactive: true
+        //interactive: true
     },
     pan: {
-        interactive: true
+        //interactive: true
     },
     grid: {
         hoverable: true,
