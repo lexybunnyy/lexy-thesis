@@ -22,7 +22,6 @@ go() ->
           RecData
       end
     end,
-    end,
   receive
     {Pid2, Msg} ->
       io:format("~p received: ~p : ~w~n",[self(),Pid2,Msg])
