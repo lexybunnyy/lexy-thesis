@@ -1,0 +1,80 @@
+.styled-select select {
+   background: transparent;
+   width: 268px;
+   padding: 5px;
+   font-size: 16px;
+   line-height: 1;
+   border: 0;
+   border-radius: 0;
+   height: 34px;
+   -webkit-appearance: none;
+}
+
+body
+{
+	margin:0 auto;
+
+	background-color:black;
+	background: url(kepek/kekviragok.jpg);
+	background-size:120% auto; /*auto, contain,cover*/
+	background-repeat:repeat-y;
+	background-position:left top;
+	font-family:sans-serif;
+	font-weight:bold;
+	min-width:100%;
+	background-color:black;
+}
+
+#menulist ul
+{
+	display:inline;
+}
+
+#menu
+{
+	min-width:610px;
+	width:90%;
+	/*float:top;*/
+	opacity:0.8;
+
+	padding-top:5px;
+	margin:0 auto;
+
+	text-align:center;
+	/*background: url(kepek/blue_rose_01.jpg);*/
+}
+
+#menu a
+{
+	text-decoration:none;
+	color:black;
+	background-color:white;
+	padding: 5px 5%;
+	margin:0px 5px;
+	border-radius:5px;
+	border:1px solid blue;
+}
+
+#menulist
+{
+	margin-top:18px;
+	text-align: center;
+	padding:0px;
+	white-space: nowrap;
+}
+
+#menulitem1, #menulitem2, #menulitem3, #menulitem4
+{
+	display:inline; /* egy sorba ker?l minden lista bejegyz?s */
+	list-style-type:none; 
+	padding:0px;
+	border: 0px;
+	/*border-right:1px solid white;*/
+	font-size:20px;
+}
+
+#menulist li:last-child
+{
+	width:auto;
+	border-right:none;
+}
