@@ -29,23 +29,24 @@
             config.addColumnButton = document.getElementsByName("addrow_button")[0];
             config.newTableButton = document.getElementsByName("refresh_button")[0];
             config.table = document.getElementById("myTable");
-
-            table(config);
+            interpolationTable(config);
         });
     </script>
 </head>
 <body>
     <div id="content">
         <p>
-           <input type="button" name="debug_button" value="Click Debug">
+            <input type="button" name="debug_button" value="Click Debug">
             <input type="button" name="refresh_button" value="Refresh">
             <input type="button" name="addcolumn_button" value="Add Column">
             <input type="button" name="addrow_button" value="Add Row">
-
         </p>
+        <div id="debug">
+
+        </div>
 
         <p>
-        <table id="myTable" class="table"></table>
+            <table id="myTable" class="table"></table>
         </p>
 
         <p>JSON:<span id="json_debug"></span></p>

@@ -1,5 +1,19 @@
 /**
  * Created by lexy on 2014.04.29..
+ *
+ * Interpolációs Táblázat
+ *
+ {code}
+     var config = {};
+     config.debug = {};
+     config.debug.string = $("#json_debug");
+     config.debug.button = document.getElementsByName("debug_button")[0];
+     config.addRowButton = document.getElementsByName("addcolumn_button")[0];
+     config.addColumnButton = document.getElementsByName("addrow_button")[0];
+     config.newTableButton = document.getElementsByName("refresh_button")[0];
+     config.table = document.getElementById("myTable");
+     table(config);
+ {code}
  */
 
 var senderData = {
@@ -11,99 +25,149 @@ var senderData = {
     deriv_num: 0
 };
 
-
-function table(aConfig){
+/** Interpolációs Táblázat logikája
+ * @param aConfig
+ * @aConfig debug : opcionális kiiratás
+ * @aConfig addRowButton : input button hivatkozás : Új sor felvétele gomb
+ * @aConfig addColumnButton : input button tag hivatkozás : Új oszlop felvétele gomb
+ * @aConfig newTableButton : input button tag hivatkozás : Új táblázat felvétele gomb
+ * @aConfig table : table tag hivatkozás : maga a táblázat
+ * @returns {interpolationTable}
+ */
+function interpolationTable(aConfig){
+    var that = this;
     var aTable = aConfig.table;
     var tableRows = [];
-    var numOfDatas = 1; //Colums
-    //var numOfDerivates = 0; //Rows-2
+    var numOfPoints = 1; //TODO
+    var numOfDerivates = 0; //TODO
 
+    /**
+     * Kiiratunk egy String-ben egy Objectet a debug-ra
+     * Ez a funkció csak debug módban fog működni.
+     * */
+    function debugWriteObject(obj) {
+        var debugText = obj ? JSON.stringify(obj) : '';
+        aConfig.debug.string.text(" " + debugText);
+    }
+
+    /** Megadjuk az első cella értékét (sor címkéje)
+     * @param rowIndex a sor indexe (hányadik sorban vagyunk)
+     * @returns {string}
+     */
+    function getRowLabel(rowIndex) {
+        var firstCellLabel = "y(" + ( rowIndex - 1 ) + ")";
+        if (rowIndex === 0) {
+            firstCellLabel = 'x'
+        }
+        if (rowIndex === 1) {
+            firstCellLabel = 'y'
+        }
+        return firstCellLabel;
+    }
+
+    /** Teljesen törli a táblázatot */
+    function deleteTable() {
+        for (var i = aTable.rows.length; i > 0; i--) {
+            aTable.deleteRow(i - 1);
+        }
+        tableRows = [];
+        numOfPoints = 0;
+        numOfDerivates = 0;
+    }
+
+    /** Létrehoz egy új táblázatot az alapértelmezett értékekkel
+     *  TODO addNewRowToTable call*/
     function newTable(){
-        numOfDatas = 1;
-        tableRows[0] = addEmptyRowToTable();
-        tableRows[1] = addEmptyRowToTable();
+        deleteTable();
+        numOfPoints = 1;
+        numOfDerivates = 0;
+        tableRows[0] = addNewRowTagToTable();
+        tableRows[1] = addNewRowTagToTable();
 
-        addFirstCellToRow(tableRows[0], "x");
-        addFirstCellToRow(tableRows[1], "y");
+        addCellToRow(tableRows[0], "x", true);
+        addCellToRow(tableRows[1], "y", true);
         addCellToRow(tableRows[0], 0.00);
         addCellToRow(tableRows[1], 0.00);
     }
 
-    function addEmptyRowToTable(){
-        var trow = document.createElement("TR");
-        aTable.appendChild(trow);
-        return trow;
-    };
+    /**Make New tag
+     * @returns {HTMLElement}
+     */
+    function addNewRowTagToTable() {
+        var newRow = document.createElement("TR");
+        aTable.appendChild(newRow);
+        return newRow;
+    }
 
-    function addCellToRow(row, str){
+    /** Ad egy üres sort a táblázathoz
+     *  Megadhatunk egy magasabb derivált értéket a pontokhoz
+     *  TODO: általánosítás értékre és az első sorok felvételére
+     * */
+    function addNewRowToTable() {
+        var index = tableRows.length;
+        var variableLabel = "y(" + ( index - 1 ) + ")";
+        tableRows[index] = addNewRowTagToTable();
+        addCellToRow(tableRows[index], variableLabel, true);
+        for (var i = 0; i < numOfPoints; i++) {
+            addCellToRow(tableRows[index], "-");
+        }
+    }
+
+    /** Add egy üres cellát a sorhoz  */
+    function addCellToRow(row, str, firstCell) {
         var cell = document.createElement("TD");
         var textInput = document.createElement("INPUT");
         textInput.setAttribute("type", "text");
+        if (firstCell) {
+            textInput.setAttribute("disabled", "true");
+        }
         textInput.value = str;
         cell.appendChild(textInput);
         row.appendChild(cell);
         return cell;
-    };
+    }
 
-    function addFirstCellToRow(row, str){
-        var cell = document.createElement("TD");
-        var textInput = document.createElement("INPUT");
-        textInput.setAttribute("type", "text");
-        textInput.setAttribute("disabled", "true");
-        textInput.value = str;
-        cell.appendChild(textInput);
-        row.appendChild(cell);
-        return cell;
-    };
-
+    /** Ad egy üres oszlopot a táblázathoz
+     *  Megadunk egy új pontot
+     **/
     function addEmptyColumnToTable(){
-        ++numOfDatas;
+        ++numOfPoints;
         tableRows.forEach(function(row){
             addCellToRow(row , "-");
         });
     }
 
-    aConfig.debug.button.onclick = function(){
-        //getDatas();
-        var data = [parseInt("1000",10).toFixed(2)];
-        if(parseFloat("0.00") !== null){
-            data.push("null1");
-        }
-        var debugText = JSON.stringify(getPoints());
-        aConfig.debug.string.text(" " + debugText);
+    /**Gombok eseményeinek lekezelése*/
+    function configButtons() {
+        aConfig.debug.button.onclick = function(){
+            debugWriteObject(that.getPoints());
+        };
+        aConfig.newTableButton.onclick = function(){
+            debugWriteObject();
+            newTable();
+        };
+        aConfig.addColumnButton.onclick=function(){
+            addEmptyColumnToTable();
+        };
+
+        aConfig.addRowButton.onclick = function(){
+            addNewRowToTable();
+        };
     }
 
-    aConfig.newTableButton.onclick = function(){
-        aConfig.debug.string.text(" ");
-        for(var i = aTable.rows.length; i > 0;i--)
-        {
-            aTable.deleteRow(i -1);
-        }
-        tableRows = [];
-        newTable();
-    }
-
-    aConfig.addRowButton.onclick = function(){
-        var index = tableRows.length;
-        tableRows[index] = addEmptyRowToTable();
-        addFirstCellToRow(tableRows[index], "y("+( index-1 )+")");
-        for(var i = 0; i<numOfDatas; i++ ){
-            addCellToRow(tableRows[index], "-");
-        }
-    }
-
-    aConfig.addColumnButton.onclick=function(){
-        addEmptyColumnToTable();
-    }
-
-    function getPoints(){
+    /**
+     * Megkapjuk a táblázatban leírt pontok tömbjét
+     *
+     * @returns {Array} Default in JSON: [{"x":0,"y":[0]}]
+     */
+    that.getPoints = function () {
         var result = [];
         var result_x = [];
         var result_y = [];
         var i, j, y;
         var tableRow = tableRows[0].getElementsByTagName("INPUT");
-        for(j = 0; j < numOfDatas; j++){
 
+        for (j = 0; j < numOfPoints; j++) {
             tableRow = tableRows[0].getElementsByTagName("INPUT");
             result_x = parseFloat(tableRow[j+1].value);
             tableRow = tableRows[1].getElementsByTagName("INPUT");
@@ -125,36 +189,47 @@ function table(aConfig){
         return result;
     }
 
-    function setDatas(Data){
-        aConfig.debug.string.text(" ");
-        for(var i = aTable.rows.length; i > 0;i--)
-        {
-            aTable.deleteRow(i -1);
+    /**
+     * TODO, ez még nem működik! Javítani + refaktor
+     * Beállítjuk a Táblázatot egy adathalmaz alapján
+     * {Array} Default in JSON: [{"x":0,"y":[0]}]
+     */
+    that.setPoints = function (tableArray) {
+        deleteTable();
+        var defaultArray = [{
+            x : 0,
+            y : [0]
+        }];
+        tableArray = tableArray || defaultArray;
+
+        numOfPoints = tableArray.length;
+        tableRows[0] = addNewRowTagToTable();
+        addCellToRow(tableRows[0], getRowLabel(0), true);
+
+        tableRows[1] = addNewRowTagToTable();
+        addCellToRow(tableRows[1], getRowLabel(1), true);
+        var tableRow = null;
+        for (var j = 0; j < numOfPoints; j++) {
+            for (var i = 0; i < numOfPoints; i++) {
+                if (!tableRows[i]) {
+                    tableRows[i] = addNewRowTagToTable();
+                    addCellToRow(tableRows[i], getRowLabel(i), true);
+                    numOfDerivates = i - 1;
+                }
+                tableRow = tableRows[i].getElementsByTagName("INPUT");
+                if(i === 0){
+                    tableRow[i+1].value = parseFloat(defaultArray[j].y[i]);
+
+                }else {
+                    tableRow[j+1].value = parseFloat(defaultArray[j].x);
+                }
+            }
         }
-
-        tableRows = [];
-        numOfDatas = 1;
-
-        tableRows[0] = addEmptyRowToTable();
-        tableRows[1] = addEmptyRowToTable();
-
-        addFirstCellToRow(tableRows[0], "x");
-        addFirstCellToRow(tableRows[1], "y");
-        addCellToRow(tableRows[0], Data.points[0].x);
-        addCellToRow(tableRows[1], Data.points[0].y[0]);
-
-        for(var i = 0; i <= Data.deriv_num; i++){
-            tableRows[i] = addEmptyRowToTable();
-        }
-
-        for(var i = 0; i <= Data.points.length; i++){
-            var dp = Data.points[i].x;
-        }
-
     }
 
-    aConfig.debug.string.text(" ");
+    configButtons();
     newTable();
-    setDatas(senderData);
+    //that.setPoints();
+    return that;
 
 }
