@@ -2,144 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b2867e22-21e6-499d-8830-b26e45a4d62c" name="Default" comment="Make polinome drawing (for english presentation) 2">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="$PROJECT_DIR$/../WebPage/.idea/.name" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/Client.iml" afterPath="$PROJECT_DIR$/../WebPage/.idea/WebPage.iml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/../WebPage/.idea/encodings.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/../WebPage/.idea/misc.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/../WebPage/.idea/modules.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" afterPath="$PROJECT_DIR$/../WebPage/.idea/scopes/scope_settings.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/../WebPage/.idea/vcs.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../WebPage/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/choiceContainer" afterPath="$PROJECT_DIR$/../WebPage/source/choiceContainer" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/client_base.css" afterPath="$PROJECT_DIR$/../WebPage/viewForm/client_base.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/data_example/example_datas.js" afterPath="$PROJECT_DIR$/../WebPage/test/example_datas.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/../WebPage/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/pictures/arrow-down.gif" afterPath="$PROJECT_DIR$/../WebPage/pictures/arrow-down.gif" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/pictures/arrow-left.gif" afterPath="$PROJECT_DIR$/../WebPage/pictures/arrow-left.gif" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/pictures/arrow-right.gif" afterPath="$PROJECT_DIR$/../WebPage/pictures/arrow-right.gif" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/pictures/arrow-up.gif" afterPath="$PROJECT_DIR$/../WebPage/pictures/arrow-up.gif" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/plot.js" afterPath="$PROJECT_DIR$/../WebPage/model/plot.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/plot_design.css" afterPath="$PROJECT_DIR$/../WebPage/viewForm/plot_design.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/plot_types.js" afterPath="$PROJECT_DIR$/../WebPage/model/plot_types.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/polinome.js" afterPath="$PROJECT_DIR$/../WebPage/model/polinome.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/prepare_datalist.js" afterPath="$PROJECT_DIR$/../WebPage/model/prepare_datalist.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/prepare_page.html" afterPath="$PROJECT_DIR$/../WebPage/prepare_page.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/result_page.html" afterPath="$PROJECT_DIR$/../WebPage/result_page.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/API.md" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/API.md" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/CONTRIBUTING.md" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/CONTRIBUTING.md" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/FAQ.md" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/FAQ.md" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/LICENSE.txt" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/LICENSE.txt" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/Makefile" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/Makefile" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/NEWS.md" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/NEWS.md" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/PLUGINS.md" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/PLUGINS.md" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/README.md" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/README.md" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/ajax/data-eu-gdp-growth-1.json" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/ajax/data-eu-gdp-growth-1.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/ajax/data-eu-gdp-growth-2.json" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/ajax/data-eu-gdp-growth-2.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/ajax/data-eu-gdp-growth-3.json" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/ajax/data-eu-gdp-growth-3.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/ajax/data-eu-gdp-growth-4.json" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/ajax/data-eu-gdp-growth-4.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/ajax/data-eu-gdp-growth-5.json" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/ajax/data-eu-gdp-growth-5.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/ajax/data-eu-gdp-growth.json" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/ajax/data-eu-gdp-growth.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/ajax/data-japan-gdp-growth.json" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/ajax/data-japan-gdp-growth.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/ajax/data-usa-gdp-growth.json" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/ajax/data-usa-gdp-growth.json" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/ajax/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/ajax/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/annotating/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/annotating/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/axes-interacting/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/axes-interacting/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/axes-multiple/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/axes-multiple/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/axes-time-zones/date.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/axes-time-zones/date.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/axes-time-zones/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/axes-time-zones/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/axes-time-zones/tz/africa" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/axes-time-zones/tz/africa" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/axes-time-zones/tz/antarctica" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/axes-time-zones/tz/antarctica" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/axes-time-zones/tz/asia" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/axes-time-zones/tz/asia" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/axes-time-zones/tz/australasia" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/axes-time-zones/tz/australasia" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/axes-time-zones/tz/backward" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/axes-time-zones/tz/backward" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/axes-time-zones/tz/etcetera" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/axes-time-zones/tz/etcetera" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/axes-time-zones/tz/europe" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/axes-time-zones/tz/europe" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/axes-time-zones/tz/factory" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/axes-time-zones/tz/factory" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/axes-time-zones/tz/iso3166.tab" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/axes-time-zones/tz/iso3166.tab" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/axes-time-zones/tz/leapseconds" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/axes-time-zones/tz/leapseconds" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/axes-time-zones/tz/northamerica" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/axes-time-zones/tz/northamerica" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/axes-time-zones/tz/pacificnew" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/axes-time-zones/tz/pacificnew" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/axes-time-zones/tz/solar87" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/axes-time-zones/tz/solar87" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/axes-time-zones/tz/solar88" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/axes-time-zones/tz/solar88" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/axes-time-zones/tz/solar89" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/axes-time-zones/tz/solar89" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/axes-time-zones/tz/southamerica" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/axes-time-zones/tz/southamerica" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/axes-time-zones/tz/systemv" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/axes-time-zones/tz/systemv" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/axes-time-zones/tz/yearistype.sh" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/axes-time-zones/tz/yearistype.sh" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/axes-time-zones/tz/zone.tab" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/axes-time-zones/tz/zone.tab" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/axes-time/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/axes-time/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/background.png" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/background.png" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/basic-options/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/basic-options/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/basic-usage/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/basic-usage/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/canvas/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/canvas/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/categories/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/categories/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/examples.css" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/examples.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/image/hs-2004-27-a-large-web.jpg" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/image/hs-2004-27-a-large-web.jpg" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/image/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/image/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/interacting/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/interacting/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/navigate/arrow-down.gif" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/navigate/arrow-down.gif" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/navigate/arrow-left.gif" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/navigate/arrow-left.gif" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/navigate/arrow-right.gif" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/navigate/arrow-right.gif" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/navigate/arrow-up.gif" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/navigate/arrow-up.gif" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/navigate/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/navigate/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/percentiles/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/percentiles/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/realtime/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/realtime/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/resize/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/resize/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/selection/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/selection/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/series-errorbars/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/series-errorbars/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/series-pie/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/series-pie/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/series-toggle/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/series-toggle/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/series-types/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/series-types/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/shared/jquery-ui/jquery-ui.min.css" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/shared/jquery-ui/jquery-ui.min.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/shared/jquery-ui/jquery-ui.min.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/shared/jquery-ui/jquery-ui.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/stacking/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/stacking/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/symbols/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/symbols/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/threshold/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/threshold/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/tracking/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/tracking/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/visitors/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/visitors/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/examples/zooming/index.html" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/examples/zooming/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/excanvas.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/excanvas.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/excanvas.min.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/excanvas.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.colorhelpers.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.colorhelpers.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.colorhelpers.min.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.colorhelpers.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.canvas.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.canvas.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.canvas.min.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.canvas.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.categories.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.categories.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.categories.min.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.categories.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.crosshair.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.crosshair.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.crosshair.min.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.crosshair.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.errorbars.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.errorbars.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.errorbars.min.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.errorbars.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.fillbetween.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.fillbetween.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.fillbetween.min.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.fillbetween.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.image.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.image.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.image.min.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.image.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.min.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.navigate.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.navigate.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.navigate.min.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.navigate.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.pie.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.pie.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.pie.min.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.pie.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.resize.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.resize.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.resize.min.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.resize.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.selection.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.selection.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.selection.min.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.selection.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.stack.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.stack.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.stack.min.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.stack.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.symbol.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.symbol.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.symbol.min.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.symbol.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.threshold.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.threshold.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.threshold.min.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.threshold.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.time.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.time.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.flot.time.min.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.flot.time.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/source/flot-0.8.2/jquery.min.js" afterPath="$PROJECT_DIR$/../WebPage/source/flot-0.8.2/jquery.min.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/table.html" afterPath="$PROJECT_DIR$/../WebPage/test/table.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/table.js" afterPath="$PROJECT_DIR$/../WebPage/model/interpolation_table.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/templates/debug_jshtml.html" afterPath="$PROJECT_DIR$/../WebPage/test/debug_jshtml.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/templates/debug_jshtml.js" afterPath="$PROJECT_DIR$/../WebPage/test/debug_jshtml.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/templates/trash.js" afterPath="$PROJECT_DIR$/../WebPage/test/trash.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/testplot.html" afterPath="$PROJECT_DIR$/../WebPage/test/testplot.html" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../cowboy_echo.erl" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../cowboy_test_server.erl" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../echo.html" afterPath="" />
     </list>
     <ignored path="Client.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -162,96 +30,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="prepare_datalist.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../WebPage/model/prepare_datalist.js">
+      <file leaf-file-name="prepare_page.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../WebPage/prepare_page.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="51" selection-start="315" selection-end="315" vertical-scroll-proportion="0.2" vertical-offset="0" max-vertical-offset="900">
+            <state line="35" column="56" selection-start="1655" selection-end="1655" vertical-scroll-proportion="-23.333334" vertical-offset="0" max-vertical-offset="810">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="example_datas.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../WebPage/test/example_datas.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="144" column="25" selection-start="3172" selection-end="3172" vertical-scroll-proportion="0.0" vertical-offset="487" max-vertical-offset="3636">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="debug_jshtml.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../WebPage/test/debug_jshtml.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="558">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="debug_jshtml.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../WebPage/test/debug_jshtml.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="432">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="plot_design.css" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../WebPage/viewForm/plot_design.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="0" selection-start="167" selection-end="167" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1836">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="choiceContainer" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../WebPage/source/choiceContainer">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="864">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="table.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../WebPage/test/table.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="35" selection-start="692" selection-end="692" vertical-scroll-proportion="1.074074" vertical-offset="407" max-vertical-offset="1080">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="polinome.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../WebPage/model/polinome.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="95" column="19" selection-start="2240" selection-end="2240" vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="1656">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="interpolation_table.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="interpolation_table.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../WebPage/model/interpolation_table.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="16" selection-start="697" selection-end="697" vertical-scroll-proportion="-5.5555553" vertical-offset="282" max-vertical-offset="3240">
+            <state line="149" column="36" selection-start="4595" selection-end="4595" vertical-scroll-proportion="0.50666666" vertical-offset="2172" max-vertical-offset="3240">
               <folding>
                 <element signature="n#!!block;n#debugWriteObject#0;n#!!block;n#interpolationTable#0" expanded="false" />
                 <element signature="e#4876#5807#0" expanded="false" />
                 <element signature="e#6025#7108#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="plot_types.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../WebPage/model/plot_types.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="58" column="11" selection-start="906" selection-end="906" vertical-scroll-proportion="0.0" vertical-offset="415" max-vertical-offset="1350">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -327,12 +123,8 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.jetbrains.php.config.PhpExternalLibrariesNodePatcher$PatchedExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PHP" />
-              <option name="myItemType" value="com.jetbrains.php.config.PhpExternalLibrariesNodePatcher$PatchedLibraryNode" />
+              <option name="myItemId" value="WebPage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -342,6 +134,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="WebPage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebPage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="model" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -421,7 +231,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="35" width="1920" height="1020" extended-state="1" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -429,7 +239,7 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3322546" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15172054" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1767466" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
@@ -749,48 +559,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../WebPage/prepare_page.html">
+    <entry file="file://$PROJECT_DIR$/../WebPage/model/plot.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="56" selection-start="1645" selection-end="1645" vertical-scroll-proportion="0.72164947" vertical-offset="0" max-vertical-offset="873">
+        <state line="38" column="49" selection-start="1157" selection-end="1157" vertical-scroll-proportion="0.0" vertical-offset="614" max-vertical-offset="1206">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../WebPage/test/table.html">
+    <entry file="file://$PROJECT_DIR$/../WebPage/test/testplot.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="35" selection-start="692" selection-end="692" vertical-scroll-proportion="1.074074" vertical-offset="407" max-vertical-offset="1080">
+        <state line="54" column="53" selection-start="2365" selection-end="2365" vertical-scroll-proportion="-4.0" vertical-offset="864" max-vertical-offset="1818">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../WebPage/model/interpolation_table.js">
+    <entry file="file://$PROJECT_DIR$/../WebPage/model/prepare_datalist.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="16" selection-start="697" selection-end="697" vertical-scroll-proportion="-5.5555553" vertical-offset="282" max-vertical-offset="3240">
-          <folding>
-            <element signature="n#!!block;n#debugWriteObject#0;n#!!block;n#interpolationTable#0" expanded="false" />
-            <element signature="e#4876#5807#0" expanded="false" />
-            <element signature="e#6025#7108#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../WebPage/model/polinome.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="95" column="19" selection-start="2240" selection-end="2240" vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="1656">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../WebPage/model/plot_types.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="11" selection-start="906" selection-end="906" vertical-scroll-proportion="0.0" vertical-offset="415" max-vertical-offset="1350">
+        <state line="10" column="51" selection-start="315" selection-end="315" vertical-scroll-proportion="0.2" vertical-offset="0" max-vertical-offset="900">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../WebPage/test/example_datas.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="144" column="25" selection-start="3172" selection-end="3172" vertical-scroll-proportion="0.0" vertical-offset="2053" max-vertical-offset="3636">
+        <state line="144" column="25" selection-start="3172" selection-end="3172" vertical-scroll-proportion="2.338889" vertical-offset="487" max-vertical-offset="3636">
           <folding />
         </state>
       </provider>
@@ -809,16 +601,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../WebPage/model/plot.js">
+    <entry file="file://$PROJECT_DIR$/../WebPage/viewForm/plot_design.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="49" selection-start="1157" selection-end="1157" vertical-scroll-proportion="0.0" vertical-offset="614" max-vertical-offset="1206">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../WebPage/test/testplot.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="53" selection-start="2365" selection-end="2365" vertical-scroll-proportion="-4.0" vertical-offset="864" max-vertical-offset="1818">
+        <state line="6" column="0" selection-start="167" selection-end="167" vertical-scroll-proportion="0.12" vertical-offset="0" max-vertical-offset="1836">
           <folding />
         </state>
       </provider>
@@ -830,17 +615,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../WebPage/viewForm/plot_design.css">
+    <entry file="file://$PROJECT_DIR$/../WebPage/test/table.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="0" selection-start="167" selection-end="167" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1836">
+        <state line="21" column="35" selection-start="692" selection-end="692" vertical-scroll-proportion="0.19587629" vertical-offset="207" max-vertical-offset="1080">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../WebPage/model/prepare_datalist.js">
+    <entry file="file://$PROJECT_DIR$/../WebPage/model/polinome.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="51" selection-start="315" selection-end="315" vertical-scroll-proportion="0.2" vertical-offset="0" max-vertical-offset="900">
+        <state line="95" column="19" selection-start="2240" selection-end="2240" vertical-scroll-proportion="0.5" vertical-offset="756" max-vertical-offset="1656">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../WebPage/model/plot_types.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="58" column="11" selection-start="906" selection-end="906" vertical-scroll-proportion="0.6988889" vertical-offset="415" max-vertical-offset="1350">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../WebPage/prepare_page.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="56" selection-start="1655" selection-end="1655" vertical-scroll-proportion="-23.333334" vertical-offset="0" max-vertical-offset="810">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../WebPage/model/interpolation_table.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="149" column="36" selection-start="4595" selection-end="4595" vertical-scroll-proportion="0.50666666" vertical-offset="2172" max-vertical-offset="3240">
+          <folding>
+            <element signature="n#!!block;n#debugWriteObject#0;n#!!block;n#interpolationTable#0" expanded="false" />
+            <element signature="e#4876#5807#0" expanded="false" />
+            <element signature="e#6025#7108#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
