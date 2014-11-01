@@ -38,8 +38,8 @@ function interpolationTable(aConfig){
     var that = this;
     var aTable = aConfig.table;
     var tableRows = [];
-    var numOfPoints = 1; //TODO
-    var numOfDerivates = 0; //TODO
+    var numOfPoints = 1; //TODO???
+    var numOfDerivates = 0; //TODO???
 
     /**
      * Kiiratunk egy String-ben egy Objectet a debug-ra
@@ -75,19 +75,10 @@ function interpolationTable(aConfig){
         numOfDerivates = 0;
     }
 
-    /** Létrehoz egy új táblázatot az alapértelmezett értékekkel
-     *  TODO addNewRowToTable call*/
+    /** Létrehoz egy új táblázatot az alapértelmezett értékekkel */
     function newTable(){
         deleteTable();
-        numOfPoints = 1;
-        numOfDerivates = 0;
-        tableRows[0] = addNewRowTagToTable();
-        tableRows[1] = addNewRowTagToTable();
-
-        addCellToRow(tableRows[0], "x", true);
-        addCellToRow(tableRows[1], "y", true);
-        addCellToRow(tableRows[0], 0.00);
-        addCellToRow(tableRows[1], 0.00);
+        setPoints();
     }
 
     /**Make New tag
@@ -101,7 +92,7 @@ function interpolationTable(aConfig){
 
     /** Ad egy üres sort a táblázathoz
      *  Megadhatunk egy magasabb derivált értéket a pontokhoz
-     *  TODO: általánosítás értékre és az első sorok felvételére
+     *  TODO???: általánosítás értékre és az első sorok felvételére
      * */
     function addNewRowToTable() {
         var index = tableRows.length;
@@ -160,7 +151,7 @@ function interpolationTable(aConfig){
      *
      * @returns {Array} Default in JSON: [{"x":0,"y":[0]}]
      */
-    that.getPoints = function () {
+    function getPoints() {
         var result = [];
         var result_x = [];
         var result_y = [];
@@ -169,16 +160,20 @@ function interpolationTable(aConfig){
 
         for (j = 0; j < numOfPoints; j++) {
             tableRow = tableRows[0].getElementsByTagName("INPUT");
-            result_x = parseFloat(tableRow[j+1].value);
+            result_x = parseFloat(tableRow[j + 1].value);
             tableRow = tableRows[1].getElementsByTagName("INPUT");
-            y = parseFloat(tableRow[j+1].value);
-            if(isNaN(result_x) || isNaN(y)){break;}
+            y = parseFloat(tableRow[j + 1].value);
+            if (isNaN(result_x) || isNaN(y)) {
+                break;
+            }
             result_y = [y];
 
-            for(i = 2; i < tableRows.length; i++){
+            for (i = 2; i < tableRows.length; i++) {
                 tableRow = tableRows[i].getElementsByTagName("INPUT");
-                y = parseFloat(tableRow[j+1].value);
-                if(isNaN(y)){break;}
+                y = parseFloat(tableRow[j + 1].value);
+                if (isNaN(y)) {
+                    break;
+                }
                 result_y.push(y);
             }
             result.push({
@@ -190,46 +185,52 @@ function interpolationTable(aConfig){
     }
 
     /**
-     * TODO, ez még nem működik! Javítani + refaktor
-     * Beállítjuk a Táblázatot egy adathalmaz alapján
-     * {Array} Default in JSON: [{"x":0,"y":[0]}]
+     * Feltölti a táblázatot egy adott tömb értékeivel
+     * TODO!!: Egyenlőre csak x és y pontokat tud beállítani, deriváltakat nem
+     * @param {Array || null} tableArray Default in JSON: [{"x":0,"y":[0]}]
      */
-    that.setPoints = function (tableArray) {
+    function setPoints(tableArray) {
         deleteTable();
-        var defaultArray = [{
-            x : 0,
-            y : [0]
-        }];
+        var defaultArray = [
+            {
+                x: 0,
+                y: [0]
+            }
+        ];
         tableArray = tableArray || defaultArray;
 
+        numOfDerivates = 0;
         numOfPoints = tableArray.length;
+
         tableRows[0] = addNewRowTagToTable();
         addCellToRow(tableRows[0], getRowLabel(0), true);
 
         tableRows[1] = addNewRowTagToTable();
         addCellToRow(tableRows[1], getRowLabel(1), true);
-        var tableRow = null;
-        for (var j = 0; j < numOfPoints; j++) {
-            for (var i = 0; i < numOfPoints; i++) {
-                if (!tableRows[i]) {
-                    tableRows[i] = addNewRowTagToTable();
-                    addCellToRow(tableRows[i], getRowLabel(i), true);
-                    numOfDerivates = i - 1;
-                }
-                tableRow = tableRows[i].getElementsByTagName("INPUT");
-                if(i === 0){
-                    tableRow[i+1].value = parseFloat(defaultArray[j].y[i]);
 
-                }else {
-                    tableRow[j+1].value = parseFloat(defaultArray[j].x);
-                }
+        var tableRow = null;
+
+        for (var i = 0; i < numOfPoints; i++) {
+            var point = tableArray[i];
+            if (tableRows[0] && tableRows[1]) {
+                addCellToRow(tableRows[0], point.x);
+                addCellToRow(tableRows[1], point.y[0]);
             }
         }
     }
 
+    /** getPoints public */
+    that.getPoints = function () {
+        return getPoints();
+    };
+
+    /** setPoints public */
+    that.setPoints = function (tableArray) {
+        setPoints(tableArray);
+    };
+
     configButtons();
-    newTable();
-    //that.setPoints();
+    setPoints();
     return that;
 
 }
