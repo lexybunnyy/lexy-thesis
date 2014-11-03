@@ -18,9 +18,13 @@
 
 var senderData = {
     points: [
-        { x: 0, y: [0]},
-        { x: 1, y: [1]},
-        { x: 3, y: [9]}
+        { x: 0, y: [0, 0, 2, 0]},
+        { x: 1, y: [1, 2, 2, 0]},
+        { x: 2, y: [4, 4, 2, 0]},
+        { x: 3, y: [9, 6, 2, 0]},
+        { x: 4, y: [16, 8, 2, 0]},
+        { x: 5, y: [25, 10, 2, 0]},
+        { x: 6, y: [36, 12, 2, 0]}
     ],
     deriv_num: 0
 };
@@ -128,24 +132,6 @@ function interpolationTable(aConfig){
         });
     }
 
-    /**Gombok eseményeinek lekezelése*/
-    function configButtons() {
-        aConfig.debug.button.onclick = function(){
-            debugWriteObject(that.getPoints());
-        };
-        aConfig.newTableButton.onclick = function(){
-            debugWriteObject();
-            newTable();
-        };
-        aConfig.addColumnButton.onclick=function(){
-            addEmptyColumnToTable();
-        };
-
-        aConfig.addRowButton.onclick = function(){
-            addNewRowToTable();
-        };
-    }
-
     /**
      * Megkapjuk a táblázatban leírt pontok tömbjét
      *
@@ -158,7 +144,7 @@ function interpolationTable(aConfig){
         var i, j, y;
         var tableRow = tableRows[0].getElementsByTagName("INPUT");
 
-        for (j = 0; j < numOfPoints; j++) {
+        for (j = 0; j < tableRow[1].length; j++) {
             tableRow = tableRows[0].getElementsByTagName("INPUT");
             result_x = parseFloat(tableRow[j + 1].value);
             tableRow = tableRows[1].getElementsByTagName("INPUT");
@@ -184,39 +170,59 @@ function interpolationTable(aConfig){
         return result;
     }
 
+
+    /**Felveszünk egy sort, ha még nincs olyan, és az a következő*/
+    function addNewRowAndLabel(index) {
+        if (tableRows[index] || index !== tableRows.length) {
+            return false;
+        }
+        tableRows[index] = addNewRowTagToTable();
+        addCellToRow(tableRows[index], getRowLabel(index), true);
+        return index;
+    }
+
     /**
      * Feltölti a táblázatot egy adott tömb értékeivel
-     * TODO!!: Egyenlőre csak x és y pontokat tud beállítani, deriváltakat nem
      * @param {Array || null} tableArray Default in JSON: [{"x":0,"y":[0]}]
      */
     function setPoints(tableArray) {
         deleteTable();
-        var defaultArray = [
-            {
-                x: 0,
-                y: [0]
-            }
-        ];
+        var defaultArray = [{
+            x: 0,
+            y: [0]
+        }];
         tableArray = tableArray || defaultArray;
+        var numOfPoints = tableArray.length;
 
-        numOfDerivates = 0;
-        numOfPoints = tableArray.length;
-
-        tableRows[0] = addNewRowTagToTable();
-        addCellToRow(tableRows[0], getRowLabel(0), true);
-
-        tableRows[1] = addNewRowTagToTable();
-        addCellToRow(tableRows[1], getRowLabel(1), true);
-
-        var tableRow = null;
-
+        addNewRowAndLabel(0);
+        addNewRowAndLabel(1);
         for (var i = 0; i < numOfPoints; i++) {
             var point = tableArray[i];
-            if (tableRows[0] && tableRows[1]) {
-                addCellToRow(tableRows[0], point.x);
-                addCellToRow(tableRows[1], point.y[0]);
+            addCellToRow(tableRows[0], point.x);
+            for (var j = 0; j < point.y.length; j++) {
+                addNewRowAndLabel(j+1);
+                addCellToRow(tableRows[j+1], point.y[j]);
             }
         }
+    }
+
+
+    /**Gombok eseményeinek lekezelése*/
+    function configButtons() {
+        aConfig.debug.button.onclick = function(){
+            debugWriteObject(getPoints());
+        };
+        aConfig.newTableButton.onclick = function(){
+            debugWriteObject();
+            newTable();
+        };
+        aConfig.addColumnButton.onclick=function(){
+            addEmptyColumnToTable();
+        };
+
+        aConfig.addRowButton.onclick = function(){
+            addNewRowToTable();
+        };
     }
 
     /** getPoints public */
@@ -230,7 +236,7 @@ function interpolationTable(aConfig){
     };
 
     configButtons();
-    setPoints();
+    setPoints(senderData.points);
     return that;
 
 }
