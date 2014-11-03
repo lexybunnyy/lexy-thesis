@@ -1,8 +1,8 @@
-$ cat .gitignore
 *.beam
-# ignore all files in the .idea/ directory
 .idea/*
-.idea/workspace.xml
+Client/.idea/*
+WebPage/.idea/*
 DistributedInterpolation.iml
 distributedSystem/*.beam
-
+Client/.idea/workspace.xml
+WebPage/.idea/WebPage.iml
