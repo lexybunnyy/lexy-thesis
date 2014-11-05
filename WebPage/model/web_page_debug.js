@@ -3,7 +3,6 @@
  *
 {code}
  var debug = webPageDebug({
-    baseButton: config.debug.button,
     buttonsIds: ['debug_button', 'debug_button2'],
     debugSpan: $("#debugSpanId")
 });
@@ -46,6 +45,12 @@ function webPageDebug (aConfig) {
     that.writeObject  = function (obj) {
         var debugText = obj ? JSON.stringify(obj) : '';
         aConfig.debugSpan.text(" " + debugText);
+    };
+
+    /** Mozilla: Ctrl+Shift+C >Console */
+    that.log = function(obj){
+        var debugText = obj ? JSON.stringify(obj) : '';
+        console.log(debugText);
     };
 
     function setFunction(back, index) {
