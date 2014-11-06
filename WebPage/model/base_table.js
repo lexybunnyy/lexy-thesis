@@ -8,18 +8,32 @@ var table = basicTable({
     tableId: 'myTable',
     debug: debug
 });
- table.newTableOneCell('hello');
+ table.addNewTableOneCell('hello');
 
- config.addColumnOndRowButton.onclick=function(){
+ config.addColumnAndRowButton.onclick=function(){
     table.addNewColumnToTable();
     table.addNewRowToTable();
 };
 
+ //Add functions:
+ table.addNewTableOneCell('hello');
+ table.addNewColumnToTable([1,2,3]);
+ table.addNewRowToTable([1,2,3]);
+ table.addNewCellToRow(0, 'hello');
+
+ //get and set
  var inputAttr = {
     "type" :  "text",
     "disabled": "true"
 };
- table.addCellForm(0,0, inputAttr);
+ table.setCellForm(0, 0, inputAttr);
+ table.getNumOfCols();
+ table.getNumOfRows();
+ table.getRow(0);
+ table.getValue(0, 0);
+ table.setValue(0, 0, 'hallo')
+
+ table.deleteTable();
 
  * {code}
  *
@@ -79,7 +93,7 @@ function basicTable (aConfig) {
     /** Ad egy új cellát a sorhoz
      *  ??? Lehet hogy ez nem kell publicba?
      * */
-    that.addTextCellToRow = function (rowIndex, textValue, inputAttributes) {
+    that.addNewCellToRow = function (rowIndex, textValue, inputAttributes) {
         inputAttributes = inputAttributes || {
             "type" :  "text"
         };
@@ -91,33 +105,46 @@ function basicTable (aConfig) {
         cell.insertBefore(textInput, cell.firstChild);
     };
 
-    /** Ad egy új sort a táblázathoz */
+    /** Ad egy új sort a táblázathoz
+     * TODO: data nem jól működik
+     * */
     that.addNewRowToTable = function(data){
         data = data || [];
         var index = addNewRowTagToTable();
-        for (var i = 0; i < that.numOfCols() ; i++) {
+        for (var i = 0; i < that.getNumOfCols() ; i++) {
             var value = data[index] || '-';
-            that.addTextCellToRow(index, value)
+            that.addNewCellToRow(index, value)
         }
+        return index;
     };
 
-    /** Ad egy új oszlopot a táblázathoz **/
+    /** Ad egy új oszlopot a táblázathoz
+     * TODO: data nem jól működik
+     * **/
     that.addNewColumnToTable = function(data){
         data = data || [];
         gTableRows.forEach(function(row, index){
             var value = data[index] || '-';
-            that.addTextCellToRow(index, value)
+            that.addNewCellToRow(index, value)
         });
+        return that.getNumOfCols();
     };
 
-    /** Egy adott cella megformázása */
-    that.addCellForm = function (i , j, attributes) {
+    /** Törli a táblázatot, majd létrehoz egy cellát (Egy sor egy oszlop)*/
+    that.addNewTableOneCell = function(value) {
+        that.deleteTable();
+        addNewRowTagToTable();
+        that.addNewCellToRow(0, value);
+    };
+
+    /** Egy adott cella megformázás beállítása */
+    that.setCellForm = function (i , j, attributes) {
         var cell = that.getRow(i)[j];
         setAttributes(cell, attributes);
     };
 
     /** Oszlopok száma */
-    that.numOfCols = function(){
+    that.getNumOfCols = function(){
         if (!that.getRow(0)) {
             return 0;
         }
@@ -125,7 +152,7 @@ function basicTable (aConfig) {
     };
 
     /** Sorok száma */
-    that.numOfRows = function(){
+    that.getNumOfRows = function(){
         return gTableRows.length;
     };
 
@@ -138,15 +165,21 @@ function basicTable (aConfig) {
     };
 
     /** Egy adott cella érték lekérdezése */
-    that.getValue = function(i,j){
-        var tableRow = gTableRows[i].getElementsByTagName("INPUT");
+    that.getValue = function(i, j){
+        var tableRow = that.getRow(i);
+        if (!tableRow || !tableRow[j]) {
+            return false;
+        }
         return tableRow[j].value;
     };
 
     /** Egy adott cella érték beállítása*/
-    that.setValue = function(i, j, value){
+    that.setValue = function(i, j, value, form){
         var tableRow = gTableRows[i].getElementsByTagName("INPUT");
         tableRow[j].value = value;
+        if (form){
+            that.setCellForm(i, j, form);
+        }
     };
 
     /** Teljesen törli a táblázatot */
@@ -156,13 +189,6 @@ function basicTable (aConfig) {
         }
         addNewRowTagToTable();
         gTableRows = [];
-    };
-
-    /** Törli a táblázatot, majd létrehoz egy cellát (Egy sor egy oszlop)*/
-    that.newTableOneCell = function(value) {
-        that.deleteTable();
-        addNewRowTagToTable();
-        that.addTextCellToRow(0, value);
     };
 
     return that;
