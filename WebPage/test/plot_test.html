@@ -21,16 +21,43 @@
 		padding-left: 50px;
 		font-size: smaller;
 	}
+	
+	.bordered {
+		border: 1px solid black;
+	}
+	
+	#tableMinMax {
+		padding: 8px;
+	}
+	
+	#tableMinMax p {
+		display: table-cell;
+		position: relative; 
+		overflow: hidden;
+	}
+
+	.hbox {
+		display: table-cell; 
+		position: relative; 
+		overflow: hidden;
+	}
+	
 	</style>
 	<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../../excanvas.min.js"></script><![endif]-->
 	<script language="javascript" type="text/javascript" src="../source/flot-0.8.2/jquery.js"></script>
 	<script language="javascript" type="text/javascript" src="../source/flot-0.8.2/jquery.flot.js"></script>
 	<script language="javascript" type="text/javascript" src="../source/flot-0.8.2/jquery.flot.navigate.js"></script>
+    <script language="javascript" type="text/javascript" src="../model/base.js"></script>
+    <script language="javascript" type="text/javascript" src="../model/web_page_debug.js"></script>
+    <script language="javascript" type="text/javascript" src="../model/base_table.js"></script>
+	
+	<script language="javascript" type="text/javascript" src="example_datas.js"></script>
+    <script language="javascript" type="text/javascript" src="../model/interpolation_table.js"></script>
     <script language="javascript" type="text/javascript" src="../model/polinome.js"></script>
     <script language="javascript" type="text/javascript" src="../model/plot_types.js"></script>
-    <script language="javascript" type="text/javascript" src="example_datas.js"></script>
-    <script language="javascript" type="text/javascript" src="../model/plot.js"></script>
-    <script type="text/javascript">
+    <script language="javascript" type="text/javascript" src="plot_test.js"></script>
+    
+	<script type="text/javascript">
         $(function () {
 
             $("<div id='tooltip'></div>").css({
@@ -41,19 +68,44 @@
                 "background-color": "#fee",
                 opacity: 0.80
             }).appendTo("body");
+			
+			var plotGenerateSettings = {
+				xaxis_min : Base.get('minx'),
+				xaxis_max : Base.get('maxx'),
+				yaxis_min : Base.get('miny'),
+				yaxis_max : Base.get('maxy'),
+				derivNum_max : Base.get('maxderivnum'),
+				defaultType :  gTypePrepare
+			};
+			
+			var plotDefaultSettings = {
+				placeholder : $("#resultplot"),
+				tooltip : $("#tooltip")
+			};
+			
+			var plotActionView = {
+				hoverdata : $("#span_hoverdata"),
+				clickdata : $("#span_clickdata")
+			};
+			
+			var setInput = {
+				x :  Base.get('input_coord_x'),
+				y :  Base.get('input_coord_y')
+			}
 
-            var config = {};
-            config.placeholder = $("#resultplot");
-            config.tooltip =  $("#tooltip");
-            config.debugstring = $("#json_data_show");
-            config.add_coords = {};
-            config.add_coords.x = document.getElementsByName("input_coord_x")[0];
-            config.add_coords.y = document.getElementsByName("input_coord_y")[0];
-            config.add_coords.button = document.getElementsByName("add_cordinate_button")[0];
-            config.hoverdata = $("#span_hoverdata");
-            config.clickdata = $("#span_clickdata");
-            config.typeofPH = gTypeInterpolationPlot;
-            plot(config);
+            var plot = interpolationPlot({
+				plotGenerateSettings : plotGenerateSettings,
+				plotDefaultSettings : plotDefaultSettings,
+				plotActionView : plotActionView,
+				setInput : setInput,
+				hoverdata : $("#span_hoverdata"),
+				clickdata : $("#span_clickdata")
+			});
+			
+			Base.get('refresh').onclick=function(){
+				plot.refresh(ExampleData.senderData);
+			}
+			
             $("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
         });
     </script>
@@ -65,13 +117,19 @@
 	</div>
 
 	<div id="content" >
-
+		<div id="tableMinMax" class="bordered">
+			<h4>Plot Show Settings</h3>
+				<p>	min x : <input type="text" name="minx" id="minx" > </p>
+				<p> max x : <input type="text" name="maxx" id="maxx">  </p>
+				<p> min y :	<input type="text" name="miny" id="miny" > </p>
+				<p> max y : <input type="text" name="maxy" id="maxy"> </p>
+				<p> max showed derivnum : <input type="text" name="maxderivnum" id="maxderivnum"> </p>
+			<input type="button" name="refresh"  value="Refresh">
+		</div>
 		<div class="demo-container">
 			<div id="resultplot" class="demo-placeholder"></div>
-            <p id="choices" style="float:right; width:135px;"></p>
+			<!--<p id="choices" style="float:right; width:135px;"></p>-->
 		</div>
-
-		<p class="message"></p>
 
 		<p>With the navigate plugin it is easy to add panning and zooming. Drag to pan, double click to zoom (or use the mouse scrollwheel).</p>
 

@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Flot Examples: Navigation</title>
+	<link href="../viewForm/plot_design.css" rel="stylesheet" type="text/css">
+	<style type="text/css">
+
+	#placeholder .button {
+		position: absolute;
+		cursor: pointer;
+	}
+
+	#placeholder div.button {
+		font-size: smaller;
+		color: #999;
+		background-color: #eee;
+		padding: 2px;
+	}
+	.message {
+		padding-left: 50px;
+		font-size: smaller;
+	}
+	</style>
+	<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../../../excanvas.min.js"></script><![endif]-->
+	<script language="javascript" type="text/javascript" src="../../source/flot-0.8.2/jquery.js"></script>
+	<script language="javascript" type="text/javascript" src="../../source/flot-0.8.2/jquery.flot.js"></script>
+	<script language="javascript" type="text/javascript" src="../../source/flot-0.8.2/jquery.flot.navigate.js"></script>
+    <script language="javascript" type="text/javascript" src="../../model/polinome.js"></script>
+    <script language="javascript" type="text/javascript" src="../../model/plot_types.js"></script>
+    <script language="javascript" type="text/javascript" src="../example_datas.js"></script>
+	<script language="javascript" type="text/javascript" src="../../model/base.js"></script>
+    <script language="javascript" type="text/javascript" src="../../model/interpolation_table.js"></script>
+    <script language="javascript" type="text/javascript" src="../../model/interpolation_plot.js"></script>
+	<script language="javascript" type="text/javascript" src="../../model/base_table.js"></script>
+    <script language="javascript" type="text/javascript" src="../../model/web_page_debug.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            $("<div id='tooltip'></div>").css({
+                position: "absolute",
+                display: "none",
+                border: "1px solid #fdd",
+                padding: "2px",
+                "background-color": "#fee",
+                opacity: 0.80
+            }).appendTo("body");
+
+			var bDebug = webPageDebug({
+                buttonsIds: ['debug_button', 'debug_button2'],
+                debugSpan: $("#debugSpanId")
+            });
+			
+            interpolationPlot({
+				//typeofPH : gTypeInterpolationPlot,
+				placeholder: $("#resultplot"),
+				tooltip: $("#tooltip"),
+				debug : bDebug,
+				hoverdata : $("#span_hoverdata"),
+				clickdata : $("#span_clickdata"),
+				add_coords : {
+					x: Base.get("input_coord_x"),
+					y: Base.get("input_coord_y"),
+					button: Base.get("add_cordinate_button")
+				}
+			});
+            
+			$("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
+        });
+    </script>
+</head>
+<body>
+
+	<div id="header">
+		<h2>Polinome generate</h2>
+	</div>
+
+	<div id="content" >
+
+		<div class="demo-container">
+			<div id="resultplot" class="demo-placeholder"></div>
+            <p id="choices" style="float:right; width:135px;"></p>
+		</div>
+
+		<p class="message"></p>
+
+		<p>
+            <input type="text" name="input_coord_x" id="input_coord_x" >
+            <input type="text" name="input_coord_y" id="input_coord_y">
+            <input type="button" name="add_cordinate_button"  value="Add">
+        </p>
+        <p>
+            <span id="span_hoverdata"></span>
+            <span id="span_clickdata"></span>
+        </p>
+		<div id="debug">
+			<p>JSON:</p>
+			<span id="debugSpanId"/>
+		</div>
+	
+</div>
+</body>
+</html>

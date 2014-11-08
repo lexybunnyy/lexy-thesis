@@ -1,6 +1,24 @@
 /**
  * Created by lexy on 2014.03.31..
  */
+ var ExampleData = {};
+ 
+ ExampleData.senderData = {
+    points: [
+        { x: 0, y: [0, 0, 2, 0]},
+        { x: 1, y: [1, 2, 2, 0]},
+        { x: 2, y: [4, 4, 2, 0]},
+        { x: 3, y: [9, 6, 2, 0]},
+        { x: 4, y: [16, 8, 2, 0]},
+        { x: 5, y: [25, 10, 2, 0]},
+        { x: 6, y: [36, 12, 2, 0]}
+    ],
+    max_derivate: 3,
+    num_of_points: 7,
+    num_of_rows : 5,
+    num_of_cols : 8
+};
+ 
 function example_datas(){
     var _this = {};
     //-----------------------------------example_sincos

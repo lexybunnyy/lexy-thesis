@@ -67,3 +67,29 @@ var gTypeInterpolationPlot =  {
         clickable: true
     }
 };
+
+var gTypePrepare = {
+    series: {
+        line: { show: true },
+		points: { show: true }
+    },
+	xaxis: {
+		min: -2,
+		max: 2
+	},
+	yaxis: {
+		min: -2,
+		max: 2
+	}, 
+	grid: {
+        hoverable: true,
+        clickable: true,
+		backgroundColor: { colors: [ "#fff", "#eee" ] },
+		borderWidth: {
+			top: 2,
+			right: 2,
+			bottom: 2,
+			left: 2
+		}
+    }
+}
