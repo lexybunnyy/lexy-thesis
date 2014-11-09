@@ -69,6 +69,12 @@ input[type=checkbox] {
 	box-sizing: border-box;
 	width: 850px;
 	height: 450px;
+}
+
+.demo-container_origin {
+	box-sizing: border-box;
+	width: 850px;
+	height: 450px;
 	padding: 20px 15px 15px 15px;
 	margin: 15px auto 30px auto;
 	border: 1px solid #ddd;

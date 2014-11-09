@@ -94,7 +94,6 @@ body
 
 #debug_menulist li a {
 	padding:10cm, 0cm;
-	
 }
 
 #debug_menulist li:last-child
@@ -112,10 +111,61 @@ body
 
 #bodyContent
 {
+	text-align: left;
 	margin: 20px;
 	padding: 20px;
 }
 
-#bodyContent h1 {
-	
+#bodyContent h1
+{
+	text-align: left;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+/* --------- placeholder */
+#placeholder .button {
+	position: absolute;
+	cursor: pointer;
+}
+
+#placeholder div.button {
+	font-size: smaller;
+	color: #999;
+	background-color: #eee;
+	padding: 2px;
+}
+.message {
+	padding-left: 50px;
+	font-size: smaller;
+}
+
+.bordered {
+	border: 1px solid black;
+}
+
+#plotTable {
+	padding: 10px;
+}
+
+#plotTable th{
+	padding: 10px;
+}
+
+#tableViewOptions p {
+	padding: 5px;
+	margin: 5px;
+}
+
+#interpolationTable td input {
+	max-width: 60px;
+	min-width: 60px;
+	width: 50px;
+	padding: 5px;
+}
+
+.hbox {
+	display: table-cell; 
+	position: relative; 
+	overflow: hidden;
 }
