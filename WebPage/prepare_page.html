@@ -1,40 +1,53 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-    <title></title>
-    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../../excanvas.min.js"></script><![endif]-->
-    <script language="javascript" type="text/javascript" src="source/flot-0.8.2/jquery.js"></script>
-    <script language="javascript" type="text/javascript" src="source/flot-0.8.2/jquery.flot.js"></script>
-    <script language="javascript" type="text/javascript" src="source/flot-0.8.2/jquery.flot.navigate.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Flot Examples</title>
+	<LINK REL=STYLESHEET TYPE="text/css" HREF="viewForm/client_base.css">
+	<link href="viewForm/plot_design.css" rel="stylesheet" type="text/css">
+	
+	<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../../excanvas.min.js"></script><![endif]-->
+	<script language="javascript" type="text/javascript" src="source/flot-0.8.2/jquery.js"></script>
+	<script language="javascript" type="text/javascript" src="source/flot-0.8.2/jquery.flot.js"></script>
+	<script language="javascript" type="text/javascript" src="source/flot-0.8.2/jquery.flot.navigate.js"></script>
+    <script language="javascript" type="text/javascript" src="model/base.js"></script>
+    <script language="javascript" type="text/javascript" src="model/web_page_debug.js"></script>
+    <script language="javascript" type="text/javascript" src="model/base_table.js"></script>
+	
+	<script language="javascript" type="text/javascript" src="test/example_datas.js"></script>
+    <script language="javascript" type="text/javascript" src="model/interpolation_table.js"></script>
     <script language="javascript" type="text/javascript" src="model/polinome.js"></script>
     <script language="javascript" type="text/javascript" src="model/plot_types.js"></script>
-    <script language="javascript" type="text/javascript" src="test/example_datas.js"></script>
-    <script language="javascript" type="text/javascript" src="model/prepare_datalist.js"></script>
-    <script type="text/javascript">
-        /*
-
-        style="width: 200px; height: 100px; overflow-y: scroll;"
-
-        */
-        $(function () {
-            var pdl_config = {};
-            pdl_config.debug = {};
-            pdl_config.debug.string = $("#json_debug");
-            pdl_config.debug.button = document.getElementsByName("debug_button")[0];
-            pdl_config.addDataButton = document.getElementsByName("add_data_button")[0];
-            pdl_config.table = document.getElementById("pdl_table");
-            prepare_datalist(pdl_config);
-        });
-    </script>
+    <script language="javascript" type="text/javascript" src="test/plot_test.js"></script>
+	
+	<script type="text/javascript">
+		$(function() {
+		
+		});
+	</script>
 </head>
 <body>
-    <div>
-        <p>
-            <input type="button" name="add_data_button" value="Add New Data">
-        </p>
-        <p>
-            <table id="pdl_table" class="table"></table>
-        </p>
-    </div>
+	<div id="menu">
+		<ul id="menulist">
+			<li><a href="index.html">Főoldal</a></li>
+			<li><a href="prepare_page.html">Előkészítő felület</a></li>
+			<li><a href="contact_erl.html">Szerver kapcsolat</a></li>
+			<li><a href="result_page.html">Végeredmény</a></li>
+		</ul>
+		<ul id="debug_menulist">
+			<li>Debug Menu: </li>
+			<li><a href="source/flot-0.8.2/examples/index.html">Plot Examples</a></li>
+			<li><a href="test/testPages/plot_test.html">Test Plot</a></li>
+			<li><a href="test/testPages/table.html">Test Table</a></li>
+		 </ul>
+	</div>
+	<div id="bodyContent">
+		<h3>Előkészítő felület: </h3>
+		<p>Implementálás folyamatban</p>
+	</div>
+	<div id="footer">
+		Copyright &copy; 2014 Alexandra Cselyuszka
+	</div>
+
 </body>
 </html>

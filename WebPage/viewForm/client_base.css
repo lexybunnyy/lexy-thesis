@@ -25,11 +25,6 @@ body
 	background-color:black;
 }
 
-#menulist ul
-{
-	display:inline;
-}
-
 #menu
 {
 	min-width:610px;
@@ -63,7 +58,7 @@ body
 	white-space: nowrap;
 }
 
-#menulitem1, #menulitem2, #menulitem3, #menulitem4
+#menulist li
 {
 	display:inline; /* egy sorba ker?l minden lista bejegyz?s */
 	list-style-type:none; 
@@ -77,4 +72,50 @@ body
 {
 	width:auto;
 	border-right:none;
+}
+
+#debug_menulist
+{
+	margin-top:18px;
+	text-align: left;
+	padding:0px;
+	white-space: nowrap;
+}
+
+#debug_menulist li
+{
+	display:tabel-cell; /* egy sorba ker?l minden lista bejegyz?s */
+	list-style-type:none; 
+	border: 0px;
+	padding:0px;
+	/*border-right:1px solid white;*/
+	font-size:20px;
+}
+
+#debug_menulist li a {
+	padding:10cm, 0cm;
+	
+}
+
+#debug_menulist li:last-child
+{
+	width:auto;
+	border-right:none;
+}
+
+#plan_menulist {
+	margin-left:100px;
+}
+#plan_menulist ul{
+	margin-left:50px;
+}
+
+#bodyContent
+{
+	margin: 20px;
+	padding: 20px;
+}
+
+#bodyContent h1 {
+	
 }
