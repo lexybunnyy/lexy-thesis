@@ -2,8 +2,7 @@
  * Created by lexy on 2014.04.28..
  */
 
-
-function interpolationPlot(aConfig) {
+function interpolationTestPlot(aConfig) {
 	var that = this;
     var examples = example_datas();
     var setInput = aConfig.setInput;
@@ -18,11 +17,11 @@ function interpolationPlot(aConfig) {
         end: 3.5,//1000,
         step: 0.01//0.01
     };
-	
+
 	function generateType(){
 		var settings = aConfig.plotGenerateSettings;
 		var type = settings.defaultType || gTypePrepare;
-		
+
 		var generale = [
 			['xaxis','min'],
 			['xaxis','max'],
@@ -125,4 +124,4 @@ function interpolationPlot(aConfig) {
 	that.refresh(senderData);
 	
 	return that;
-};
+}

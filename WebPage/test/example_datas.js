@@ -3,7 +3,8 @@
  */
  var ExampleData = {};
  
- ExampleData.senderData = {
+ ExampleData.senderOneData = {
+    name: 'xsquared_example',
     points: [
         { x: 0, y: [0, 0, 2, 0]},
         { x: 1, y: [1, 2, 2, 0]},
@@ -16,7 +17,29 @@
     max_derivate: 3,
     num_of_points: 7,
     num_of_rows : 5,
-    num_of_cols : 8
+    num_of_cols : 8,
+    type_of_interpolation: '',
+    inverze: false
+};
+
+ExampleData.receiverOneData = {
+    name: 'xsquared_example',
+    polynomial: [0,0,1]
+};
+
+ExampleData.senderData = {
+    data_set: [{
+        sender: ExampleData.senderOneData
+    }],
+    num_of_systems: 1
+};
+
+ExampleData.receiverData = {
+    data_set: [{
+        sender: ExampleData.senderOneData,
+        receiver: ExampleData.receiverOneData
+    }],
+    num_of_systems: 1
 };
  
 function example_datas(){

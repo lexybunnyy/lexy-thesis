@@ -16,10 +16,10 @@
 	
 	<script language="javascript" type="text/javascript" src="test/example_datas.js"></script>
     <script language="javascript" type="text/javascript" src="model/interpolation_table.js"></script>
+    <script language="javascript" type="text/javascript" src="model/interpolation_plot.js"></script>
     <script language="javascript" type="text/javascript" src="model/polinome.js"></script>
     <script language="javascript" type="text/javascript" src="model/plot_types.js"></script>
-    <script language="javascript" type="text/javascript" src="test/plot_test.js"></script>
-	
+
     <script language="javascript" type="text/javascript" src="prepare_page.js"></script>
 </head>
 <body>
@@ -44,7 +44,7 @@
 			<h1>Grafikon</h1>
 			<th>
 				<h4>Plot Show Settings</h4>
-				<input type="button" name="refresh"  value="Refresh">
+				<input type="button" name="refreshPlot"  value="Refresh">
 				<p>	min x : </p>
 				<input type="text" name="minx" id="minx" >
 				<p> max x : </p>
@@ -76,7 +76,7 @@
 				<span id="y_label">y<span/> :
 				<input type="text" name="input_coord_y" id="input_coord_y">
 			</p>
-			<p><input type="button" name="add_cordinate_button"  value="Add The Point"></p>
+			<p><input type="button" name="addPoint"  value="Add The Point"></p>
 		</th>
 		<th>
 			<table id="interpolationTable"></table>

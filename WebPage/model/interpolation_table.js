@@ -71,10 +71,10 @@ function interpolationTable(aConfig){
     }
 
     /**
-     * Megkapjuk a táblázatban leírt pontok tömbjét
-     * @returns {Array} Default in JSON: [{"x":0,"y":[0]}]
+     * Megkapjuk a pontokat és az adatokat
+     * @returns {Object}
      */
-    function getData() {
+    function getData(notCheckY) {
         var points = [];
         var result_x = null;
         var result_y = [];
@@ -84,14 +84,14 @@ function interpolationTable(aConfig){
         for (j = 0; j <= gTable.getNumOfCols(); j++) {
             result_x = parseFloat(gTable.getValue(0, j + 1));
             y = parseFloat(gTable.getValue(1, j + 1));
-            if (isNaN(result_x) || isNaN(y)) {
+            if ( isNaN(result_x) || (!notCheckY && isNaN(y)) ) {
                 break;
             }
             result_y = [y];
 
             for (i = 2; i < gTable.getNumOfRows(); i++) {
                 y = parseFloat(gTable.getValue(i, j + 1));
-                if (isNaN(y)) {
+                if (!notCheckY && (isNaN(y))) {
                     break;
                 }
                 result_y.push(y);
@@ -104,7 +104,6 @@ function interpolationTable(aConfig){
                 y: result_y
             });
         }
-        console.log(points.length, maxDerivate);
         return {
             points : points,
             num_of_points: points.length,
@@ -114,9 +113,10 @@ function interpolationTable(aConfig){
         };
     }
 
-    /**
-     * Feltölti a táblázatot egy adott tömb értékeivel
-     * @param {Array || null} tableArray Default in JSON: [{"x":0,"y":[0]}]
+    /** Feltölti a táblázatot egy adott tömb értékeivel
+     * @param {Array} [tableArray] Default in JSON: [{"x":0,"y":[0]}]
+     * @param {number} [aNumOfRows]
+     * @param {number} [aNumOfCols]
      */
     function setPoints(tableArray, aNumOfRows, aNumOfCols) {
         var defaultArray = [{
@@ -148,6 +148,27 @@ function interpolationTable(aConfig){
         }
     }
 
+    function addPoint(x, y, drN) {
+        drN = drN | 0;
+        var updateData = getData(true);
+        var isNewX = true;
+        updateData.points.forEach(function(data){
+            if(data.x === x) {
+                data.y[drN] = y;
+                isNewX = false;
+            }
+        });
+
+        if (isNewX) {
+            var newPoint = {};
+            newPoint.x = x;
+            newPoint.y = [];
+            newPoint.y[drN] = y;
+            updateData.points.push(newPoint);
+        }
+
+        setPoints(updateData.points);
+    }
 
     /**Gombok eseményeinek lekezelése*/
     function configButtons() {
@@ -178,6 +199,10 @@ function interpolationTable(aConfig){
     };
 
     that.setData = function (data) {
+        if (!data) {
+            setPoints();
+            return;
+        }
         setPoints(data.points, data.num_of_rows, data.num_of_cols);
     };
 
@@ -186,8 +211,12 @@ function interpolationTable(aConfig){
         setPoints(tableArray);
     };
 
+    that.addPoint = function (x, y, dn) {
+        addPoint(x, y, dn);
+    };
+
     configButtons();
-    that.setData(senderData);
+    that.setData();
     return that;
 
 }

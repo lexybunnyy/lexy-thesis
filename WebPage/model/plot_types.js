@@ -70,8 +70,7 @@ var gTypeInterpolationPlot =  {
 
 var gTypePrepare = {
     series: {
-        line: { show: true },
-		points: { show: true }
+        line: { show: true }
     },
 	xaxis: {
 		min: -2,

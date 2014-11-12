@@ -18,6 +18,7 @@ $(function() {
 		xaxis_max : Base.get('maxx'),
 		yaxis_min : Base.get('miny'),
 		yaxis_max : Base.get('maxy'),
+        //TODO: pontosság!
 		derivNum_max : Base.get('maxderivnum'),
 		defaultType :  gTypePrepare
 	};
@@ -35,9 +36,9 @@ $(function() {
 	var setInput = {
 		x :  Base.get('input_coord_x'),
 		y :  Base.get('input_coord_y')
-	}
+	};
 
-	var plot = interpolationPlot({
+	var interpPlot = interpolationPlot({
 		plotGenerateSettings : plotGenerateSettings,
 		plotDefaultSettings : plotDefaultSettings,
 		plotActionView : plotActionView,
@@ -46,23 +47,39 @@ $(function() {
 		clickdata : $("#span_clickdata")
 	});
 	
-	Base.get('refresh').onclick=function(){
-		plot.refresh(ExampleData.senderData);
-	}
-	
 	//Table: 
 	var bTable = basicTable({
 		tableId: 'interpolationTable',
 		debug: bDebug
 	});
 
-	interpolationTable({
+	var interpTable = interpolationTable({
 		table: bTable,
 		debug: bDebug,
 		addColumnButton: Base.get('addcolumn_button'),
 		addRowButton: Base.get('addrow_button'),
 		newTableButton: Base.get('refresh_button')
 	});
-	
+
+    //interpTable.getData();
+    //interpTable.setData(ExampleData.senderOneData);
+    //interpPlot.refresh(interpTable.getData());
+
+    Base.get('refreshPlot').onclick=function() {
+        //interpPlot.refresh(ExampleData.senderOneData, ExampleData.receiverOneData);
+        interpPlot.refresh(interpTable.getData());
+    };
+
+    Base.get('addPoint').onclick=function() {
+        var x = parseFloat(setInput.x.value);
+        var y = parseFloat(setInput.y.value);
+        if (!isNaN(x) && !isNaN(y)){
+            interpTable.addPoint(x, y, 0);
+            interpPlot.refresh(interpTable.getData());
+        }
+    };
+
+    interpPlot.refresh(interpTable.getData());
+
 	$("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
 });
