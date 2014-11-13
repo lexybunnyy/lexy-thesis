@@ -131,10 +131,10 @@ function basicTable (aConfig) {
     };
 
     /** Törli a táblázatot, majd létrehoz egy cellát (Egy sor egy oszlop)*/
-    that.addNewTableOneCell = function(value) {
+    that.addNewTableOneCell = function(value, inputAttributes) {
         that.deleteTable();
         addNewRowTagToTable();
-        that.addNewCellToRow(0, value);
+        that.addNewCellToRow(0, value, inputAttributes);
     };
 
     /** Egy adott cella megformázás beállítása */

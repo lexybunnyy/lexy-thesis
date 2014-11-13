@@ -1,4 +1,5 @@
 $(function() {
+	//-----------------------------------default
 	$("<div id='tooltip'></div>").css({
 		position: "absolute",
 		display: "none",
@@ -13,6 +14,7 @@ $(function() {
          debugSpan: $("#debugSpanId")
     });
 	
+		//-----------------------------------plot
 	var plotGenerateSettings = {
 		xaxis_min : Base.get('minx'),
 		xaxis_max : Base.get('maxx'),
@@ -47,6 +49,7 @@ $(function() {
 		clickdata : $("#span_clickdata")
 	});
 	
+		//-----------------------------------table
 	//Table: 
 	var bTable = basicTable({
 		tableId: 'interpolationTable',
@@ -65,6 +68,7 @@ $(function() {
     //interpTable.setData(ExampleData.senderOneData);
     //interpPlot.refresh(interpTable.getData());
 
+		//-----------------------------------contact
     Base.get('refreshPlot').onclick=function() {
         //interpPlot.refresh(ExampleData.senderOneData, ExampleData.receiverOneData);
         interpPlot.refresh(interpTable.getData());
@@ -80,6 +84,16 @@ $(function() {
     };
 
     interpPlot.refresh(interpTable.getData());
-
+	
+		//-----------------------------------menulist
+	var menuListTable = basicTable({
+		tableId: 'interpoationSetTable',
+		debug: bDebug
+	});
+	
+	var interpMenulist = interpolationMenulist({
+		table: menuListTable,
+		debug: bDebug,
+	});
 	$("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
 });
