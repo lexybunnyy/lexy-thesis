@@ -125,6 +125,24 @@ function interpolationPlot(aConfig) {
         );
     };
     that.refresh();
+	
+	that.getPlotSettings = function () {
+		var result = {};
+		generaleMinMaxes.forEach(function(gen){
+			var key = gen[0] + '_' + gen[1];
+			result[key] = gSettings[key].value;
+		});
+		result.derivNum_max = gSettings.derivNum_max.value;
+		return result;
+	};
+	
+	that.setPlotSettings = function (setterValues) {
+		generaleMinMaxes.forEach(function(gen){
+			var key = gen[0] + '_' + gen[1];
+			gSettings[key].value = setterValues[key];
+		});
+		gSettings.derivNum_max.value = setterValues.derivNum_max;
+	};
 
     return that;
 }

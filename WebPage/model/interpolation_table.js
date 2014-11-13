@@ -42,7 +42,7 @@ var senderData = {
  * @returns {interpolationTable}
  */
 function interpolationTable(aConfig){
-    var that = this;
+    var that = {};
     var gTable = aConfig.table;
     var gDebug = aConfig.debug;
     var gFirstCellForm = {

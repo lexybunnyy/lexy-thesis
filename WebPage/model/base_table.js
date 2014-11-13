@@ -42,7 +42,7 @@ var table = basicTable({
 
 
 function basicTable (aConfig) {
-    var that = this;
+    var that = {};
     that.id =  aConfig.tableId;
     that.reference = document.getElementById(aConfig.tableId);
     var gTableRows = [];
@@ -121,7 +121,7 @@ function basicTable (aConfig) {
     /** Ad egy új oszlopot a táblázathoz
      * TODO: data nem jól működik
      * **/
-    that.addNewColumnToTable = function(data){
+    that.addNewColumnToTable = function(data) {
         data = data || [];
         gTableRows.forEach(function(row, index){
             var value = data[index] || '-';
@@ -164,13 +164,22 @@ function basicTable (aConfig) {
         return gTableRows[i].getElementsByTagName("INPUT");
     };
 
-    /** Egy adott cella érték lekérdezése */
-    that.getValue = function(i, j){
+	/** Egy adott cella érték lekérdezése */
+    that.getInputTag = function(i, j){
         var tableRow = that.getRow(i);
         if (!tableRow || !tableRow[j]) {
             return false;
         }
-        return tableRow[j].value;
+        return tableRow[j];
+    };
+
+    /** Egy adott cella érték lekérdezése */
+    that.getValue = function(i, j){
+		var inputTag = that.getInputTag(i, j);
+		if (!inputTag) {
+		    return false;
+		}
+        return inputTag.value;
     };
 
     /** Egy adott cella érték beállítása*/

@@ -50,7 +50,6 @@ $(function() {
 	});
 	
 		//-----------------------------------table
-	//Table: 
 	var bTable = basicTable({
 		tableId: 'interpolationTable',
 		debug: bDebug
@@ -69,12 +68,12 @@ $(function() {
     //interpPlot.refresh(interpTable.getData());
 
 		//-----------------------------------contact
-    Base.get('refreshPlot').onclick=function() {
+    Base.get('refreshPlot').onclick = function() {
         //interpPlot.refresh(ExampleData.senderOneData, ExampleData.receiverOneData);
         interpPlot.refresh(interpTable.getData());
     };
 
-    Base.get('addPoint').onclick=function() {
+    Base.get('addPoint').onclick = function() {
         var x = parseFloat(setInput.x.value);
         var y = parseFloat(setInput.y.value);
         if (!isNaN(x) && !isNaN(y)){
@@ -94,6 +93,9 @@ $(function() {
 	var interpMenulist = interpolationMenulist({
 		table: menuListTable,
 		debug: bDebug,
+		interpolationPlot: interpPlot,
+		interpolationTable: interpTable,
+		save: Base.get('saveInMenulist')
 	});
 	$("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
 });
