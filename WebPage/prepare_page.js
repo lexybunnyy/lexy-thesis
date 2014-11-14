@@ -93,6 +93,7 @@ $(function() {
 	var interpMenulist = interpolationMenulist({
 		table: menuListTable,
 		debug: bDebug,
+		newItemButton: Base.get('addNewMenulistItem'),
 		interpolationPlot: interpPlot,
 		interpolationTable: interpTable,
 		save: Base.get('saveInMenulist')

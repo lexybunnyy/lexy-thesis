@@ -3,7 +3,7 @@
  */
  var ExampleData = {};
  
- ExampleData.senderOneData = {
+ ExampleData.tableData = {
     name: 'xsquared_example',
     points: [
         { x: 0, y: [0, 0, 2, 0]},
@@ -22,6 +22,19 @@
     inverze: false
 };
 
+ExampleData.plotSetting = {
+    xaxis_min: "-1",
+    xaxis_max: "9",
+    yaxis_min: "-1",
+    yaxis_max: "36",
+    derivNum_max: ""
+};
+
+ExampleData.senderOneData = {
+	tableData : ExampleData.tableData,
+	plotSetting: ExampleData.plotSetting
+};
+
 ExampleData.receiverOneData = {
     name: 'xsquared_example',
     polynomial: [0,0,1]
@@ -29,14 +42,14 @@ ExampleData.receiverOneData = {
 
 ExampleData.senderData = {
     data_set: [{
-        sender: ExampleData.senderOneData
+        sender: ExampleData.tableData
     }],
     num_of_systems: 1
 };
 
 ExampleData.receiverData = {
     data_set: [{
-        sender: ExampleData.senderOneData,
+        sender: ExampleData.tableData,
         receiver: ExampleData.receiverOneData
     }],
     num_of_systems: 1

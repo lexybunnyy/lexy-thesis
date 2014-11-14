@@ -15,12 +15,15 @@ function interpolationPlot(aConfig) {
         ['yaxis','min'],
         ['yaxis','max']
     ];
-    setInput.x.value = 0;
-    setInput.y.value = 0;
-    generaleMinMaxes.forEach(function(gen){
-        var key = gen[0] + '_' + gen[1];
-        gSettings[key].value = gen[1] === 'min' ? -2 : 2;
-    });
+	
+	function setDefaultSettings() {
+	    setInput.x.value = 0;
+		setInput.y.value = 0;
+		generaleMinMaxes.forEach(function(gen){
+			var key = gen[0] + '_' + gen[1];
+			gSettings[key].value = gen[1] === 'min' ? -2 : 2;
+		});
+	}
 
     function generateType(){
         var type = gSettings.defaultType || gTypePrepare;
@@ -137,12 +140,17 @@ function interpolationPlot(aConfig) {
 	};
 	
 	that.setPlotSettings = function (setterValues) {
+		setDefaultSettings();
+		if (!setterValues) {
+			return;
+		}
 		generaleMinMaxes.forEach(function(gen){
 			var key = gen[0] + '_' + gen[1];
 			gSettings[key].value = setterValues[key];
 		});
 		gSettings.derivNum_max.value = setterValues.derivNum_max;
 	};
-
+	
+	setDefaultSettings();
     return that;
 }
