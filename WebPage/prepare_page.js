@@ -98,5 +98,10 @@ $(function() {
 		interpolationTable: interpTable,
 		save: Base.get('saveInMenulist')
 	});
+	
+	Base.get('filePicker').onclick = function () {
+		console.log(Base.get('filePicker').value);
+	}
+
 	$("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
 });
