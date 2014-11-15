@@ -11,7 +11,8 @@ $(function() {
 	
 	var bDebug = webPageDebug({
          buttonsIds: ['debug_button', 'debug_button2'],
-         debugSpan: $("#debugSpanId")
+         debugSpan: $("#debugSpanId"),
+		 debugInput: Base.get('debug_text')
     });
 	
 		//-----------------------------------plot
@@ -96,7 +97,8 @@ $(function() {
 		newItemButton: Base.get('addNewMenulistItem'),
 		interpolationPlot: interpPlot,
 		interpolationTable: interpTable,
-		save: Base.get('saveInMenulist')
+		save: Base.get('saveInMenulist'),
+		loadFromDebug: Base.get('loadFromDebug')
 	});
 	
 	Base.get('filePicker').onclick = function () {

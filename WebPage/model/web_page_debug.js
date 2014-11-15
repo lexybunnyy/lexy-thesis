@@ -31,7 +31,7 @@
 
 
 function webPageDebug (aConfig) {
-    var that = this;
+    var that = {};
     var gEventButtons = [];
 
     aConfig.buttonsIds.forEach(function(id){
@@ -68,6 +68,14 @@ function webPageDebug (aConfig) {
             setFunction(back, index);
         });
     };
+	
+	that.setInputValue = function (value) {
+		aConfig.debugInput.value = value;
+	}
+
+	that.getInputValue = function () {
+		return aConfig.debugInput.value;
+	}
 
     return that;
 }

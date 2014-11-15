@@ -144,6 +144,10 @@ body
 	border: 1px solid black;
 }
 
+.saveInSettingsClass {
+	text-align: right;
+}
+
 #plotTable {
 	padding: 10px;
 }
@@ -157,11 +161,32 @@ body
 	margin: 5px;
 }
 
+#data_set_menulist {
+	display: table-cell;
+	padding: 10px;
+	border: 1px solid black;
+}
+
+#one_data_settings {
+	display: table-cell;
+	padding: 10px;
+	border: 1px solid black;
+}
+
 #interpolationTable td input {
 	max-width: 60px;
 	min-width: 60px;
 	width: 50px;
 	padding: 5px;
+}
+
+#debug {
+	margin: 60px;
+}
+
+#debug_text {
+	width: 1000px;
+	height: 100px;
 }
 
 .hbox {

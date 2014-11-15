@@ -41,8 +41,6 @@
 
 	<div id="bodyContent">
 		<div id="one_data_settings">
-			<h3>Előkészítő felület: </h3>
-			
 			<h1>Táblázat</h1>
 			<table id="tableViewTable" class="bordered"><tr>
 			<th id="tableViewOptions">
@@ -60,7 +58,7 @@
 				<table id="interpolationTable"></table>
 			</th>
 			</tr></table>
-			
+
 			<h1>Grafikon</h1>
 			<table id="plotViewTable" class="bordered"><tr>
 			<th>
@@ -87,11 +85,15 @@
 			</tr></table>
 		</div>
 		<div id="data_set_menulist">
-			<input type="button" name="saveInMenulist"  value="Save">
+			<input type="button" name="saveInMenulist"  value="Save Settings">
 			<input type="button" name="addNewMenulistItem"  value="New">
 			<input type="file" name="filePicker">
 			<table id="interpoationSetTable"></table>
 		</div>
+	</div>
+	<div id="debug">
+		<input type="button" name="loadFromDebug"  value="loadFromDebug">
+		<input type="text" name="debug_text" id="debug_text">
 	</div>
 	<div id="footer">
 		Copyright &copy; 2014 Alexandra Cselyuszka
