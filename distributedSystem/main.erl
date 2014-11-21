@@ -20,20 +20,27 @@
 run1(NumOfPids) ->
     %%compile:file(asszoc.erl),
     make_calculator(NumOfPids, asszoc).
+
+%% @doc Teszt futtatása a fork-nak
+%% @spec (NumOfPids::integer()) -> List
 run2(NumOfPids) ->
     compile:file('fork'),
     make_calculator(NumOfPids, fork).
 
-make_calculator(NumOfPids, Func) ->
-  {PidList, EndPid } = make_pids(Func, NumOfPids, NumOfPids-1, []),
+%% @doc meghívja a létrehozót és a fogadót
+%% @spec (NumOfPids::integer(), Func::List) -> List
+make_calculator(NumOfPids, CalcModule) ->
+  {PidList, EndPid } = make_pids(CalcModule, NumOfPids, NumOfPids-1, []),
   io:format("The process started: ~p (End: ~p)\n",[PidList, EndPid]),
-  apply(Func, sender, [senderstart,PidList, NumOfPids]),
-  Result = apply(Func, receiver, [recivestart, PidList, EndPid]),
+  apply(CalcModule, sender, [senderstart,PidList, NumOfPids]),
+  Result = apply(CalcModule, receiver, [recivestart, PidList, EndPid]),
   io:format("The result: ~p \n", [Result]).
 %%del_pids(PidList).
 
-make_pids(Func, N, 0, PidList) ->
-  NewPid = spawn(Func, worker_main, [self(), N, 8000]),
+%% @doc Létrehozza a processzeket
+%% egy adott
+make_pids(CalcModule, N, 0, PidList) ->
+  NewPid = spawn(CalcModule, worker_main, [self(), N, 8000]),
   {PidList ++ [NewPid], NewPid};
 make_pids(Func, N, X, PidList) ->
   NewPid = spawn(Func, worker_main, [self(), N-X, 8000]),
