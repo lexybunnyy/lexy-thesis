@@ -1,5 +1,6 @@
 *.beam
 *.out
+*.so
 .idea/*
 Client/.idea/*
 WebPage/.idea/*
