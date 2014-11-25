@@ -1,5 +1,5 @@
-/** Ebbe kerül bele az oldalt lévõ menü kostans 2 oszloppal:
-* az egyik oszlop rejtett tulajdonságot kap nem debug módban TODO
+/** Ebbe kerï¿½l bele az oldalt lï¿½vï¿½ menï¿½ kostans 2 oszloppal:
+* az egyik oszlop rejtett tulajdonsï¿½got kap nem debug mï¿½dban TODO
 * JSON.parse();
 * JSON.stringify();
 */
@@ -53,6 +53,7 @@ function interpolationMenulist (aConfig) {
 	function saveAll() {
 		var saveObject = {};
 		saveObject.data_set = [];
+        var i;
 		for (i = 1; i < gTable.getNumOfRows(); i++) {
 			var data = {};
 			data.name = gTable.getValue(i, 0);
@@ -64,6 +65,7 @@ function interpolationMenulist (aConfig) {
 			saveObject.data_set.push(data);
 		}
 		gDebug.setInputValue(JSON.stringify(saveObject));
+        Base.erlangJSON(saveObject);
 	}
 	
 	function loadAll(loadObject){
@@ -73,7 +75,7 @@ function interpolationMenulist (aConfig) {
 			gTable.setValue(i, 0, data.name);
 			gTable.setValue(i, 1, JSON.stringify(data.sender));
 		});
-	};
+	}
 	
 	function newMenulist(){
 		gTable.deleteTable();

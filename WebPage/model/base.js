@@ -14,3 +14,11 @@ Base.get = function (name, by) {
             return document.getElementsByName(name)[0];
     }
 };
+
+Base.erlangJSON = function (Obj) {
+    var JsonObj = JSON.stringify(Obj, function(key, value){
+        return value;
+    });
+    var res = JsonObj.replace(/"/g, '\\"');
+    console.log(res);
+};
