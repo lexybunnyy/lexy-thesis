@@ -26,6 +26,14 @@ sender([H|T] ,N, X) ->
   H ! {forkdata, N-X, N-X},
   sender(T, N, X-1).
 
+sender(senderstart, PidList, N, DataList) ->
+  sender(PidList ,N, N-1, DataList);
+sender([PidHead] ,N, X, [DataHead]) ->
+  PidHead ! {forkdata, N-X , DataHead};
+sender([PidHead|PidTail] ,N, X, [DataHead|DataTail]) ->
+  PidHead ! {forkdata, N-X, DataHead},
+  sender(PidTail, N, X-1, DataTail).
+
 receiver(recivestart,PidList, _EndPid) ->
   receiver(PidList, []).
 receiver([HeadPidList], ResultList) ->

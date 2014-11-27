@@ -6,82 +6,120 @@
 %%% @end
 %%% Created : 25. nov. 2014 18:39
 %%%-------------------------------------------------------------------
+%% c(structHandler).
 -module(structHandler).
 -author("alexa").
 
 %% API
 -compile(export_all).
 
-%% @doc Teszt futtatása a structnak-nak
-%% @spec (NumOfPids::integer()) -> List
-testMochiJSON() ->
-  compile:file('source/mochijson'),
+testJsonConvert() -> 
   JsonSting = "{\"data_set\":[{\"name\":\"Uj Interpolacio 1\",\"sender\":{\"tableData\":{\"points\":[{\"x\":0,\"y\":[0,0,2,0]},{\"x\":1,\"y\":[1,2,2,0]},{\"x\":2,\"y\":[4,4,2,0]},{\"x\":3,\"y\":[9,6,2,0]},{\"x\":4,\"y\":[16,8,2,0]},{\"x\":5,\"y\":[25,10,2,0]},{\"x\":6,\"y\":[36,12,2,0]}],\"num_of_points\":7,\"max_derivate\":3,\"num_of_cols\":8,\"num_of_rows\":5},\"plotSetting\":{\"xaxis_min\":\"-1\",\"xaxis_max\":\"9\",\"yaxis_min\":\"-1\",\"yaxis_max\":\"36\",\"derivNum_max\":\"\"}}}]}",
-  Data = apply(mochijson, decode, [JsonSting]),
-  Array = getInterpolationArray(Data),
-  FirstElement = getFirstElementSender(Array),
-  Points = getElementsByName(["tableData", "points"], FirstElement),
-  convertPoints(Points).
+  ConvertPoints = 
+	  [ {x,[0,1,2,3,4,5,6]},
+	    {y,[[0,0,2,0],
+	        [1,2,2,0],
+	        [4,4,2,0],
+	      	[9,6,2,0],
+	     	[16,8,2,0],
+	     	[25,10,2,0],
+	     	[36,12,2,0]]}],
+  Data = getDataByJson(JsonSting),
+  DataSet = getDataSet(Data),
+  DataSetElement = getArrayElement(1, DataSet),
+  getPoints(DataSetElement) == ConvertPoints.
 
-getInterpolationArray({struct, [{"data_set", {array, Array}}]}) -> Array.
+testConvert() -> 
+	InSruct1 = {struct,[{"x",0},{"y",{array,[0,0,2,0]}}]},
+	InStruct2 = {struct,[{"x",1},{"y",{array,[1,2,2,0]}}]},
+	InArray = {array,[InSruct1 ,InStruct2]},
+	OutSruct1 = [{x,[0]},{y,[[0,0,2,0]]}],
+	OutSruct2 = [{x,[1]},{y,[[1,2,2,0]]}],
+	OutArray = [{x,[0,1]},{y,[[0,0,2,0],[1,2,2,0]]}],
+	Test1 = getNewPointStruct(InSruct1) == OutSruct1,
+	Test2 = getNewPointStruct(InStruct2) == OutSruct2,
+	Test3 = appendNewPointStruct(OutSruct1, OutSruct2) == OutArray,
+	Test4 = convertPoints(InArray) == OutArray,
+	Test5 = testJsonConvert(),
+	[Test1, Test2, Test3, Test4, Test5].
 
-getFirstElementName([Head]) -> getName(Head).
-getFirstElementSender([Head]) -> getSender(Head).
+start() -> 
+	compile:file('source/mochijson'),
+	testConvert().
 
-getName({struct, ObjectHead})->getName(ObjectHead);
-getName([{"name", Name},_Sender])-> Name.
+%% @doc konvertálók, melyekkel ,egyszerűen megkapjuk a kívánt adatot. 
+getDataByJson(JsonSting) -> apply(mochijson, decode, [JsonSting]).
+getDataSet(Data) -> getElementByKeyList(["data_set", array], Data).
 
-getSender({struct, ObjectHead})->getSender(ObjectHead);
-getSender([{"name", _Name},{"sender", {struct, SenderList}}])-> SenderList.
+getTableData(DataSetElement) -> 
+	getElementByKeyList(["sender", "tableData"], DataSetElement).
 
-getElementByName(array, {array, Array}) -> Array;
-getElementByName(struct, {struct, Struct}) -> Struct;
-getElementByName(Name, {struct, Array}) -> getElementByName(Name, Array);
-getElementByName(Name,[{Name, Value}]) -> Value;
-getElementByName(_Name,[_Wrong]) -> false;
-getElementByName(Name,[{Name, Value}| _Tail]) -> Value;
-getElementByName(Name,[_Wrong| Tail]) -> getElementByName(Name, Tail);
-getElementByName(_Wrong, _Wrong2) -> false.
+getTableData(DataSetElement, Key) -> 
+	KeyList = lists:append(["sender", "tableData"], [Key]),
+	getElementByKeyList(KeyList, DataSetElement).
 
-getElementsByName([HeadName], Object) ->
-  case getElementByName(HeadName, Object) of
+getPoints(DataSetElement) -> 
+	Points = getTableData(DataSetElement, "points"),
+	convertPoints(Points).
+
+getArrayElement(N,{array, Array}) -> lists:nth(N, Array);
+getArrayElement(N, Array) -> lists:nth(N, Array).
+
+%% @doc Segédfüggvények
+
+getElementByKey(array, {array, Array}) -> Array;
+getElementByKey(Name, {struct, Struct}) -> getElementByKey(Name, Struct);
+getElementByKey(Name,[{Name, Value}]) -> Value;
+getElementByKey(_Name,[_Wrong]) -> false;
+getElementByKey(Name,[{Name, Value}| _Tail]) -> Value;
+getElementByKey(Name,[_Wrong| Tail]) -> getElementByKey(Name, Tail);
+getElementByKey(_Wrong, _Wrong2) -> false.
+
+getElementByKeyList([HeadName], Object) ->
+  case getElementByKey(HeadName, Object) of
     false -> false;
     NewObject -> NewObject
   end;
-getElementsByName([HeadName|Tail], Object) ->
-  case getElementByName(HeadName, Object) of
+getElementByKeyList([HeadName|Tail], Object) ->
+  case getElementByKey(HeadName, Object) of
     false -> false;
-    NewObject -> getElementsByName(Tail, NewObject)
+    NewObject -> getElementByKeyList(Tail, NewObject)
   end.
 
-
 %% TestStruct = {struct,[{"x",0},{"y",{array,[0,0,2,0]}}]}.
+%% TestNewStuct = [{x,[0]},{y,[[0,0,2,0]]}].
 %% structHandler:getNewPointStruct(TestStruct).
+%% structHandler:getNewPointStruct(TestStruct, TestNewStuct).
 getNewPointStruct(OldStruct) ->
-  X = getElementByName("x", OldStruct),
-  Y = getElementsByName(["y", array], OldStruct),
+  X = getElementByKey("x", OldStruct),
+  Y = getElementByKeyList(["y", array], OldStruct),
   ArrayX = lists:append([], [X]),
   ArrayY = lists:append([], [Y]),
   [{x, ArrayX}, {y, ArrayY}].
-getNewPointStruct(OldStruct, [{x, []}, {y, []}]) ->
-  getNewPointStruct(OldStruct);
-getNewPointStruct(OldStruct, [{x, ArrayX}, {y, ArrayY}]) ->
-  X = getElementByName("x", OldStruct),
-  Y = getElementsByName(["y", array], OldStruct),
-  ArrayY = lists:append(ArrayY, [Y]),
-  ArrayX = lists:append(ArrayX, [X]),
-  [{x, ArrayX}, {y, ArrayY}].
+
+appendNewPointStruct(
+	[{x, Point1X}, {y, Point1Y}], 
+	[{x, Point2X}, {y, Point2Y}]) ->
+		NewArrayX = lists:append(Point1X, Point2X),
+	  	NewArrayY = lists:append(Point1Y, Point2Y),
+	  	[{x, NewArrayX}, {y, NewArrayY}].
 
 %% TestStruct = {struct,[{"x",0},{"y",{array,[0,0,2,0]}}]}.
 %% TestNewStruct = [{x,[[0,0,2,0]]},{y,[0]}].
-%% convertPoints([TestStruct], TestNewStruct)
+%% structHandler:convertPoints([TestStruct], TestNewStruct).
 convertPoints({array, Array}) ->
   EmptyStruct =  [{x, []}, {y, []}],
   convertPoints(Array, EmptyStruct);
 convertPoints(_Wrong) -> false.
-convertPoints([Head], NewStuct) ->
-  getNewPointStruct(Head, NewStuct);
-convertPoints([Head|Tail], NewStuct) ->
-  NewStuct = getNewPointStruct(Head, NewStuct),
-  convertPoints(Tail, NewStuct);
+
+convertPoints([], InStruct) -> InStruct;
+convertPoints([Head], InStruct) ->
+  ConvertedPoint = getNewPointStruct(Head),
+  appendNewPointStruct(InStruct, ConvertedPoint);
+
+convertPoints([Head|Tail], InStruct) ->
+  ConvertedPoint = getNewPointStruct(Head),
+  CurResult = appendNewPointStruct(InStruct, ConvertedPoint),
+  convertPoints(Tail, CurResult);
+
 convertPoints(_Wrong,_Wrong) -> false.

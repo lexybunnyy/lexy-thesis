@@ -17,28 +17,40 @@
 %%-export([]).
 -compile(export_all).
 
-run1(NumOfPids) ->
-    %%compile:file(asszoc.erl),
-    make_calculator(NumOfPids, asszoc).
-
 %% @doc Teszt futtatása a fork-nak
 %% @spec (NumOfPids::integer()) -> List
-run2(NumOfPids) ->
+testFork(TestList) when is_list(TestList) ->
     compile:file('fork'),
-    make_calculator(NumOfPids, fork).
+    NumOfPids = length(TestList),
+    makeNodeStructure(NumOfPids, fork, TestList);
+testFork(NumOfPids) ->
+    compile:file('fork'),
+    makeNodeStructure(NumOfPids, fork).
 
-%% @doc meghívja a létrehozót és a fogadót
+%% @doc Létrehozza a Számításhoz szükséges Node Struktúrát.
+%% CalcModule-ban szereplő senderstart, recivestart, worker_main 
+%% függvények létrejönnek, és számolnak
 %% @spec (NumOfPids::integer(), Func::List) -> List
-make_calculator(NumOfPids, CalcModule) ->
-  {PidList, EndPid } = make_pids(CalcModule, NumOfPids, NumOfPids-1, []),
-  io:format("The process started: ~p (End: ~p)\n",[PidList, EndPid]),
-  apply(CalcModule, sender, [senderstart,PidList, NumOfPids]),
-  Result = apply(CalcModule, receiver, [recivestart, PidList, EndPid]),
-  io:format("The result: ~p \n", [Result]).
-%%del_pids(PidList).
+makeNodeStructure(NumOfPids, CalcModule) ->
+	{PidList, EndPid} = make_pids(CalcModule, NumOfPids),
+	io:format("The process started: ~p (End: ~p)\n",[PidList, EndPid]),
 
-%% @doc Létrehozza a processzeket
-%% egy adott
+	apply(CalcModule, sender, [senderstart,PidList, NumOfPids]),
+	Result = apply(CalcModule, receiver, [recivestart, PidList, EndPid]),
+
+	io:format("The result: ~p \n", [Result]).
+	%%del_pids(PidList).
+makeNodeStructure(NumOfPids, CalcModule, DataList) ->
+	{PidList, EndPid} = make_pids(CalcModule, NumOfPids),
+	io:format("The process started: ~p (End: ~p)\n",[PidList, EndPid]),
+
+	apply(CalcModule, sender, [senderstart, PidList, NumOfPids, DataList]),
+	Result = apply(CalcModule, receiver, [recivestart, PidList, EndPid]),
+
+	io:format("The result: ~p \n", [Result]).
+
+%% @doc Létrehozza a Számításhoz szükséges Új Node-okat.
+make_pids(CalcModule, N) -> make_pids(CalcModule, N, N-1, []).
 make_pids(CalcModule, N, 0, PidList) ->
   NewPid = spawn(CalcModule, worker_main, [self(), N, 8000]),
   {PidList ++ [NewPid], NewPid};
