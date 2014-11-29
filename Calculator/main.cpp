@@ -7,24 +7,72 @@
 
 using namespace std;
 
-void interpolacio();
+void interpolationTest();
+void polynomialTest();
+
+void logPolynomial(vector<double> P, string poliName);
+void logCalculate(int i, int j, vector<vector<double> > M, vector<double> x);
+void logResult(vector<double> x, vector<vector<double> > M);
+
+void getPolynomial(vector<double> &P, string poliName);
+void getPoints(vector<double> &x, vector<vector<double> > &M);
+void interpolateMatrix(vector<double> &x, vector<vector<double> > &M);
+
+vector<double> polynomialAddition(vector<double> P, vector<double> Q);
+vector<double> polynomialMultiply(vector<double> P, vector<double> Q);
 void fuggveny(double x);
-void polinom();
-double f(double x);
-double g(double g);
-vector<int> szorzas(vector<int> P, vector<int> Q);
-vector<int> osszeg(vector<int> P, vector<int> Q);
 
 int main()
 {
-	cout << "Interpolacio"<<endl;
-	interpolacio();
-	//fuggveny();
-	//polinom ();
+	//interpolationTest();
+	//polynomialTest ();
     return 0;
 }
 
-void calculateLog(int i, int j, vector<vector<double> > M, vector<double> x) {
+
+void interpolationTest() {
+	cout << "Interpolacio" << endl;
+	vector<double> x;
+	vector<vector<double> > M;
+	getPoints(x, M);
+	interpolateMatrix(x, M);
+	logResult(x, M);
+}
+
+void polynomialTest() {
+	vector<double> P, Q;
+	getPolynomial(P, "P");
+	getPolynomial(Q, "Q");
+
+	logPolynomial(P, "P");
+	logPolynomial(Q, "Q");
+	
+	vector<double> R;
+	R = polynomialAddition(P, Q);
+	logPolynomial(R, "Osszeg");
+	R = polynomialMultiply(P, Q);
+	logPolynomial(R, "Szorzat");
+};
+
+void getPolynomial(vector<double> &P, string poliName) {
+	int n;
+	cout << poliName <<"\n Hanyadfoku a polinom? n= "; cin>> n;
+	P.resize(n);
+	for (unsigned i = 0; i < P.size(); i++) {
+	 	cout << i << " foku tag:"; cin >> P[i];
+	};
+}
+
+void logPolynomial(vector<double> P, string poliName) {
+	cout << poliName << endl;
+	int forSize = P.size() - 1;
+	for (unsigned i = 0; i < forSize; i++) {
+		cout<< P[i] <<" x^"<<i<<" + ";
+	};
+	cout<< P[forSize] <<" x^"<< forSize << endl; 
+}
+
+void logCalculate(int i, int j, vector<vector<double> > M, vector<double> x) {
 	cout << i << j << " = ";
 	cout << i-1 << j << " - " << i-1 << j-1 << " // " << j << j-i;
 	cout << endl;
@@ -34,95 +82,65 @@ void calculateLog(int i, int j, vector<vector<double> > M, vector<double> x) {
 	cout << endl;
 }
 
-void interpolacio()
-{
-	int n;
-	vector<vector<double> > M;
-
-	cout<<"Adja meg hany pontban vizsgaljuk!"<<endl; 
-	cin>>n;
-	vector<double> x(n+1);
-	cout<<"Adja meg a pontokat!"<<endl;
-	for (int i = 0; i < n; i++) { 
-		cout<< i+1 << ". pont: "; cin >> x[i];
-	};
-
-	M.resize(n+1);
-	for (int i = 0; i < n; i++) { 
-		M[i].resize(n+1);
-		for (int j = 0; j < n; j++) {
-			M[i][j] = 0;
-		}
-	}
-
-	for (int j = 0; j < n; j++) { 
-		M[0][j]=g(x[j]);
-	}
-	
-	cout << endl <<" Kalkulátor Logika: "<< endl;
-	for (int i = 1; i < n; i++) {
-		for(int j = i; j < n; j++){
-			calculateLog(i, j, M, x);
-			M[i][j] = (M[i-1][j]-M[i-1][j-1])/(x[j]-x[j-i]); 
-		};
-	}
-	cout << endl <<" Eredmény: "<< endl;
-	for (int i = 0; i < n; i++) {
+void logResult(vector<double> x, vector<vector<double> > M) {
+	cout << endl <<" Eredmény: "<< M.size() << endl;
+	for (int i = 0; i < M.size(); i++) {
 		cout<<"\t";
 		cout<<x[i]<<" | ";
-		for (int j = 0; j < n; j++) {
+		for (int j = 0; j < M.size(); j++) {
 			cout<<M[j][i]<<"\t";
 		}; 
 		cout<<endl;
 	};
 }
 
-double g(double x){
-	return x+1;
+void getPoints(vector<double> &x, vector<vector<double> > &M) {
+	int n;
+	cout<<"Adja meg hany pontban vizsgaljuk!"<<endl; 
+	cin>>n;
+	x.resize(n);
+	M.resize(n);
+	for (int i = 0; i < n; i++) { 
+		M[i].resize(n);
+		for (int j = 0; j < n; j++) {
+			M[i][j] = 0;
+		}
+	}
+
+	cout<<"Adja meg a pontokat!"<<endl;
+	for (int i = 0; i < n; i++) { 
+		cout << i+1 << ". pont: " <<  endl; 
+		cout << "\tx: "; cin >> x[i];
+		cout << "\tf(x): "; cin >> M[0][i];
+	};
+}
+
+void interpolateMatrix(vector<double> &x, vector<vector<double> > &M)
+{
+	int n = M.size();
+
+	cout << endl <<" Kalkulátor Logika: "<< endl;
+	for (int i = 1; i < n; i++) {
+		for(int j = i; j < n; j++){
+			logCalculate(i, j, M, x);
+			//if (x[j] == x[j-i]) break;
+			M[i][j] = (M[i-1][j]-M[i-1][j-1])/(x[j]-x[j-i]); 
+		};
+	}
 }
 
 //-----------------------------------------------------------------------Polinomok es Muveletek
-void polinom()
-{
-	int n;
-	cout << "hanyadfoku a P polinom? n= "; cin>> n;
-	vector<int> P(n+1),Q(2);
 
-	cout<<"Add meg a P polinom ertekeit!"<<endl;
-	for(unsigned i=0;i<(P.size());i++) {
-		cout<< i<<" foku tag:"; cin>> P[i];
-	};
-
-	cout<<"Add meg a Q polinom ertekeit! (elsofoku)"<<endl;
-	for(unsigned i=0;i<Q.size();i++) {
-	 	cout<< i<<" foku tag:"; cin>> Q[i];
-	};
-
-	vector<int> R((P.size()+Q.size())-1);
-	R = szorzas(P,Q);
-
-	vector<int> S (max(P.size(),Q.size()));
-	S = osszeg(P,Q);
-
-	cout<< "A 2 Polinom szorzata: "<<endl;
-	for(unsigned i=0;i<R.size();i++) {
-		cout<< R[i] <<" x^"<<i<<"  "; 
-	};
-	cout<<endl <<"A 2 Polinom osszege: "<<endl;
-	for(unsigned i=0;i<S.size();i++) {
-		cout<< S[i] <<" x^"<<i<<"  "; 
-	};
-};
 //-----------------------------------------------------------------------Polinomok es Muveletek
 
 //------------------------------------------------------Polinom Oszzeg
-vector<int> osszeg(vector<int> P, vector<int> Q) { 
+vector<double> polynomialAddition(vector<double> P, vector<double> Q) { 
 	bool nagyP = false;
 	if (P.size() > Q.size()) { 
 		nagyP = true;
 	}
 
-	vector<int> S (max(P.size(),Q.size()));
+	vector<double> S (max(P.size(),Q.size()));
 	unsigned k;
 	for( k=0;k<min(P.size(),Q.size());k++) { 
 		S[k]=P[k]+Q[k];
@@ -141,16 +159,16 @@ vector<int> osszeg(vector<int> P, vector<int> Q) {
 //------------------------------------------------------Polinom Oszzeg Vege
 
 //------------------------------------------------------Polinom Szorzat
-vector<int> szorzas(vector<int> P, vector<int> Q)
+vector<double> polynomialMultiply(vector<double> P, vector<double> Q)
 {
-    vector<int> R((P.size()+Q.size())-1);
-    // Polinom nullazas 
-    for(unsigned i=0;i<R.size();i++){R[i]=0;};
-    	//Polinom feltoltes
-    	for (unsigned i=0; i<P.size(); i++) { 
-    		for (unsigned j=0;j<Q.size();j++) {  
-    			R[i+j]+=P[i]*Q[j]; 
-    	};
+    vector<double> R((P.size()+Q.size())-1);
+    for (unsigned i = 0; i < R.size(); i++) {
+    	R[i]=0;
+    };
+    for (unsigned i = 0; i < P.size(); i++) { 
+    	for (unsigned j = 0; j < Q.size(); j++) {  
+    		R[i+j] += P[i]*Q[j]; 
+   		};
     };
     return R;
 };
@@ -158,16 +176,15 @@ vector<int> szorzas(vector<int> P, vector<int> Q)
 
 
 //------------------------------------------------------Fuggvenyertek Visszaadas
-void fuggveny() {
-	double x;
-	cout << "x= "; cin>> x;
-    cout <<"f(x)=  "<< f(x) <<endl;
-};
-
 double f(double x) { 
 	double sinx,y;
 	sinx = sin (x*PI/180);
 	y=(-1)*exp((x/2)*sinx);
 	return y;
+};
+void fuggveny() {
+	double x;
+	cout << "x= "; cin>> x;
+    cout <<"f(x)=  "<< f(x) <<endl;
 };
 //-------------------------------------------------------Fuggvenyertek Visszaadas Vege
