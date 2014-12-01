@@ -12,60 +12,31 @@ http://www.erlang.org/doc/man/erl_nif.html
 #include <stdio.h>
 #include <vector>
 #include "erl_nif.h"
+#include "calculator.h"
 
 using namespace std;
 
 extern int exportTest1(int x);
 extern int exportTest2(int y);
 static int convertVector(ErlNifEnv* env, ERL_NIF_TERM arg, vector<double> &result);
+static int convertMatrix(ErlNifEnv* env, ERL_NIF_TERM argY, vector<vector<double> > &matrix);
 static ERL_NIF_TERM convertList(ErlNifEnv* env, vector<double> array);
 
-static int convertInterpolationMatrix(ErlNifEnv* env, ERL_NIF_TERM argY, vector<double> &x,vector<vector<double> > &matrix) {
-    ERL_NIF_TERM iHead;
-    ERL_NIF_TERM iTail = argY;
-    ERL_NIF_TERM jHead;
-    ERL_NIF_TERM jTail = argY;
-    double value;
-    int valueInt;
-    int i = 0;
-    int j;
-    while(enif_get_list_cell(env, iTail, &iHead, &iTail)) {
-        j = 0;
-        jTail = iHead;
-        while(enif_get_list_cell(env, jTail, &jHead, &jTail)){
-            if (!enif_get_int(env, jHead, &valueInt)) {
-                if (!enif_get_double(env, jHead, &value)) {
-                   return 0;
-                }
-            } else {
-                value = (double)valueInt;
-            }
-            cout<< value << " ";
-            ++j;
-        }
-        ++i;
-        cout << endl;
-    }
-    cout << endl;
-    return 1;
-}
-
-static ERL_NIF_TERM calculate_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
-{
+static ERL_NIF_TERM calculate_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
     int ret;
     int succ;
-    vector<double> x;
-    vector<vector<double> > M;
-    succ = convertVector(env, argv[0], x);
+    vector<double> X;
+    vector<vector<double> > Y;
+    succ = convertVector(env, argv[0], X);
     if (!succ) {
         return enif_make_badarg(env);
     }
-    succ = convertInterpolationMatrix(env, argv[1], x, M);
-    return convertList(env, x);
+    succ = convertMatrix(env, argv[1], Y);
+
+    return convertList(env, X);
 }
 
-static ERL_NIF_TERM exportTest1_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
-{
+static ERL_NIF_TERM exportTest1_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
     int ret;
     int succ;
     vector<double> x;
@@ -76,8 +47,7 @@ static ERL_NIF_TERM exportTest1_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM
     return convertList(env, x);
 }
 
-static ERL_NIF_TERM exportTest2_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
-{
+static ERL_NIF_TERM exportTest2_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
     int y, ret;
     //argv elemeinek konvertálása cpp-re
     if (!enif_get_int(env, argv[0], &y)) {
@@ -100,7 +70,6 @@ static ErlNifFunc nif_funcs[] = {
 static ERL_NIF_TERM convertList(ErlNifEnv* env, vector<double> array) {
     int N = array.size();
     ERL_NIF_TERM conv[N];
-    cout << "Hello"<< N <<"\n";
     for (int j = 0; j < N; j++) {
        conv[j] = enif_make_double(env, array[j]);
     }; 
@@ -126,6 +95,23 @@ static int convertVector(ErlNifEnv* env, ERL_NIF_TERM arg, vector<double> &resul
         ++size;
         result.resize(size);
         result[size-1] = x;
+    }
+    return 1;
+}
+
+static int convertMatrix(ErlNifEnv* env, ERL_NIF_TERM argY, vector<vector<double> > &matrix) {
+    ERL_NIF_TERM head;
+    ERL_NIF_TERM tail = argY;
+    vector<double> line;
+    int check;
+    int i = 0;
+    while(enif_get_list_cell(env, tail, &head, &tail)) {
+        check = convertVector(env, head, line);
+        if (!check) {
+            return 0;
+        }
+        matrix.push_back(line);
+        ++i;
     }
     return 1;
 }
