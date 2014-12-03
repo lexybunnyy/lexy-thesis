@@ -7,32 +7,39 @@
 
 using namespace std;
 
-typedef vector<vector<double> > Matrix;
+typedef vector<vector<double> > DMatrix;
+typedef vector<double> DArray;
 
 void interpolationMatrixTest();
 void polynomialTest();
 
-void logPolynomial(vector<double> P, string poliName);
-void logCalculate(int i, int j, Matrix M, vector<double> x);
-void logResult(vector<double> x, Matrix M);
+void logPolynomial(DArray P, string poliName);
+void logCalculate(int i, int j, DMatrix M, DArray x);
+void logResult(DArray x, DMatrix M);
+void logVector(DArray P, string vectorName) ;
 
-void getVectorStd(vector<double> &P, string poliName);
-void getPointsTest(vector<double> &X, Matrix &Y);
-void getPointsStd(vector<double> &x, Matrix &M);
+void getVectorStd(DArray &P, string poliName);
+void getPointsTest(DArray &X, DMatrix &Y);
+void getPointsStd(DArray &x, DMatrix &M);
 
-void getInterpolationMatrix(vector<double> X, Matrix Y, vector<double> &intpX, Matrix &intpM);
-void interpolateMatrix(vector<double> &x, Matrix &M);
+void getInterpolationMatrix(DArray X, DMatrix Y, DArray &intpX, DMatrix &intpM);
+void interpolateMatrix(DArray &x, DMatrix &M);
 
-vector<double> polynomialAddition(vector<double> P, vector<double> Q);
-vector<double> polynomialMultiply(vector<double> P, vector<double> Q);
+DArray polynomialAddition(DArray P, DArray Q);
+DArray polynomialMultiply(DArray P, DArray Q);
 void fuggveny(double x);
+
+DArray l(int j, DArray X);
+DArray getLagrangePolinomyal(DArray X, DArray Y);
+DArray omega(int j, DArray X);
+DArray getNewtonPolinomyal(DArray inpX, DArray inpMDiag);
 
 void interpolationMatrixTest() {
 	cout << "Interpolacio" << endl;
-	vector<double> X;
-	Matrix Y;
-	vector<double> intpX;
-	Matrix intpM;
+	DArray X;
+	DMatrix Y;
+	DArray intpX;
+	DMatrix intpM;
 	getPointsTest(X, Y);
 	logResult(X, Y);
 	//getPointsStd(intpX, intpM);
@@ -43,13 +50,103 @@ void interpolationMatrixTest() {
 }
 
 void interpolationTest() {
-	vector<double> D, X;
-	getVectorStd(D, "DiagonalResult");
+	DArray D, X, Y, Res;
 	getVectorStd(X, "XResult");
-	//TODO : result polinome calculate
+	getVectorStd(Y, "YResult");
+	getVectorStd(D, "DiagonalResult");
+	logVector(X, "X");
+	logVector(Y, "Y");
+	logVector(D, "DiagonalResult");
+
+	//TODO : Fix!
+	Res = getLagrangePolinomyal(X, Y);
+	logVector(Res, "Result");
+
+	//TODO : Fix!
+	Res = getNewtonPolinomyal(X, D);
+	logVector(Res, "Result");
 }
 
-void getInterpolationMatrix(vector<double> X, Matrix Y, vector<double> &intpX, Matrix &intpM) {
+
+//TODO : Test!
+DArray l(int j, DArray X) {
+	DArray multip;
+	DArray lj;
+	
+	int m = 0;
+	if(j == m ) {
+		m = 1;
+	}
+	
+	lj.resize(2, 0);
+	multip.resize(2, 0);
+	
+	lj[0] = X[m]/X[j]-X[m];
+	lj[1] = 1;
+	for (++m; m < X.size(); ++m) {
+		if(m == j){
+			break;
+		}
+		multip[0] = X[m]/(X[j]-X[m]);
+		multip[1] = 1;
+		lj = polynomialMultiply(lj, multip);
+	}
+	return lj;
+}
+
+//TODO : Test!
+DArray getLagrangePolinomyal(DArray X, DArray Y) {
+	DArray y(1);
+
+	DArray result;
+	DArray multip;
+
+	int j = 0;
+	result = polynomialMultiply(y,l(j, X));
+	for (++j; j < X.size(); ++j) {
+		y[0] = Y[j];
+		multip = polynomialMultiply(y,l(j, X));
+		result = polynomialMultiply(result, multip);
+	}
+	return result;
+}
+
+//TODO : Test!
+DArray omega(int j, DArray X) {
+	DArray y(1);
+
+	DArray result(2);
+	DArray multip(2);
+
+	int m = 0;
+	result[0] = X[m];
+	result[1] = 1;
+	for (++m; m < j; ++m) {
+		multip[0] = X[m];
+		multip[1] = 1;
+		result = polynomialMultiply(result, multip);
+	}
+	return result;
+}
+
+//TODO : Test!
+DArray getNewtonPolinomyal(DArray inpX, DArray inpMDiag) {
+	DArray y(1);
+
+	DArray result;
+	DArray multip;
+
+	int j = 0;
+	result = polynomialMultiply(y,omega(j, inpX));
+	for (++j; j < inpX.size(); ++j) {
+		y[0] = inpMDiag[j];
+		multip = polynomialMultiply(y,omega(j, inpX));
+		result = polynomialMultiply(result, multip);
+	}
+	return result;
+}
+
+void getInterpolationMatrix(DArray X, DMatrix Y, DArray &intpX, DMatrix &intpM) {
 	int l;
 	for (int i = 0; i < X.size(); ++i) {
 		int start = intpM.size();
@@ -71,7 +168,7 @@ void getInterpolationMatrix(vector<double> X, Matrix Y, vector<double> &intpX, M
 	}
 }
 
-void getPointsTest(vector<double> &X, Matrix &Y) {
+void getPointsTest(DArray &X, DMatrix &Y) {
 	Y.resize(4);
 	for (int i = 0; i < 4; ++i) {
 		X.push_back(i);
@@ -82,21 +179,21 @@ void getPointsTest(vector<double> &X, Matrix &Y) {
 }
 
 void polynomialTest() {
-	vector<double> P, Q;
+	DArray P, Q;
 	getVectorStd(P, "P");
 	getVectorStd(Q, "Q");
 
 	logPolynomial(P, "P");
 	logPolynomial(Q, "Q");
 	
-	vector<double> R;
+	DArray R;
 	R = polynomialAddition(P, Q);
 	logPolynomial(R, "Osszeg");
 	R = polynomialMultiply(P, Q);
 	logPolynomial(R, "Szorzat");
 }
 
-void getVectorStd(vector<double> &P, string poliName) {
+void getVectorStd(DArray &P, string poliName) {
 	int n;
 	cout << poliName <<"\n mekkora? (fok, hossz) n= "; cin >> n;
 	P.resize(n);
@@ -105,7 +202,7 @@ void getVectorStd(vector<double> &P, string poliName) {
 	};
 }
 
-void logPolynomial(vector<double> P, string poliName) {
+void logPolynomial(DArray P, string poliName) {
 	cout << poliName << endl;
 	int forSize = P.size() - 1;
 	for (unsigned i = 0; i < forSize; i++) {
@@ -114,7 +211,15 @@ void logPolynomial(vector<double> P, string poliName) {
 	cout<< P[forSize] <<" x^"<< forSize << endl; 
 }
 
-void logCalculate(int i, int j, Matrix M, vector<double> x) {
+void logVector(DArray P, string vectorName) {
+	cout << vectorName << endl;
+	for (unsigned i = 0; i < P.size(); i++) {
+		cout<< P[i] <<" ";
+	};
+	cout<< endl; 
+}
+
+void logCalculate(int i, int j, DMatrix M, DArray x) {
 	if (x[j] == x[j-i]){
 		return;
 	}
@@ -127,7 +232,7 @@ void logCalculate(int i, int j, Matrix M, vector<double> x) {
 	cout << endl;
 }
 
-void logResult(vector<double> x, Matrix M) {
+void logResult(DArray x, DMatrix M) {
 	cout << endl <<" Eredmény: "<< M.size() << endl;
 	for (int i = 0; i < M.size(); i++) {
 		cout<<x[i]<<" | ";
@@ -138,7 +243,7 @@ void logResult(vector<double> x, Matrix M) {
 	};
 }
 
-void getPointsStd(vector<double> &x, Matrix &M) {
+void getPointsStd(DArray &x, DMatrix &M) {
 	int n;
 	cout<<"Adja meg hany pontban vizsgaljuk!"<<endl; 
 	cin>>n;
@@ -159,7 +264,7 @@ void getPointsStd(vector<double> &x, Matrix &M) {
 	};
 }
 
-void interpolateMatrix(vector<double> &x, Matrix &M) {
+void interpolateMatrix(DArray &x, DMatrix &M) {
 	int n = M.size();
 
 	cout << endl <<" Kalkulátor Logika: "<< endl;
@@ -173,13 +278,13 @@ void interpolateMatrix(vector<double> &x, Matrix &M) {
 	}
 }
 
-vector<double> polynomialAddition(vector<double> P, vector<double> Q) { 
+DArray polynomialAddition(DArray P, DArray Q) { 
 	bool nagyP = false;
 	if (P.size() > Q.size()) { 
 		nagyP = true;
 	}
 
-	vector<double> S (max(P.size(),Q.size()));
+	DArray S (max(P.size(),Q.size()));
 	unsigned k;
 	for( k=0;k<min(P.size(),Q.size());k++) { 
 		S[k]=P[k]+Q[k];
@@ -190,14 +295,14 @@ vector<double> polynomialAddition(vector<double> P, vector<double> Q) {
 		} 
 	} else { 
 		for(unsigned i=k;i<S.size();i++){
-			S[i]=P[i]; 
-		}  
+			S[i]=Q[i];
+		}
 	};
   return S;
 };
 
-vector<double> polynomialMultiply(vector<double> P, vector<double> Q) {
-    vector<double> R((P.size()+Q.size())-1);
+DArray polynomialMultiply(DArray P, DArray Q) {
+    DArray R((P.size()+Q.size())-1);
     for (unsigned i = 0; i < R.size(); i++) {
     	R[i]=0;
     };
