@@ -27,12 +27,17 @@ void interpolateMatrix(DArray &x, DMatrix &M);
 
 DArray polynomialAddition(DArray P, DArray Q);
 DArray polynomialMultiply(DArray P, DArray Q);
+void polynomialSimplfy(DArray &P);
 void fuggveny(double x);
 
 DArray l(int j, DArray X);
 DArray getLagrangePolinomyal(DArray X, DArray Y);
 DArray omega(int j, DArray X);
 DArray getNewtonPolinomyal(DArray inpX, DArray inpMDiag);
+
+bool checkEqual(DArray one, DArray two);
+void testLagrange();
+void manualInterpolationTest();
 
 void interpolationMatrixTest() {
 	cout << "Interpolacio" << endl;
@@ -50,23 +55,46 @@ void interpolationMatrixTest() {
 }
 
 void interpolationTest() {
+	testLagrange();
+}
+
+bool checkEqual(DArray one, DArray two) {
+	return equal(one.begin(), one.begin() + two.size(), two.begin());
+}
+
+void testLagrange(){
+	double _X[] = {0,2,7};      
+  	DArray X(_X,_X+3);
+  	double _Y[] = {1,5,50};              
+  	DArray Y(_Y,_Y+3);
+
+	//TODO! 
+	double _E[] = {1,-1.5,0.5};
+	DArray result = l(0, X);
+	DArray expect(_E,_E+3);
+  	cout << checkEqual(result, expect) <<endl;
+}
+
+void manualInterpolationTest() {
 	DArray D, X, Y, Res;
 	getVectorStd(X, "XResult");
 	getVectorStd(Y, "YResult");
 	getVectorStd(D, "DiagonalResult");
+
 	logVector(X, "X");
 	logVector(Y, "Y");
 	logVector(D, "DiagonalResult");
 
 	//TODO : Fix!
 	Res = getLagrangePolinomyal(X, Y);
-	logVector(Res, "Result");
+	polynomialSimplfy(Res);
+	logPolynomial(Res, "Result");
 
 	//TODO : Fix!
 	Res = getNewtonPolinomyal(X, D);
+	polynomialSimplfy(Res);
 	logVector(Res, "Result");
 }
-
 
 //TODO : Test!
 DArray l(int j, DArray X) {
@@ -84,12 +112,11 @@ DArray l(int j, DArray X) {
 	lj[0] = X[m]/X[j]-X[m];
 	lj[1] = 1;
 	for (++m; m < X.size(); ++m) {
-		if(m == j){
-			break;
+		if(m != j){
+			multip[0] = (-1)*(X[m]/(X[j]-X[m]));
+			multip[1] = 1/(X[j]-X[m]);
+			lj = polynomialMultiply(lj, multip);
 		}
-		multip[0] = X[m]/(X[j]-X[m]);
-		multip[1] = 1;
-		lj = polynomialMultiply(lj, multip);
 	}
 	return lj;
 }
@@ -102,11 +129,15 @@ DArray getLagrangePolinomyal(DArray X, DArray Y) {
 	DArray multip;
 
 	int j = 0;
+	y[0] = Y[j];
 	result = polynomialMultiply(y,l(j, X));
+	logPolynomial(result, "resultmulti");
 	for (++j; j < X.size(); ++j) {
 		y[0] = Y[j];
 		multip = polynomialMultiply(y,l(j, X));
-		result = polynomialMultiply(result, multip);
+		logPolynomial(multip, "multi");
+		result = polynomialAddition(result, multip);
+		logPolynomial(result, "result");
 	}
 	return result;
 }
@@ -191,6 +222,30 @@ void polynomialTest() {
 	logPolynomial(R, "Osszeg");
 	R = polynomialMultiply(P, Q);
 	logPolynomial(R, "Szorzat");
+}
+
+void polynomialSimplfy(DArray &P) {
+	int end = 0;
+	bool endtest = false;
+	int m = 0;
+	while(m < P.size()) {
+		if (endtest && P[m] != 0) {
+			endtest = false;
+		}
+		if (!endtest && P[m] == 0){
+			endtest = true;
+			end = m;
+		}
+		++m;
+	}
+
+	if (end == 0) {
+		end = 1;
+	}
+
+	if (endtest) {
+		P.resize(end);
+	}
 }
 
 void getVectorStd(DArray &P, string poliName) {

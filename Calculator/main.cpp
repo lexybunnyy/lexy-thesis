@@ -14,7 +14,7 @@ using namespace std;
 
 int main()
 {
-    interpolationMatrixTest();
+    //interpolationMatrixTest();
     interpolationTest();
     //polynomialTest ();
     return 0;
