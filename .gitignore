@@ -1,9 +1,8 @@
 *.beam
 *.out
 *.so
-.idea/*
-Client/.idea/*
-WebPage/.idea/*
+WebPage/.idea/workspace.xml
+**/.idea/**
 DistributedInterpolation.iml
 distributedSystem/*.beam
 Client/.idea/workspace.xml
