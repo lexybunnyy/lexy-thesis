@@ -12,6 +12,6 @@ int main()
 {
     testInterpolation();
     testMatrixInterpolation();
-    //testPolynomial ();
+    //testPolynomial();
     return 0;
 }

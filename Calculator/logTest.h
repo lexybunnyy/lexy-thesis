@@ -21,7 +21,7 @@ Számítsok eredményeinek ellenőrzése
 	// Lagrange Interpoláció tesztje
 	bool testLagrange(bool logPoly);
 	// Polinom tesztje
-	void testPolinomial();
+	void testPolynomial();
 	// Interpolációs Mátrix tesztje
 	void testMatrixInterpolation();
 	// Manuális Interpolációs teszt
