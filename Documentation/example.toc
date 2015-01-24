@@ -1,0 +1,5 @@
+\select@language {hungarian} \contentsline {chapter}{\numberline {1}Lorem ipsum}{1}
+\select@language {hungarian} \contentsline {section}{\numberline {1.1}Cras bibendum}{1}
+\select@language {hungarian} \contentsline {section}{\numberline {1.2}Phasellus libero est}{1}
+\select@language {hungarian} \contentsline {chapter}{\numberline {2}Morbi tempus lorem}{3}
+\select@language {hungarian} \contentsline {section}{\numberline {2.1}Nulla facilisi}{3}
