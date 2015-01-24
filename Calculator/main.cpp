@@ -1,6 +1,7 @@
 /** main.cpp
-g++ main.cpp 
-./a.out
+$ g++ -c main.cpp calculator.cpp 
+$ g++ -o hello.out main.o calculator.o 
+./hello.out
 */
 #include "calculator.h"
 
@@ -8,7 +9,7 @@ using namespace std;
 
 int main()
 {
-    //interpolationMatrixTest();
+    interpolationMatrixTest();
     interpolationTest();
     //polynomialTest ();
     return 0;
