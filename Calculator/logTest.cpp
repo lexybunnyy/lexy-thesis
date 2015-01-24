@@ -1,17 +1,11 @@
-/*
+#include "logTest.h"
 
-Számítsok eredményeinek ellenőrzése
-* Minta tesztekkel
-* Standard input-ra való kiiratással
-
-*/
-
-// -----------------------------------------------------
-// Tesztek
-// -----------------------------------------------------
+//-----------------------------------------------------------------------
+/** @name Tesztelő és Teszt generáló függvények*/
+//@{
 
 //Interpoláció tesztek lefuttatása
-void interpolationTest() {
+void testInterpolation() {
 	if (testLagrange(false)) {
   		cout << "Lagrange Test: OK!"<<endl;
   	} else {
@@ -25,20 +19,46 @@ void interpolationTest() {
   	}
 }
 
-//Polinom tesztje
-void polynomialTest() {
-	DArray P, Q;
-	getVectorStd(P, "P");
-	getVectorStd(Q, "Q");
+//Newton számítás tesztje
+bool testNewton(bool logPoly) {
+	double _X[] = {0,1,2,3};   
+  	DArray X(_X,_X+4);
+  	double _D[] = {0,10,20,30};
+  	DArray D(_D,_D+4);
+  	vector<bool> check;
 
-	logPolynomial(P, "P");
-	logPolynomial(Q, "Q");
-	
-	DArray R;
-	R = polynomialAddition(P, Q);
-	logPolynomial(R, "Osszeg");
-	R = polynomialMultiply(P, Q);
-	logPolynomial(R, "Szorzat");
+	double _expect[] = {0,1};
+	DArray expect(_expect,_expect+2);
+	DArray result = omega(0, X);
+  	check.push_back(checkEqual(result, expect));
+
+	double _expect1[] = {0,-1,1};
+	DArray expect1(_expect1,_expect1+3);
+	DArray result1 = omega(1, X);
+  	check.push_back(checkEqual(result1, expect1));
+
+  	double _expect2[] = {0,2,-3,1};
+	DArray expect2(_expect2,_expect2+4);
+	DArray result2 = omega(2, X);
+	check.push_back(checkEqual(result1, expect1));
+
+	double _expect3[] = {0,50,-70,30};
+	DArray expect3(_expect2,_expect2+4);
+	DArray result3 = getNewtonPolinomyal(X, D);
+	check.push_back(checkEqual(result1, expect1));
+
+	if (logPoly) {
+		logPolynomial(result, "omega0");
+		logPolynomial(result1, "omega1");
+		logPolynomial(result2, "omega2");
+		logPolynomial(result3, "polynomial");
+	}
+
+	bool testcheck = true;
+  	for(int i = 0; i < check.size(); ++i){
+  		testcheck =  testcheck && check[i];
+  	}
+  	return testcheck;
 }
 
 //Lagrange Interpoláció tesztje
@@ -82,56 +102,30 @@ bool testLagrange(bool logPoly) {
   	return testcheck;
 }
 
-//Newton számítás tesztje
-bool testNewton(bool logPoly) {
-	double _X[] = {0,1,2,3};      
-  	DArray X(_X,_X+4);
-  	double _D[] = {0,10,20,30};        
-  	DArray D(_D,_D+4);
-  	vector<bool> check;
+//Polinom tesztje
+void testPolynomial() {
+	DArray P, Q;
+	getVectorStd(P, "P");
+	getVectorStd(Q, "Q");
 
-	double _expect[] = {0,1};
-	DArray expect(_expect,_expect+2);
-	DArray result = omega(0, X);
-  	check.push_back(checkEqual(result, expect));
-
-	double _expect1[] = {0,-1,1};
-	DArray expect1(_expect1,_expect1+3);
-	DArray result1 = omega(1, X);
-  	check.push_back(checkEqual(result1, expect1));
-
-  	double _expect2[] = {0,2,-3,1};
-	DArray expect2(_expect2,_expect2+4);
-	DArray result2 = omega(2, X);
-	check.push_back(checkEqual(result1, expect1));
-
-	double _expect3[] = {0,50,-70,30};
-	DArray expect3(_expect2,_expect2+4);
-	DArray result3 = getNewtonPolinomyal(X, D);
-	check.push_back(checkEqual(result1, expect1));
-
-	if (logPoly) {
-		logPolynomial(result, "omega0");
-		logPolynomial(result1, "omega1");
-		logPolynomial(result2, "omega2");
-		logPolynomial(result3, "polynomial");
-	}
-
-	bool testcheck = true;
-  	for(int i = 0; i < check.size(); ++i){
-  		testcheck =  testcheck && check[i];
-  	}
-  	return testcheck;
+	logPolynomial(P, "P");
+	logPolynomial(Q, "Q");
+	
+	DArray R;
+	R = polynomialAddition(P, Q);
+	logPolynomial(R, "Osszeg");
+	R = polynomialMultiply(P, Q);
+	logPolynomial(R, "Szorzat");
 }
 
 //Interpolációs Mátrix tesztje
-void interpolationMatrixTest() {
+void testMatrixInterpolation() {
 	cout << "Interpolacio" << endl;
 	DArray X;
 	DMatrix Y;
 	DArray intpX;
 	DMatrix intpM;
-	getXSquare(X, Y);
+	genXSquaredPoints(X, Y);
 	logResult(X, Y);
 	//getPointsStd(intpX, intpM);
 	getInterpolationMatrix(X, Y, intpX, intpM);
@@ -141,7 +135,7 @@ void interpolationMatrixTest() {
 }
 
 //Manuális Interpolációs teszt
-void manualInterpolationTest() {
+void testManualInterpolation() {
 	DArray D, X, Y, Res;
 	getVectorStd(X, "XResult");
 	getVectorStd(Y, "YResult");
@@ -151,20 +145,35 @@ void manualInterpolationTest() {
 	logVector(Y, "Y");
 	logVector(D, "DiagonalResult");
 
-	//TODO : Fix!
 	Res = getLagrangePolinomyal(X, Y);
 	polynomialSimplfy(Res);
 	logPolynomial(Res, "Result");
 
-	//TODO : Fix!
 	Res = getNewtonPolinomyal(X, D);
 	polynomialSimplfy(Res);
 	logVector(Res, "Result");
 }
 
-//interpolationMatrixTest Segédfüggvénye
+/** Manuális Polinom tesztelő */
+void testManualPolynomial() {
+	DArray P, Q;
+	getVectorStd(P, "P");
+	getVectorStd(Q, "Q");
+
+	logPolynomial(P, "P");
+	logPolynomial(Q, "Q");
+	
+	DArray R;
+	R = polynomialAddition(P, Q);
+	logPolynomial(R, "Osszeg");
+	R = polynomialMultiply(P, Q);
+	logPolynomial(R, "Szorzat");
+}
+
+/** generál egy minta X,Y ponthalmazt az x^2 pontjaiból */
+//testMatrixInterpolation Segédfüggvénye
 //feltölti az x*2 pontjaival 
-void getXSquare(DArray &X, DMatrix &Y) {
+void genXSquaredPoints(DArray &X, DMatrix &Y) {
 	Y.resize(4);
 	for (int i = 0; i < 4; ++i) {
 		X.push_back(i);
@@ -173,22 +182,22 @@ void getXSquare(DArray &X, DMatrix &Y) {
 		//Y[i].push_back(2);
 	}
 }
+//@}
 
-//Debughoz: Vektor olvasása standard inputról  
-void getVectorStd(DArray &P, string poliName) {
-	int n;
-	cout << poliName <<"\n mekkora? (fok, hossz) n= "; cin >> n;
-	P.resize(n);
-	for (unsigned i = 0; i < P.size(); i++) {
-	 	cout << i << " . elem/tag :"; cin >> P[i];
-	};
+//-----------------------------------------------------------------------
+/** @name Teszteléshez, teszt írásához és program javításhoz használt segédfüggvények */
+//@{
+
+/** Két Tömb egyezésének ellenőrzése */
+bool checkEqual(DArray one, DArray two) {
+	return equal(one.begin(), one.begin() + two.size(), two.begin());
 }
-
-// -----------------------------------------------------
-//Debug Loghoz: Standard inputra
-// -----------------------------------------------------
-
-//
+//-----------------------------------------------------
+/** @name Kiirató függvények */
+//@{
+/** Polinom alakban jelenít meg egy Vector-t
+    Ez kompatibilis a tényleges számítással.
+    (WolframAlpha-ba egyszerűen bemásolható) */
 void logPolynomial(DArray P, string poliName) {
 	polynomialSimplfy(P);
 	cout << poliName << endl;
@@ -202,6 +211,7 @@ void logPolynomial(DArray P, string poliName) {
 	cout<< P[forSize] <<" x^"<< forSize << endl; 
 }
 
+/** Kiírja egymás után egy Vector elemeit a képernyőre */
 void logVector(DArray P, string vectorName) {
 	cout << vectorName << endl;
 	for (unsigned i = 0; i < P.size(); i++) {
@@ -210,6 +220,7 @@ void logVector(DArray P, string vectorName) {
 	cout<< endl; 
 }
 
+/** Kiírja az Interpolációs Mátrix és az X eredményét */
 void logResult(DArray x, DMatrix M) {
 	cout << endl <<" Eredmény: "<< M.size() << endl;
 	for (int i = 0; i < M.size(); i++) {
@@ -221,6 +232,34 @@ void logResult(DArray x, DMatrix M) {
 	};
 }
 
+/** Kiírja az Interpolációs Mátrix számítási logikájának egy részletét */
+void logCalculate(int i, int j, DMatrix M, DArray x) {
+	if (x[j] == x[j-i]){
+		return;
+	}
+	cout << i << j << " = ";
+	cout << i-1 << j << " - " << i-1 << j-1 << " // " << j << j-i;
+	cout << endl;
+	cout << M[j][i-1] << " - " << M[j-1][i-1] << " / " << x[j] <<" - "<< x[j-i];
+	cout << " = " << M[j][i-1]-M[j-1][i-1] << "/" << x[j]-x[j-i];
+	cout << " = " <<  (M[j][i-1]-M[j-1][i-1])/(x[j]-x[j-i]);
+	cout << endl;
+}
+//@}
+//-----------------------------------------------------
+/** @name Manuális bekérő függvények */
+//@{
+/** Vektor (Polinom, Ponthalmaz)*/
+void getVectorStd(DArray &P, string poliName) {
+	int n;
+	cout << poliName <<"\n mekkora? (fok, hossz) n= "; cin >> n;
+	P.resize(n);
+	for (unsigned i = 0; i < P.size(); i++) {
+	 	cout << i << " . elem/tag :"; cin >> P[i];
+	};
+}
+
+/** Pontok Newton-hoz (X és a kezdő mátrix Y pontjai)*/
 void getPointsStd(DArray &x, DMatrix &M) {
 	int n;
 	cout<<"Adja meg hany pontban vizsgaljuk!"<<endl; 
@@ -242,7 +281,5 @@ void getPointsStd(DArray &x, DMatrix &M) {
 	};
 }
 
-//Segédfüggvény : 2 tömb egyenlőségének ellenőrzése
-bool checkEqual(DArray one, DArray two) {
-	return equal(one.begin(), one.begin() + two.size(), two.begin());
-}
+//@}
+//@}

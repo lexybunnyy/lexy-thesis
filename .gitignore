@@ -1,6 +1,7 @@
 *.beam
 *.out
 *.so
+*.o
 WebPage/.idea/workspace.xml
 **/.idea/**
 DistributedInterpolation.iml
