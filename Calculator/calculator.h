@@ -1,3 +1,6 @@
+#ifndef _CALCULATOR_H
+#define _CALCULATOR_H
+
 #include <iostream>
 #include <stdio.h>
 #include <math.h>
@@ -12,6 +15,7 @@ typedef vector<double> DArray;
 
 /** @name Számítási függvények */
 //@{
+	DArray interpolateMain (DArray &x, DMatrix &M, string type = "lagrange", bool inverse = false);
 	/** Interpolációs Táblázat kiszámítása */
 	void interpolateMatrix(DArray &x, DMatrix &M);
 	/** Lagrange polinom számítás segédfüggvénye */
@@ -32,6 +36,10 @@ typedef vector<double> DArray;
 
 /** @name Típus konverziós függvények */
 //@{
+	/** Diagonális lekérése a mátrixból*/
+	DArray getDiagFromMatrix (DMatrix &M);
 	/** X és Y ponthalmazból vissza adja a Mátrixot */
 	void getInterpolationMatrix(DArray X, DMatrix Y, DArray &resX, DMatrix &resM);
 //@}
+
+#endif

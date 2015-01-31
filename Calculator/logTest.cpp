@@ -6,6 +6,12 @@
 
 //Interpoláció tesztek lefuttatása
 void testInterpolation() {
+	if (testMainInterpolation(true)) {
+  		cout << "Main Test: OK!"<<endl;
+  	} else {
+  		cout << "Main Test Error!"<<endl;
+  	}
+
 	if (testLagrange(false)) {
   		cout << "Lagrange Test: OK!"<<endl;
   	} else {
@@ -19,9 +25,17 @@ void testInterpolation() {
   	}
 }
 
+//Main Függvény tesztje
+bool testMainInterpolation(bool logPoly) {
+	double _X[] = {0,10,20,30};
+	DArray X(_X,_X+4);
+	interpolateMain(X);
+}
+
+
 //Newton számítás tesztje
 bool testNewton(bool logPoly) {
-	double _X[] = {0,1,2,3};   
+	double _X[] = {0,1,2,3};
   	DArray X(_X,_X+4);
   	double _D[] = {0,10,20,30};
   	DArray D(_D,_D+4);
@@ -63,9 +77,9 @@ bool testNewton(bool logPoly) {
 
 //Lagrange Interpoláció tesztje
 bool testLagrange(bool logPoly) {
-	double _X[] = {0,1,2};      
+	double _X[] = {0,1,2};
   	DArray X(_X,_X+3);
-  	double _Y[] = {0,10,20};              
+  	double _Y[] = {0,10,20};
   	DArray Y(_Y,_Y+3);
   	vector<bool> check;
 
@@ -170,9 +184,10 @@ void testManualPolynomial() {
 	logPolynomial(R, "Szorzat");
 }
 
-/** generál egy minta X,Y ponthalmazt az x^2 pontjaiból */
+/** generál egy minta X,Y ponthalmazt az x^2 pontjaiból 
 //testMatrixInterpolation Segédfüggvénye
 //feltölti az x*2 pontjaival 
+*/
 void genXSquaredPoints(DArray &X, DMatrix &Y) {
 	Y.resize(4);
 	for (int i = 0; i < 4; ++i) {

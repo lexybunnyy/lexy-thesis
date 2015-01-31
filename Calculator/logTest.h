@@ -1,3 +1,6 @@
+#ifndef _LOG_TEST_H
+#define _LOG_TEST_H
+
 #include "calculator.h"
 
 using namespace std;
@@ -14,6 +17,7 @@ Számítsok eredményeinek ellenőrzése
 //-----------------------------------------------------------------------
 /** @name Tesztelő és Teszt generáló függvények*/
 //@{
+    bool testMainInterpolation(bool logPoly);
 	// Interpoláció tesztek lefuttatása
 	void testInterpolation();
 	// Newton számítás tesztje
@@ -62,3 +66,4 @@ Számítsok eredményeinek ellenőrzése
 		void getPointsStd(DArray &x, DMatrix &M);
 	//@}
 //@}
+#endif

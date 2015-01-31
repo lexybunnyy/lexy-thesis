@@ -3,11 +3,47 @@
 //-----------------------------------------------------------------------
 /** @name Számítási függvények */
 //@{
+
+DArray interpolateMain (DArray &x, DMatrix &Y, string type, bool inverse) {
+	DArray y;
+	DArray X;
+	DMatrix M;
+	DMatrix MDiag;
+
+	if (type == "lagrange") {
+		for (DArray Mi : M) {
+			y.push_back(Mi[0]);
+		}
+		if (inverse) {
+			return getLagrangePolinomyal(y, x);
+		} else {
+			return getLagrangePolinomyal(x, y);
+		}
+	}
+	if (type == "newton" || type == "hermite") {
+		//TODO Inverse!
+		getInterpolationMatrix(x, Y, X, M);
+		interpolateMatrix(X, M);
+		getDiagFromMatrix(M);
+		//return getNewtonPolinomyal(X, MDiag);
+	}
+	throw "interpolate_wrong_format";
+}
+
+DArray getDiagFromMatrix (DMatrix &M) {
+	DArray y;
+	for (int i = 0; i < M.size(); i++) {
+		y.push_back(M[i][i]);
+	}
+	return y;
+
+}
+
 /** Interpolációs Táblázat kiszámítása */
 void interpolateMatrix(DArray &x, DMatrix &M) {
 	int n = M.size();
 
-	cout << endl <<" Kalkulátor Logika: "<< endl;
+	//cout << endl <<" Kalkulátor Logika: "<< endl;
 	for (int i = 1; i < n; i++) {
 		for(int j = i; j < n; j++)	{
 			//logCalculate(i, j, M, x);
@@ -105,7 +141,7 @@ DArray getNewtonPolinomyal(DArray inpX, DArray inpMDiag) {
 	return result;
 }
 
-/** Newton polinom összeadás */
+/** Polinom összeadás */
 DArray polynomialAddition(DArray P, DArray Q) { 
 	bool nagyP = false;
 	if (P.size() > Q.size()) { 
@@ -129,7 +165,7 @@ DArray polynomialAddition(DArray P, DArray Q) {
   return S;
 };
 
-/** Newton polinom szorzás */
+/** Polinom szorzás */
 DArray polynomialMultiply(DArray P, DArray Q) {
     DArray R((P.size()+Q.size())-1);
     for (unsigned i = 0; i < R.size(); i++) {
