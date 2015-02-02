@@ -6,12 +6,6 @@
 
 //Interpoláció tesztek lefuttatása
 void testInterpolation() {
-	if (testMainInterpolation(true)) {
-  		cout << "Main Test: OK!"<<endl;
-  	} else {
-  		cout << "Main Test Error!"<<endl;
-  	}
-
 	if (testLagrange(false)) {
   		cout << "Lagrange Test: OK!"<<endl;
   	} else {
@@ -23,13 +17,39 @@ void testInterpolation() {
   	} else {
   		cout << "Newton Test Error!"<<endl;
   	}
+
+  	if (testMainInterpolation(true)) {
+  		cout << "Main Test: OK!"<<endl;
+  	} else {
+  		cout << "Main Test Error!"<<endl;
+  	}
 }
 
 //Main Függvény tesztje
 bool testMainInterpolation(bool logPoly) {
-	double _X[] = {0,10,20,30};
-	DArray X(_X,_X+4);
-	interpolateMain(X);
+	DArray X;
+	DMatrix Y;
+	DArray resPoliLagrange;
+	DArray resPoliLagrangeInverse;
+	DArray resPoliNewton;
+	DArray resPoliNewtonInverse;
+	DArray resPoliHermite;
+
+	genXSquaredPoints(X, Y);
+	resPoliLagrange = interpolateMain(X, Y, "lagrange");
+	resPoliLagrangeInverse = interpolateMain(X, Y, "lagrange", true);
+	resPoliNewton = interpolateMain(X, Y, "newton");
+	//resPoliNewtonInverse = interpolateMain(X, Y, "newton", true);
+	//resPoliHermite = interpolateMain(X, Y, "hermite");
+
+	if (logPoly) {
+		logPolynomial(resPoliLagrange, "resPoliLagrange");
+		logPolynomial(resPoliLagrangeInverse, "resPoliLagrangeInverse");
+		logPolynomial(resPoliNewton, "resPoliNewton");
+		//logPolynomial(resPoliNewtonInverse, "resPoliNewtonInverse");
+		//logPolynomial(resPoliHermite, "resPoliHermite");
+	}
+
 }
 
 
@@ -215,24 +235,24 @@ bool checkEqual(DArray one, DArray two) {
     (WolframAlpha-ba egyszerűen bemásolható) */
 void logPolynomial(DArray P, string poliName) {
 	polynomialSimplfy(P);
-	cout << poliName << endl;
+	cerr << poliName << endl;
 	int forSize = P.size() - 1;
 	for (unsigned i = 0; i < forSize; i++) {
 		if (P[i] == 0){
 			continue;
 		}
-		cout<< P[i] <<" x^"<<i<<" + ";
+		cerr << P[i] <<" x^"<<i<<" + ";
 	};
-	cout<< P[forSize] <<" x^"<< forSize << endl; 
+	cerr<< P[forSize] <<" x^"<< forSize << endl; 
 }
 
 /** Kiírja egymás után egy Vector elemeit a képernyőre */
 void logVector(DArray P, string vectorName) {
-	cout << vectorName << endl;
+	cerr << vectorName << " ("<< P.size() <<") "<< endl;
 	for (unsigned i = 0; i < P.size(); i++) {
-		cout<< P[i] <<" ";
+		cerr << P[i] <<" ";
 	};
-	cout<< endl; 
+	cerr << endl; 
 }
 
 /** Kiírja az Interpolációs Mátrix és az X eredményét */

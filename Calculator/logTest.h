@@ -17,9 +17,10 @@ Számítsok eredményeinek ellenőrzése
 //-----------------------------------------------------------------------
 /** @name Tesztelő és Teszt generáló függvények*/
 //@{
-    bool testMainInterpolation(bool logPoly);
 	// Interpoláció tesztek lefuttatása
 	void testInterpolation();
+	// fő függvény teszje
+	bool testMainInterpolation(bool logPoly);
 	// Newton számítás tesztje
 	bool testNewton(bool logPoly);
 	// Lagrange Interpoláció tesztje

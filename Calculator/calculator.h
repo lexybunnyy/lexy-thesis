@@ -6,6 +6,7 @@
 #include <math.h>
 #include <vector>
 #include <algorithm>
+#include "logTest.h"
 #define PI 3.14159265
 
 using namespace std;
@@ -16,6 +17,7 @@ typedef vector<double> DArray;
 /** @name Számítási függvények */
 //@{
 	DArray interpolateMain (DArray &x, DMatrix &M, string type = "lagrange", bool inverse = false);
+	//DArray interpolateMain (DArray &x, DMatrix &M);
 	/** Interpolációs Táblázat kiszámítása */
 	void interpolateMatrix(DArray &x, DMatrix &M);
 	/** Lagrange polinom számítás segédfüggvénye */

@@ -3,16 +3,14 @@
 //-----------------------------------------------------------------------
 /** @name Számítási függvények */
 //@{
-
 DArray interpolateMain (DArray &x, DMatrix &Y, string type, bool inverse) {
 	DArray y;
 	DArray X;
 	DMatrix M;
-	DMatrix MDiag;
 
 	if (type == "lagrange") {
-		for (DArray Mi : M) {
-			y.push_back(Mi[0]);
+		for (DArray Yi : Y) {
+			y.push_back(Yi[0]);
 		}
 		if (inverse) {
 			return getLagrangePolinomyal(y, x);
@@ -21,11 +19,12 @@ DArray interpolateMain (DArray &x, DMatrix &Y, string type, bool inverse) {
 		}
 	}
 	if (type == "newton" || type == "hermite") {
+		DArray MDiag(0);
 		//TODO Inverse!
 		getInterpolationMatrix(x, Y, X, M);
 		interpolateMatrix(X, M);
-		getDiagFromMatrix(M);
-		//return getNewtonPolinomyal(X, MDiag);
+		MDiag = getDiagFromMatrix(M);
+		return getNewtonPolinomyal(X, MDiag);
 	}
 	throw "interpolate_wrong_format";
 }
@@ -85,9 +84,13 @@ DArray l(int j, DArray X) {
 
 /** Lagrange polinom számítás */
 DArray getLagrangePolinomyal(DArray X, DArray Y) {
-	DArray y(1);
-
 	DArray result;
+	result.resize(1,0);
+	if (!Y.size() || Y.size() != X.size()) {
+		return result;
+	}
+
+	DArray y(1);
 	DArray multip;
 
 	int j = 0;
@@ -124,10 +127,13 @@ DArray omega(int j, DArray X) {
 
 /** Newton polinom számítás */
 DArray getNewtonPolinomyal(DArray inpX, DArray inpMDiag) {
+	DArray result;
+	result.resize(1,0);
+	if (!inpMDiag.size()) {
+		return result;
+	}
 	DArray y;
 	y.resize(1,1);
-
-	DArray result;
 	DArray multip;
 
 	int k = 0;
