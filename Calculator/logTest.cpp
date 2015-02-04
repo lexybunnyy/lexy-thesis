@@ -4,21 +4,29 @@
 /** @name Tesztelő és Teszt generáló függvények*/
 //@{
 
+bool testAll() {
+	vector<bool> check;
+	check.push_back(testLagrange());
+	check.push_back(testNewton());
+	check.push_back(testMainInterpolation());
+	return checkVector(check);
+}
+
 //Interpoláció tesztek lefuttatása
-void testInterpolation() {
-	if (testLagrange(false)) {
+void testInterpolation(bool logPoly) {
+	if (testLagrange(logPoly)) {
   		cout << "Lagrange Test: OK!"<<endl;
   	} else {
   		cout << "Lagrange Test Error!"<<endl;
   	}
 
-  	if (testNewton(false)) {
+  	if (testNewton(logPoly)) {
   		cout << "Newton Test: OK!"<<endl;
   	} else {
   		cout << "Newton Test Error!"<<endl;
   	}
 
-  	if (testMainInterpolation(true)) {
+  	if (testMainInterpolation(logPoly)) {
   		cout << "Main Test: OK!"<<endl;
   	} else {
   		cout << "Main Test Error!"<<endl;
@@ -27,6 +35,9 @@ void testInterpolation() {
 
 //Main Függvény tesztje
 bool testMainInterpolation(bool logPoly) {
+	double _expect[] = {0, 0, 1};
+	DArray expect(_expect, _expect+3);
+	vector<bool> check;
 	DArray X;
 	DMatrix Y;
 	DArray resPoliLagrange;
@@ -39,17 +50,24 @@ bool testMainInterpolation(bool logPoly) {
 	resPoliLagrange = interpolateMain(X, Y, "lagrange");
 	resPoliLagrangeInverse = interpolateMain(X, Y, "lagrange", true);
 	resPoliNewton = interpolateMain(X, Y, "newton");
-	//resPoliNewtonInverse = interpolateMain(X, Y, "newton", true);
-	//resPoliHermite = interpolateMain(X, Y, "hermite");
+	resPoliNewtonInverse = interpolateMain(X, Y, "newton", true);
+	resPoliHermite = interpolateMain(X, Y, "hermite");
 
+	polynomialSimplfy(resPoliLagrange);
+	polynomialSimplfy(resPoliNewton);
+	polynomialSimplfy(resPoliHermite);
+
+	check.push_back(checkEqual(resPoliLagrange, expect));
+	check.push_back(checkEqual(resPoliNewton, expect));
+	check.push_back(checkEqual(resPoliHermite, expect));
 	if (logPoly) {
 		logPolynomial(resPoliLagrange, "resPoliLagrange");
 		logPolynomial(resPoliLagrangeInverse, "resPoliLagrangeInverse");
 		logPolynomial(resPoliNewton, "resPoliNewton");
-		//logPolynomial(resPoliNewtonInverse, "resPoliNewtonInverse");
-		//logPolynomial(resPoliHermite, "resPoliHermite");
+		logPolynomial(resPoliNewtonInverse, "resPoliNewtonInverse");
+		logPolynomial(resPoliHermite, "resPoliHermite");
 	}
-
+	return checkVector(check);
 }
 
 
@@ -88,11 +106,7 @@ bool testNewton(bool logPoly) {
 		logPolynomial(result3, "polynomial");
 	}
 
-	bool testcheck = true;
-  	for(int i = 0; i < check.size(); ++i){
-  		testcheck =  testcheck && check[i];
-  	}
-  	return testcheck;
+  	return checkVector(check);
 }
 
 //Lagrange Interpoláció tesztje
@@ -129,11 +143,7 @@ bool testLagrange(bool logPoly) {
 	  	logPolynomial(result3, "result");
 	}
 
-  	bool testcheck = true;
-  	for(int i = 0; i < check.size(); ++i){
-  		testcheck =  testcheck && check[i];
-  	}
-  	return testcheck;
+  	return checkVector(check);
 }
 
 //Polinom tesztje
@@ -227,6 +237,14 @@ void genXSquaredPoints(DArray &X, DMatrix &Y) {
 bool checkEqual(DArray one, DArray two) {
 	return equal(one.begin(), one.begin() + two.size(), two.begin());
 }
+bool checkVector(vector<bool> checks) {
+  	bool testcheck = true;
+  	for(int i = 0; i < checks.size(); ++i){
+  		testcheck =  testcheck && checks[i];
+  	}
+  	return testcheck;
+}
+/** 
 //-----------------------------------------------------
 /** @name Kiirató függvények */
 //@{

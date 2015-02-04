@@ -7,20 +7,29 @@ DArray interpolateMain (DArray &x, DMatrix &Y, string type, bool inverse) {
 	DArray y;
 	DArray X;
 	DMatrix M;
+	DArray MDiag(0);
+
+	y = getPointsFromMatrix(Y);
 
 	if (type == "lagrange") {
-		for (DArray Yi : Y) {
-			y.push_back(Yi[0]);
-		}
 		if (inverse) {
 			return getLagrangePolinomyal(y, x);
 		} else {
 			return getLagrangePolinomyal(x, y);
 		}
 	}
-	if (type == "newton" || type == "hermite") {
-		DArray MDiag(0);
-		//TODO Inverse!
+	if (type == "newton") {
+		if (inverse) {
+			M = getMatrixFromPoints(x);
+			interpolateMatrix(y, M);
+		} else {
+			M = getMatrixFromPoints(y);
+			interpolateMatrix(x, M);
+		}
+		MDiag = getDiagFromMatrix(M);
+		return getNewtonPolinomyal(x, MDiag);
+	}
+	if (type == "hermite") {
 		getInterpolationMatrix(x, Y, X, M);
 		interpolateMatrix(X, M);
 		MDiag = getDiagFromMatrix(M);
@@ -214,6 +223,26 @@ void polynomialSimplfy(DArray &P) {
 //-----------------------------------------------------------------------
 /** @name Típus konverziós függvények */
 //@{
+/** Pontokat(0. derivált) vissza adja a Mátrixból */
+DArray getPointsFromMatrix(DMatrix Y) {
+	DArray y;
+	for (DArray Yi : Y) {
+		y.push_back(Yi[0]);
+	}
+	return y;
+}
+
+/** Mátrixot ad vissza a pontokból*/
+DMatrix getMatrixFromPoints(DArray Y) {
+	DMatrix resM;
+	resM.resize(Y.size());
+	for (int i = 0; i < resM.size(); ++i) {
+		resM[i].resize(i + 1, -400000);
+		resM[i][0] = Y[i];
+	}
+	return resM;
+}
+
 /** X és Y ponthalmazból vissza adja a Mátrixot */
 void getInterpolationMatrix(DArray X, DMatrix Y, DArray &resX, DMatrix &resM) {
 	int l;

@@ -38,6 +38,10 @@ typedef vector<double> DArray;
 
 /** @name Típus konverziós függvények */
 //@{
+	/** Pontokat(0. derivált) vissza adja a Mátrixból */
+	DArray getPointsFromMatrix(DMatrix Y);
+	/** Mátrixot ad vissza a pontokból*/
+	DMatrix getMatrixFromPoints(DArray Y);
 	/** Diagonális lekérése a mátrixból*/
 	DArray getDiagFromMatrix (DMatrix &M);
 	/** X és Y ponthalmazból vissza adja a Mátrixot */

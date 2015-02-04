@@ -17,14 +17,16 @@ Számítsok eredményeinek ellenőrzése
 //-----------------------------------------------------------------------
 /** @name Tesztelő és Teszt generáló függvények*/
 //@{
+	// Minden teszt lefuttatása, ha nincs hiba futnak
+	bool testAll();
 	// Interpoláció tesztek lefuttatása
-	void testInterpolation();
+	void testInterpolation(bool logPoly = false);
 	// fő függvény teszje
-	bool testMainInterpolation(bool logPoly);
+	bool testMainInterpolation(bool logPoly = false);
 	// Newton számítás tesztje
-	bool testNewton(bool logPoly);
+	bool testNewton(bool logPoly = false);
 	// Lagrange Interpoláció tesztje
-	bool testLagrange(bool logPoly);
+	bool testLagrange(bool logPoly = false);
 	// Polinom tesztje
 	void testPolynomial();
 	// Interpolációs Mátrix tesztje
@@ -44,6 +46,8 @@ Számítsok eredményeinek ellenőrzése
 //@{
 	/** Két Tömb egyezésének ellenőrzése */
 	bool checkEqual(DArray one, DArray two);
+	/** Bool Vector ellenőrzése */
+	bool checkVector(vector<bool> checks);
 
 	/** @name Kiirató függvények */
 	//@{

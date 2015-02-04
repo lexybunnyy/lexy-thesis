@@ -10,7 +10,9 @@ using namespace std;
 
 int main()
 {
-    testInterpolation();
+	if (testAll()) {
+		cout << "Ok!" << endl;
+	}
     //testMatrixInterpolation();
     //testPolynomial();
     return 0;
