@@ -36,31 +36,6 @@ static ERL_NIF_TERM calculate_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
     return convertList(env, X);
 }
 
-static ERL_NIF_TERM exportTest1_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
-    int ret;
-    int succ;
-    vector<double> x;
-    succ = convertVector(env, argv[0], x);
-    if (!succ) {
-        return enif_make_badarg(env);
-    }
-    return convertList(env, x);
-}
-
-static ERL_NIF_TERM exportTest2_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
-    int y, ret;
-    //argv elemeinek konvertálása cpp-re
-    if (!enif_get_int(env, argv[0], &y)) {
-	   return enif_make_badarg(env);
-    }
-
-    //Kovertálás után függvény meghívása
-    ret = exportTest2(y);
-
-    //visszatérés erlangos int-el
-    return enif_make_int(env, ret);
-}
-
 static ErlNifFunc nif_funcs[] = {
     {"exportTest1", 1, exportTest1_nif},
     {"exportTest2", 1, exportTest2_nif},
@@ -115,5 +90,31 @@ static int convertMatrix(ErlNifEnv* env, ERL_NIF_TERM argY, vector<vector<double
     }
     return 1;
 }
+
+static ERL_NIF_TERM exportTest1_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
+    int ret;
+    int succ;
+    vector<double> x;
+    succ = convertVector(env, argv[0], x);
+    if (!succ) {
+        return enif_make_badarg(env);
+    }
+    return convertList(env, x);
+}
+
+static ERL_NIF_TERM exportTest2_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
+    int y, ret;
+    //argv elemeinek konvertálása cpp-re
+    if (!enif_get_int(env, argv[0], &y)) {
+       return enif_make_badarg(env);
+    }
+
+    //Kovertálás után függvény meghívása
+    ret = exportTest2(y);
+
+    //visszatérés erlangos int-el
+    return enif_make_int(env, ret);
+}
+
 
 ERL_NIF_INIT(calculator, nif_funcs, NULL, NULL, NULL, NULL)

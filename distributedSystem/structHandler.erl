@@ -29,14 +29,22 @@ testJsonConvert() ->
   DataSetElement = getArrayElement(1, DataSet),
   getPoints(DataSetElement) == ConvertPoints.
 
+testConvertManual() -> 
+  JsonSting = "{\"data_set\":[{\"name\":\"Uj Interpolacio 1\",\"sender\":{\"tableData\":{\"points\":[{\"x\":0,\"y\":[0,0,2,0]},{\"x\":1,\"y\":[1,2,2,0]},{\"x\":2,\"y\":[4,4,2,0]},{\"x\":3,\"y\":[9,6,2,0]},{\"x\":4,\"y\":[16,8,2,0]},{\"x\":5,\"y\":[25,10,2,0]},{\"x\":6,\"y\":[36,12,2,0]}],\"num_of_points\":7,\"max_derivate\":3,\"num_of_cols\":8,\"num_of_rows\":5},\"plotSetting\":{\"xaxis_min\":\"-1\",\"xaxis_max\":\"9\",\"yaxis_min\":\"-1\",\"yaxis_max\":\"36\",\"derivNum_max\":\"\"}}}]}",
+  Data = getDataByJson(JsonSting),
+  DataSet = getDataSet(Data),
+  DataSetElement = getArrayElement(1, DataSet),
+  TableData = getTableData(DataSetElement),
+  getElementByKey("num_of_points", TableData).
+
 testConvert() -> 
-	InSruct1 = {struct,[{"x",0},{"y",{array,[0,0,2,0]}}]},
+	InStruct1 = {struct,[{"x",0},{"y",{array,[0,0,2,0]}}]},
 	InStruct2 = {struct,[{"x",1},{"y",{array,[1,2,2,0]}}]},
-	InArray = {array,[InSruct1 ,InStruct2]},
+	InArray = {array,[InStruct1 ,InStruct2]},
 	OutSruct1 = [{x,[0]},{y,[[0,0,2,0]]}],
 	OutSruct2 = [{x,[1]},{y,[[1,2,2,0]]}],
 	OutArray = [{x,[0,1]},{y,[[0,0,2,0],[1,2,2,0]]}],
-	Test1 = getNewPointStruct(InSruct1) == OutSruct1,
+	Test1 = getNewPointStruct(InStruct1) == OutSruct1,
 	Test2 = getNewPointStruct(InStruct2) == OutSruct2,
 	Test3 = appendNewPointStruct(OutSruct1, OutSruct2) == OutArray,
 	Test4 = convertPoints(InArray) == OutArray,
