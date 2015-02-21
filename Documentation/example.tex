@@ -6,6 +6,27 @@
 \usepackage[english,hungarian]{babel}
 \selectlanguage{hungarian}
 
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{mygray}{rgb}{0.4,0.4,0.4}
+\definecolor{mygreen}{rgb}{0,0.8,0.6}
+\definecolor{myorange}{rgb}{1.0,0.4,0}
+
+\lstset{
+basicstyle=\footnotesize\sffamily\color{black},
+commentstyle=\color{mygray},
+frame=single,
+numbers=left,
+numbersep=5pt,
+numberstyle=\tiny\color{mygray},
+keywordstyle=\color{mygreen},
+showspaces=false,
+showstringspaces=false,
+stringstyle=\color{myorange},
+tabsize=2
+}
+
 \title{Interpoláció osztott rendszereken}
 \author{Cselyuszka Alexandra}
 \supervisor{Tejfel Máté}
@@ -49,16 +70,33 @@ Az elosztott rendszer először kap egy JSON adathalmazt melyből kinyeri a neki
 \section{Kalkulátor}
 A Kalkulátor részben számítódik ki egy-egy Interpolációnak az ereménye.
 A megkapott adatok alapján számol, ha kell létre hozza a kezdő mátrixot, kiszámolja az eredmény mátrixot, majd annak segítségével kiszámolja a polinómot.
+\begin{lstlisting}[language=C++]{Name=test2}
+	DArray interpolateMain (
+		DArray &x, DMatrix &Y, 
+				string type = "lagrange", bool inverse = false);
+\end{lstlisting}
+	Kívülről meghívandó fő függvény mely elosztja és konvertálja a részeket. 
+	\begin{description}
+	  \item[DArray \&x] \hfill \\ Az x pontok listája 
+	  \item[DMatrix \&Y] \hfill \\ Az x pontokhoz tartozó y pontok halmaza
+	  \item[string type] \hfill \\ Interpóláció típusa: lagrange, newton, hermite
+	  \item[bool inverse] \hfill \\ Inverz Interpoláció kell-e
+	\end{description}
+
 
 \section{Kommunikáció}
 A 3 különállóan megvalósított program részlet speciális módon kommunikál egymással. 
 \subsection{Kalkulátor és az Elosztott rendszer közötti komunikáció} 
-Az elosztott rendszerben hívódó számítást Erlang - erl_nif"-el sikerült megoldanom. 
+Az elosztott rendszerben hívódó számítást Erlang - erl\_nif"-el sikerült megoldanom. 
+Az ezzel kapcsolatos dolgokat az Calculator/erlang.cpp tartalmazza. 
+
 
 \chapter{Források}
-http://www.erlang.org/doc/man/erl_nif.html
-https://www.sharelatex.com/learn/Sections_and_chapters
-https://github.com/mochi/mochiweb/blob/master/src/mochijson.erl
-
+\begin{itemize}
+\item {http://www.erlang.org/doc/man/erl\_nif.html}
+\item {https://www.sharelatex.com/learn/Sections\_and\_chapters}
+\item {https://github.com/mochi/mochiweb/blob/master/src/mochijson.erl} 
+\item {http://tex.stackexchange.com/questions/137055/lstlisting-syntax-highlighting-for-c-like-in-editor} 
+\end{itemize}
 
 \end{document}

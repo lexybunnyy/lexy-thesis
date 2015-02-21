@@ -16,7 +16,7 @@ typedef vector<double> DArray;
 
 /** @name Számítási függvények */
 //@{
-	DArray interpolateMain (DArray &x, DMatrix &M, string type = "lagrange", bool inverse = false);
+	DArray interpolateMain (DArray &x, DMatrix &Y, string type = "lagrange", bool inverse = false);
 	//DArray interpolateMain (DArray &x, DMatrix &M);
 	/** Interpolációs Táblázat kiszámítása */
 	void interpolateMatrix(DArray &x, DMatrix &M);
