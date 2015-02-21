@@ -1,0 +1,4 @@
+
+
+LexyPc : ssh oem@192.168.0.15
+LexyNotesz : ssh oem@192.168.0.30
