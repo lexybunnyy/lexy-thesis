@@ -24,62 +24,41 @@
 	
 \mainmatter
 
-\chapter{Lorem ipsum} 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam lectus augue, 
-consectetur vitae blandit vel, sagittis id enim. Vivamus blandit, purus porta 
-auctor imperdiet, tellus tellus molestie erat, nec pharetra dolor metus quis 
-mauris. Integer ligula massa, malesuada vel porta eget, eleifend eget dolor. 
-Sed porta sem ac magna pulvinar eget vehicula enim pellentesque. Integer eget 
-turpis purus. Nulla facilisi. Vivamus in augue dolor. Donec ac ante magna, 
-vel euismod sapien. Etiam tellus nisi, condimentum eget dictum at, vehicula 
-sit amet dolor. Etiam eget quam odio, quis tristique nulla.
+\chapter{Bevezetés} 
+a témaválasztás indoklását és a megoldandó feladat rövid, közérthető leírását
+tartalmazza.
 
-\section{Cras bibendum} 
-Cras bibendum posuere tincidunt. Quisque nunc purus, luctus ut pulvinar id, 
-lobortis eu libero. Pellentesque cursus, tortor ac mollis vulputate, turpis 
-magna facilisis lectus, et tristique dui ligula ac turpis. Sed ultricies 
-varius ligula interdum pellentesque. Pellentesque eleifend pharetra velit, 
-vel euismod quam pretium eget. 
+\chapter{Felhasználói dokumentáció}
+A felhasználó megnyitja a weboldalt, megtekintheti a táblázatokat és a grafikonokat. Minden adatot szerkeszthet és új adathalmazt hozhat létre.
 
-Donec blandit euismod nisl id volutpat. In 
-elementum mauris in eros vestibulum vitae rutrum eros malesuada. Duis 
-adipiscing volutpat rutrum. Proin dapibus volutpat porta. Maecenas nunc elit, 
-hendrerit id ornare vitae, lacinia quis est. Integer eget libero lorem, eget 
-mattis nulla. 
+\section{Weboldal}
+Weboldalon kattingat majd szép eredményeket kap, pontokat lát aztán ha kiszámolja az ereményt még szebb polinómot kap eredményül ha sikeres volt a számítás.
 
-\section{Phasellus libero est} 
-Phasellus libero est, dignissim at tristique non, sollicitudin in velit. 
-Suspendisse ultrices felis ac purus vestibulum hendrerit at dapibus odio. 
-Phasellus neque justo, pharetra eu commodo at, consequat et mi. 
+\chapter{Fejlesztői dokumentáció}
+A program 3 fő részből áll a Weboldalból, az Elosztott rendszerből és a Kalkulátorból.
 
-Sed tincidunt 
-sodales posuere. Vestibulum quam risus, condimentum et mollis vel, bibendum
-eget lacus. Praesent tristique interdum placerat. Cras odio nibh, dapibus 
-ornare pharetra ac, luctus posuere arcu. Sed sem ligula, 
-euismod sit amet pulvinar sed, accumsan vel libero. 
-Nam ante magna, ultricies sit amet congue ac, gravida vitae enim. Nam non eros ipsum. Aliquam vitae libero nec ipsum porta ornare quis eu velit. Sed lobortis, justo ut tempor faucibus, lacus ante eleifend tortor, elementum vulputate velit nisi fermentum leo. Mauris vel erat vel lorem faucibus suscipit. Ut hendrerit nisi sit amet massa sollicitudin in adipiscing neque consectetur. Vivamus lacus odio, interdum vitae vestibulum sit amet, euismod eu justo. Mauris imperdiet, mi quis varius imperdiet, nunc massa auctor enim, sed pretium nisl dui vitae augue. Mauris facilisis augue non nibh lacinia iaculis. Aliquam imperdiet cursus est, quis tempus leo vehicula at. Cras sagittis leo a ante semper quis eleifend sapien vulputate. Morbi quis lacus purus, a tempus arcu. Suspendisse vel felis nec est placerat laoreet. Sed pretium mi at orci feugiat accumsan. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+\section{Weboldal}
+Weboldal felépítése HTML és JavaScript segítségével valósult meg. Egy oldalból áll melyen a felhasználó össze állítja a neki szükséges adathalmazt. Új adathalmazokat hozhat létre, a régieket szerkesztheti. A háttérben JSON-be formálódnak az adatok, melyeket a felhasznéló is láthat, ha debug-módban lép be. 
+Ha a felhasználó végzett egy gombra nyomással a program legenerálja a szükséges JSON-t. 
 
-\chapter{Morbi tempus lorem}
-Morbi tempus lorem  eu leo gravida scelerisque. 
-Nullam imperdiet orci at justo dapibus auctor et id felis. Donec nibh justo, 
-ultricies ac laoreet ac, sodales sit amet odio. Aenean odio sem, sagittis vel 
-laoreet non, feugiat eu ante. Sed at tellus vel massa pellentesque suscipit sit amet vitae elit. 
+\section{Elosztott rendszer}
+Elosztott rendszer Erlang-ban lett megvalósítva. Az elosztást Interpolációnként végezzük, vagyis annyi node-ot hozunk létre amennyi Interpolációt kívánunk egyszerre kiszámítani.
+\subsection{Adat feldolgozás}
+Az elosztott rendszer először kap egy JSON adathalmazt melyből kinyeri a neki szükséges adatokat, és átkonvertálja.
 
-Integer libero leo, gravida quis porttitor at, interdum in eros. 
-In elit arcu, tristique eu dignissim nec, accumsan a nunc. Proin ac ligula 
-vel magna pharetra vulputate in ac tellus. Donec tellus erat, dictum et mattis ut, vehicula ut augue. 
+\section{Kalkulátor}
+A Kalkulátor részben számítódik ki egy-egy Interpolációnak az ereménye.
+A megkapott adatok alapján számol, ha kell létre hozza a kezdő mátrixot, kiszámolja az eredmény mátrixot, majd annak segítségével kiszámolja a polinómot.
 
-Maecenas odio neque, vulputate ut faucibus eu, congue et nisl. In hac habitasse platea dictumst. 
-Morbi vehicula fringilla eros, a tempus nunc rhoncus at. 
+\section{Kommunikáció}
+A 3 különállóan megvalósított program részlet speciális módon kommunikál egymással. 
+\subsection{Kalkulátor és az Elosztott rendszer közötti komunikáció} 
+Az elosztott rendszerben hívódó számítást Erlang - erl_nif"-el sikerült megoldanom. 
 
-\section{Nulla facilisi}
-Nulla facilisi. Vestibulum dictum tincidunt lorem, sit amet pellentesque erat lobortis et.
-Aenean sit amet lorem quis elit accumsan suscipit. Donec in odio dolor. Aenean id quam ac 
-tellus aliquam pretium. Sed egestas purus tortor, et pulvinar felis. Suspendisse sit amet 
-odio mi, non varius tellus. Nam viverra sollicitudin mi eget semper. 
+\chapter{Források}
+http://www.erlang.org/doc/man/erl_nif.html
+https://www.sharelatex.com/learn/Sections_and_chapters
+https://github.com/mochi/mochiweb/blob/master/src/mochijson.erl
 
-Nullam ut erat ac nulla vulputate iaculis. Nam ornare scelerisque ante ut rhoncus. 
-Ut commodo cursus felis et consequat. Donec vitae elit nisi. Sed luctus, 
-justo tincidunt sodales aliquam, tortor risus dignissim leo, ut interdum nunc turpis in eros. 
 
 \end{document}

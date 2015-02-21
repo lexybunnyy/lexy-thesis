@@ -1,6 +1,11 @@
-\select@language {english}
-\contentsline {chapter}{\numberline {1}Lorem ipsum}{1}
-\contentsline {section}{\numberline {1.1}Cras bibendum}{1}
-\contentsline {section}{\numberline {1.2}Phasellus libero est}{1}
-\contentsline {chapter}{\numberline {2}Morbi tempus lorem}{3}
-\contentsline {section}{\numberline {2.1}Nulla facilisi}{3}
+\select@language {hungarian} \contentsline {chapter}{\numberline {1}Bevezet\IeC {\'e}s}{1}
+\select@language {hungarian} \contentsline {chapter}{\numberline {2}Felhaszn\IeC {\'a}l\IeC {\'o}i dokument\IeC {\'a}ci\IeC {\'o}}{2}
+\select@language {hungarian} \contentsline {section}{\numberline {2.1}Weboldal}{2}
+\select@language {hungarian} \contentsline {chapter}{\numberline {3}Fejleszt\IeC {\H o}i dokument\IeC {\'a}ci\IeC {\'o}}{3}
+\select@language {hungarian} \contentsline {section}{\numberline {3.1}Weboldal}{3}
+\select@language {hungarian} \contentsline {section}{\numberline {3.2}Elosztott rendszer}{3}
+\select@language {hungarian} \contentsline {subsection}{\numberline {3.2.1}Adat feldolgoz\IeC {\'a}s}{3}
+\select@language {hungarian} \contentsline {section}{\numberline {3.3}Kalkul\IeC {\'a}tor}{3}
+\select@language {hungarian} \contentsline {section}{\numberline {3.4}Kommunik\IeC {\'a}ci\IeC {\'o}}{4}
+\select@language {hungarian} \contentsline {subsection}{\numberline {3.4.1}Kalkul\IeC {\'a}tor \IeC {\'e}s az Elosztott rendszer k\IeC {\"o}z\IeC {\"o}tti komunik\IeC {\'a}ci\IeC {\'o}}{4}
+\select@language {hungarian} \contentsline {chapter}{\numberline {4}Forr\IeC {\'a}sok}{5}
