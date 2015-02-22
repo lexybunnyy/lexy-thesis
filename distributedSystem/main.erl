@@ -8,6 +8,7 @@
 %%% Created : 18. márc. 2014 11:16
 %% g++ -std=c++11 -o calculator.so -fpic -shared ./../Calculator/erlang.cpp ./../Calculator/logTest.cpp ./../Calculator/calculator.cpp 
 
+%%% erl
 %%% c(main).
 %%% calculator:calculate([0,1], [[0],[1]]).
 %%%-------------------------------------------------------------------
@@ -21,7 +22,6 @@
 -compile(export_all).
 
 init() ->
-	file:delete('test.beam'),
 	compile:file('calculator'),
 	compile:file('fork'),
 	compile:file('struct_handler'),

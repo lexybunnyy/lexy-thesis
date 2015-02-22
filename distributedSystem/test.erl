@@ -15,7 +15,7 @@ simpulateFirstParseAndRun() ->
 	Setting = apply(struct_handler, getElementByKey, ["num_of_points", TableData]),
 	X = apply(struct_handler, getElementByKey, [x, Points]),
 	Y = apply(struct_handler, getElementByKey, [y, Points]),
-	apply(calculator, calculate, [X, Y]).
+	apply(calculator, calculate, [X, Y, "newton", false]).
 
 runCheck() ->
 	Mochis = convertMochi(),
@@ -64,8 +64,7 @@ convertMochi() ->
 	Test2 = apply(struct_handler, getNewPointStruct, [InStruct2]) == OutSruct2,
 	Test3 = apply(struct_handler, appendNewPointStruct, [OutSruct1, OutSruct2]) == OutArray,
 	Test4 = apply(struct_handler, convertPoints, [InArray]) == OutArray,
-	Test5 = apply(struct_handler, testJsonConvert, []),
-	[Test1, Test2, Test3, Test4, Test5].
+	[Test1, Test2, Test3, Test4].
 
 %% @doc Teszt futtatása a fork-nak
 %% @spec (NumOfPids::integer()) -> List

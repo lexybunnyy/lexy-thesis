@@ -24,6 +24,7 @@ static ERL_NIF_TERM convertList(ErlNifEnv* env, vector<double> array);
 static ERL_NIF_TERM calculate_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
     int ret;
     int succ;
+    vector<double> poli;
     vector<double> X;
     vector<vector<double> > Y;
     succ = convertVector(env, argv[0], X);
@@ -31,14 +32,14 @@ static ERL_NIF_TERM calculate_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
         return enif_make_badarg(env);
     }
     succ = convertMatrix(env, argv[1], Y);
-    testInterpolation();
-
-    return convertList(env, X);
+    logResult(X, Y);
+    poli = interpolateMain(X, Y, "newton");
+    return convertList(env, poli);
 }
 
 /** Felsorolja milyen függvényeket importálaunk az Erlangba */
 static ErlNifFunc nif_funcs[] = {
-    {"calculate", 2, calculate_nif}
+    {"calculate", 4, calculate_nif}
 };
 
 /** Erlang Listává konvertálás egy C++ Vector típusból*/
