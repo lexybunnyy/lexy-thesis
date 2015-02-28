@@ -22,6 +22,8 @@
 -compile(export_all).
 
 init() ->
+	file:delete('calculator.beam'),
+	file:delete('test.beam'),
 	compile:file('calculator'),
 	compile:file('fork'),
 	compile:file('struct_handler'),

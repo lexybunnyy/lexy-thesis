@@ -24,13 +24,14 @@ runCheck() ->
 	Fork = ok == fork(5),
 	lists:append(Mochis, [Element, Convert, Fork]).
 
-trueList()-> 
-	trueList(convertMochi()).
-trueList([true]) -> true;
-trueList([false]) -> false;
-trueList([false|_T]) -> false;
-trueList([true|T]) -> trueList(T);
-trueList(_Other) -> false.
+
+  getFirstElementOfDataSet() ->
+  JsonSting = getJSONString(),
+  Data = apply(struct_handler, getDataByJson, [JsonSting]),
+  DataSet = apply(struct_handler, getDataSet, [Data]),
+  apply(struct_handler, getArrayElement, [1, DataSet]).
+
+
 
 getJSONString() -> 
   "{\"data_set\":[{\"name\":\"Uj Interpolacio 1\",\"sender\":{\"tableData\":{\"points\":[{\"x\":0,\"y\":[0,0,2,0]},{\"x\":1,\"y\":[1,2,2,0]},{\"x\":2,\"y\":[4,4,2,0]},{\"x\":3,\"y\":[9,6,2,0]},{\"x\":4,\"y\":[16,8,2,0]},{\"x\":5,\"y\":[25,10,2,0]},{\"x\":6,\"y\":[36,12,2,0]}],\"num_of_points\":7,\"max_derivate\":3,\"num_of_cols\":8,\"num_of_rows\":5},\"plotSetting\":{\"xaxis_min\":\"-1\",\"xaxis_max\":\"9\",\"yaxis_min\":\"-1\",\"yaxis_max\":\"36\",\"derivNum_max\":\"\"}}}]}".
@@ -74,8 +75,10 @@ fork(TestList) when is_list(TestList) ->
 fork(NumOfPids) ->
     apply(node_handler, makeNodeStructure, [NumOfPids, fork]).
 
-  getFirstElementOfDataSet() -> 
-  JsonSting = getJSONString(),
-  Data = apply(struct_handler, getDataByJson, [JsonSting]),
-  DataSet = apply(struct_handler, getDataSet, [Data]),
-  apply(struct_handler, getArrayElement, [1, DataSet]).
+trueList()-> 
+	trueList(convertMochi()).
+trueList([true]) -> true;
+trueList([false]) -> false;
+trueList([false|_T]) -> false;
+trueList([true|T]) -> trueList(T);
+trueList(_Other) -> false.
