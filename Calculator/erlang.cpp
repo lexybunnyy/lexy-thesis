@@ -16,6 +16,7 @@ http://www.erlang.org/doc/man/erl_nif.html
 
 using namespace std;
 
+static string convertTheType(int num);
 static int convertVector(ErlNifEnv* env, ERL_NIF_TERM arg, vector<double> &result);
 static int convertMatrix(ErlNifEnv* env, ERL_NIF_TERM argY, vector<vector<double> > &matrix);
 static ERL_NIF_TERM convertList(ErlNifEnv* env, vector<double> array);
@@ -32,8 +33,12 @@ static ERL_NIF_TERM calculate_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
         return enif_make_badarg(env);
     }
     succ = convertMatrix(env, argv[1], Y);
-    logResult(X, Y);
-    poli = interpolateMain(X, Y, "newton");
+    int intType = enif_make_int(argv[2]);
+    //int intInverse = enif_get_int(argv[3]);
+    //cout << argv[2] << intInverse << endl;
+    string type = convertTheType(1);
+    
+    poli = interpolateMain(X, Y, type);
     return convertList(env, poli);
 }
 
@@ -41,6 +46,16 @@ static ERL_NIF_TERM calculate_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
 static ErlNifFunc nif_funcs[] = {
     {"calculate", 4, calculate_nif}
 };
+
+static string convertTheType(int num){
+    switch (num) {
+        case 1 : 
+            return "newton";
+        case 2 : 
+            return "hermite";
+    }
+    return "lagrange";
+}
 
 /** Erlang Listává konvertálás egy C++ Vector típusból*/
 static ERL_NIF_TERM convertList(ErlNifEnv* env, vector<double> array) {
