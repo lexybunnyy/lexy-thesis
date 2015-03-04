@@ -15,7 +15,7 @@ simpulateFirstParseAndRun() ->
 	Setting = apply(struct_handler, getElementByKey, ["num_of_points", TableData]),
 	X = apply(struct_handler, getElementByKey, [x, Points]),
 	Y = apply(struct_handler, getElementByKey, [y, Points]),
-	apply(calculator, calculate, [X, Y, "newton", false]).
+	apply(calculator, calculate, [X, Y, 1, 0]).
 
 runCheck() ->
 	Mochis = convertMochi(),
@@ -24,14 +24,11 @@ runCheck() ->
 	Fork = ok == fork(5),
 	lists:append(Mochis, [Element, Convert, Fork]).
 
-
-  getFirstElementOfDataSet() ->
+getFirstElementOfDataSet() ->
   JsonSting = getJSONString(),
   Data = apply(struct_handler, getDataByJson, [JsonSting]),
   DataSet = apply(struct_handler, getDataSet, [Data]),
   apply(struct_handler, getArrayElement, [1, DataSet]).
-
-
 
 getJSONString() -> 
   "{\"data_set\":[{\"name\":\"Uj Interpolacio 1\",\"sender\":{\"tableData\":{\"points\":[{\"x\":0,\"y\":[0,0,2,0]},{\"x\":1,\"y\":[1,2,2,0]},{\"x\":2,\"y\":[4,4,2,0]},{\"x\":3,\"y\":[9,6,2,0]},{\"x\":4,\"y\":[16,8,2,0]},{\"x\":5,\"y\":[25,10,2,0]},{\"x\":6,\"y\":[36,12,2,0]}],\"num_of_points\":7,\"max_derivate\":3,\"num_of_cols\":8,\"num_of_rows\":5},\"plotSetting\":{\"xaxis_min\":\"-1\",\"xaxis_max\":\"9\",\"yaxis_min\":\"-1\",\"yaxis_max\":\"36\",\"derivNum_max\":\"\"}}}]}".

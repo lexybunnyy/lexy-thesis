@@ -23,22 +23,22 @@ static ERL_NIF_TERM convertList(ErlNifEnv* env, vector<double> array);
 
 /** Ennek a függvénynek a segítségével valósul meg a kettő közötti kommunikáció */
 static ERL_NIF_TERM calculate_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
-    int ret;
-    int succ;
     vector<double> poli;
     vector<double> X;
     vector<vector<double> > Y;
-    succ = convertVector(env, argv[0], X);
+    int intType;
+    int isInverse;
+    int succ = true;
+    succ = succ && convertVector(env, argv[0], X);
+    succ = succ && convertMatrix(env, argv[1], Y);
+    succ = succ && enif_get_int(env, argv[2], &intType);
+    succ = succ && enif_get_int(env, argv[3], &isInverse);
     if (!succ) {
         return enif_make_badarg(env);
     }
-    succ = convertMatrix(env, argv[1], Y);
-    int intType = enif_make_int(argv[2]);
-    //int intInverse = enif_get_int(argv[3]);
-    //cout << argv[2] << intInverse << endl;
-    string type = convertTheType(1);
-    
-    poli = interpolateMain(X, Y, type);
+    string type = convertTheType(intType);
+    cout << type << isInverse <<endl;
+    poli = interpolateMain(X, Y, type, isInverse);
     return convertList(env, poli);
 }
 
