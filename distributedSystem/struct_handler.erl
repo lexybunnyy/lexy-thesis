@@ -20,6 +20,15 @@ getDataSet(Data) -> getElementByKeyList(["data_set", array], Data).
 getTableData(DataSetElement) -> 
 	getElementByKeyList(["sender", "tableData"], DataSetElement).
 
+getInverse(DataSetElement) -> 
+  getElementByKeyList(["sender", "inverse"], DataSetElement).
+
+getType(DataSetElement) -> 
+  getElementByKeyList(["sender", "type"], DataSetElement).
+
+getId(DataSetElement) ->
+  getElementByKeyList(["id"], DataSetElement).
+
 getTableData(DataSetElement, Key) -> 
 	KeyList = lists:append(["sender", "tableData"], [Key]),
 	getElementByKeyList(KeyList, DataSetElement).

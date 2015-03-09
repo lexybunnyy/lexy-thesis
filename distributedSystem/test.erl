@@ -8,14 +8,12 @@ run(ReturnOk) ->
 		_ -> error
 	end.
 
+%% Segítség az elosztás előtt/Után
 simpulateFirstParseAndRun() -> 
 	DataSetElement = getFirstElementOfDataSet(),
-	Points = apply(struct_handler, getPoints, [DataSetElement]),
-	TableData = apply(struct_handler, getTableData, [DataSetElement]),
-	Setting = apply(struct_handler, getElementByKey, ["num_of_points", TableData]),
-	X = apply(struct_handler, getElementByKey, [x, Points]),
-	Y = apply(struct_handler, getElementByKey, [y, Points]),
-	apply(calculator, calculate, [X, Y, 1, 0]).
+	Id = apply(struct_handler, getId, [DataSetElement]),
+	Result = apply(calculator, calculateByData, [DataSetElement]),
+	[{Id, Result}].
 
 runCheck() ->
 	Mochis = convertMochi(),
@@ -24,14 +22,16 @@ runCheck() ->
 	Fork = ok == fork(5),
 	lists:append(Mochis, [Element, Convert, Fork]).
 
+%% Segítség az elosztáshoz
 getFirstElementOfDataSet() ->
   JsonSting = getJSONString(),
   Data = apply(struct_handler, getDataByJson, [JsonSting]),
   DataSet = apply(struct_handler, getDataSet, [Data]),
+  DataLength = length(DataSet),
   apply(struct_handler, getArrayElement, [1, DataSet]).
 
 getJSONString() -> 
-  "{\"data_set\":[{\"name\":\"Uj Interpolacio 1\",\"sender\":{\"tableData\":{\"points\":[{\"x\":0,\"y\":[0,0,2,0]},{\"x\":1,\"y\":[1,2,2,0]},{\"x\":2,\"y\":[4,4,2,0]},{\"x\":3,\"y\":[9,6,2,0]},{\"x\":4,\"y\":[16,8,2,0]},{\"x\":5,\"y\":[25,10,2,0]},{\"x\":6,\"y\":[36,12,2,0]}],\"num_of_points\":7,\"max_derivate\":3,\"num_of_cols\":8,\"num_of_rows\":5},\"plotSetting\":{\"xaxis_min\":\"-1\",\"xaxis_max\":\"9\",\"yaxis_min\":\"-1\",\"yaxis_max\":\"36\",\"derivNum_max\":\"\"}}}]}".
+  "{\"data_set\":[{\"id\":0,\"name\":\"UjInterpolacio1\",\"sender\":{\"type\":0,\"inverse\":0,\"tableData\":{\"points\":[{\"x\":0,\"y\":[0,0,2,0]},{\"x\":1,\"y\":[1,2,2,0]},{\"x\":2,\"y\":[4,4,2,0]},{\"x\":3,\"y\":[9,6,2,0]},{\"x\":4,\"y\":[16,8,2,0]},{\"x\":5,\"y\":[25,10,2,0]},{\"x\":6,\"y\":[36,12,2,0]}],\"num_of_points\":7,\"max_derivate\":3,\"num_of_cols\":8}}},{\"id\":1,\"name\":\"UjInterpolacio2\",\"sender\":{\"type\":1,\"inverse\":1,\"tableData\":{\"points\":[{\"x\":0,\"y\":[0]}],\"num_of_points\":1,\"max_derivate\":0,\"num_of_cols\":2,\"num_of_rows\":2}}}]}".
 
 jsonConvert() -> 
   ConvertPoints = 
