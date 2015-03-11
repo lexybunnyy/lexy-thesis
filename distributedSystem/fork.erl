@@ -14,52 +14,55 @@
 -compile(export_all).
 
 %%-----------------------------------------------------boss process
-sender(senderstart, [], _N) ->
+senderArray(senderstart, [], _N) ->
   error;
-sender(senderstart,[One], _N) ->
+senderArray(senderstart,[One], _N) ->
   One ! {forkdata,1,1};
-sender(senderstart, PidList, N) ->
-  sender(PidList ,N, N-1);
-sender([H] ,N, X) ->
+senderArray(senderstart, PidList, N) ->
+  senderArray(PidList ,N, N-1);
+senderArray([H] ,N, X) ->
   H ! {forkdata, N-X , N-X};
-sender([H|T] ,N, X) ->
+senderArray([H|T] ,N, X) ->
   H ! {forkdata, N-X, N-X},
-  sender(T, N, X-1).
+  senderArray(T, N, X-1).
 
-sender(senderstart, PidList, N, DataList) ->
-  sender(PidList ,N, N-1, DataList);
-sender([PidHead] ,N, X, [DataHead]) ->
+senderArray(senderstart, PidList, N, DataList) ->
+  senderArray(PidList ,N, N-1, DataList);
+senderArray([PidHead] ,N, X, [DataHead]) ->
   PidHead ! {forkdata, N-X , DataHead};
-sender([PidHead|PidTail] ,N, X, [DataHead|DataTail]) ->
+senderArray([PidHead|PidTail] ,N, X, [DataHead|DataTail]) ->
   PidHead ! {forkdata, N-X, DataHead},
-  sender(PidTail, N, X-1, DataTail).
+  senderArray(PidTail, N, X-1, DataTail).
+
 
 receiver(recivestart,PidList, _EndPid) ->
   receiver(PidList, []).
 receiver([HeadPidList], ResultList) ->
   receive
-    {HeadPidList, forkresult, Number, Result} ->
-      ResultList++[{Number,Result}]
+    {HeadPidList, forkresult, _Number, Result} ->
+      ResultList ++ [Result]
   after
     10000 ->
       [ResultList, afterEnded]
   end;
 receiver([HeadPidList|TailPidList], ResultList) ->
   receive
-    {HeadPidList, forkresult, Number, Result} ->
-      receiver(TailPidList, ResultList++[{Number,Result}])
+    {HeadPidList, forkresult, _Number, Result} ->
+      receiver(TailPidList, ResultList++[Result])
   after
     10000 ->
       [ResultList, afterEnded]
   end.
 
 %%-----------------------------------------------------worker processes
-worker_main(Ppid, Number, Timeout) ->
+worker_main(Ppid, Number, Timeout) -> 
+  worker_main(Ppid, Number, Timeout, fork, calculate).
+worker_main(Ppid, Number, Timeout, Module, Function) ->
   Ppid ! {self(), workerstart, Number},
   receive
     {forkdata, Number, Data} ->
-      Result = calculate(Data),
-      Ppid ! {self(), forkresult,Number, Result};
+      Result = apply(Module, Function, [Data]),
+      Ppid ! {self(), forkresult, Number, Result};
     {forkdata, OtherNumber, Data} ->
       Ppid ! {self(), error, Number ,OtherNumber, Data};
     {theEnd, Number} ->
@@ -79,4 +82,6 @@ receiveData(RecPid) ->
   end.
 
 calculate(Data) ->
-  Data * 2.
+  Id = apply(struct_handler, getId, [Data]),
+  Result = apply(calculator, calculateByData, [Data]),
+  {Id, Result}.

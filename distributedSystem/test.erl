@@ -8,30 +8,29 @@ run(ReturnOk) ->
 		_ -> error
 	end.
 
+simpulateDistributedCalculate() -> 
+	JsonSting = getJSONString(),
+	apply(main, callDistributedCaluclate, [JsonSting]).
+
 %% Segítség az elosztás előtt/Után
 simpulateFirstParseAndRun() -> 
 	DataSetElement = getFirstElementOfDataSet(),
 	Id = apply(struct_handler, getId, [DataSetElement]),
 	Result = apply(calculator, calculateByData, [DataSetElement]),
-	[{Id, Result}].
-
-runCheck() ->
-	Mochis = convertMochi(),
-	Element = convertMochiElements(),
-	Convert = jsonConvert(),
-	Fork = ok == fork(5),
-	lists:append(Mochis, [Element, Convert, Fork]).
+	{Id, Result}.
 
 %% Segítség az elosztáshoz
 getFirstElementOfDataSet() ->
   JsonSting = getJSONString(),
   Data = apply(struct_handler, getDataByJson, [JsonSting]),
   DataSet = apply(struct_handler, getDataSet, [Data]),
-  DataLength = length(DataSet),
-  apply(struct_handler, getArrayElement, [1, DataSet]).
+  _DataLength = length(DataSet),
+  getFirstElementOfDataSet(DataSet).
+getFirstElementOfDataSet([Head]) -> Head;
+getFirstElementOfDataSet([Head|_Tail]) -> Head.
 
 getJSONString() -> 
-  "{\"data_set\":[{\"id\":0,\"name\":\"UjInterpolacio1\",\"sender\":{\"type\":0,\"inverse\":0,\"tableData\":{\"points\":[{\"x\":0,\"y\":[0,0,2,0]},{\"x\":1,\"y\":[1,2,2,0]},{\"x\":2,\"y\":[4,4,2,0]},{\"x\":3,\"y\":[9,6,2,0]},{\"x\":4,\"y\":[16,8,2,0]},{\"x\":5,\"y\":[25,10,2,0]},{\"x\":6,\"y\":[36,12,2,0]}],\"num_of_points\":7,\"max_derivate\":3,\"num_of_cols\":8}}},{\"id\":1,\"name\":\"UjInterpolacio2\",\"sender\":{\"type\":1,\"inverse\":1,\"tableData\":{\"points\":[{\"x\":0,\"y\":[0]}],\"num_of_points\":1,\"max_derivate\":0,\"num_of_cols\":2,\"num_of_rows\":2}}}]}".
+  "{\"data_set\":[{\"id\":0,\"name\":\"UjInterpolacio1\",\"sender\":{\"type\":1,\"inverse\":0,\"tableData\":{\"points\":[{\"x\":0,\"y\":[0,0,2,0]},{\"x\":1,\"y\":[1,2,2,0]},{\"x\":2,\"y\":[4,4,2,0]},{\"x\":3,\"y\":[9,6,2,0]},{\"x\":4,\"y\":[16,8,2,0]},{\"x\":5,\"y\":[25,10,2,0]},{\"x\":6,\"y\":[36,12,2,0]}],\"num_of_points\":7,\"max_derivate\":3,\"num_of_cols\":8}}},{\"id\":1,\"name\":\"UjInterpolacio2\",\"sender\":{\"type\":1,\"inverse\":1,\"tableData\":{\"points\":[{\"x\":0,\"y\":[0]}],\"num_of_points\":1,\"max_derivate\":0,\"num_of_cols\":2,\"num_of_rows\":2}}}]}".
 
 jsonConvert() -> 
   ConvertPoints = 
@@ -79,3 +78,13 @@ trueList([false]) -> false;
 trueList([false|_T]) -> false;
 trueList([true|T]) -> trueList(T);
 trueList(_Other) -> false.
+
+runCheck() ->
+	Mochis = convertMochi(),
+	Element = convertMochiElements(),
+	Convert = jsonConvert(),
+	%%Fork = simpulateDistributedCalculate(),
+	lists:append(Mochis, [Element, Convert]).
+
+calculate(Data) -> 
+	Data*2.

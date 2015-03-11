@@ -31,3 +31,9 @@ init() ->
 	compile:file('node_handler'),
 	compile:file('test'),
 	apply(test, run, [ok]).
+
+callDistributedCaluclate(JsonSting) -> 
+	Data = apply(struct_handler, getDataByJson, [JsonSting]),
+	DataSet = apply(struct_handler, getDataSet, [Data]),
+	DataLength = length(DataSet),
+	apply(node_handler, nodeCall, [DataLength, fork, DataSet]).
