@@ -1,6 +1,7 @@
 %%http://stackoverflow.com/questions/2206933/how-to-write-a-simple-webserver-in-erlang
+%%erl simpleServer:start(8082).
 %%http://localhost:8082
-%%simpleServer:start(8082).
+%%http://localhost:8085?alma=2
 -module(simpleServer).
 -export([start/1]).
 
@@ -15,11 +16,13 @@ loop(Sock) ->
     loop(Sock).
 
 handle(Conn) ->
-    gen_tcp:send(Conn, response("Hello World")),
+    {ok, Result} = do_recv(Conn, []),
+    gen_tcp:send(Conn, response(Result)),
     gen_tcp:close(Conn).
 
 response(Str) ->
-    B = iolist_to_binary(Str),
+    %%B = iolist_to_binary(Str),
+    B = Str,
     iolist_to_binary(
       io_lib:fwrite(
          "HTTP/1.0 200 OK\nContent-Type: text/html\nContent-Length: ~p\n\n~s",
@@ -45,7 +48,7 @@ server() ->
 do_recv(Sock, Bs) ->
     case gen_tcp:recv(Sock, 0) of
         {ok, B} ->
-            do_recv(Sock, [Bs, B]);
+            {ok, list_to_binary(B)};
         {error, closed} ->
             {ok, list_to_binary(Bs)}
     end.
