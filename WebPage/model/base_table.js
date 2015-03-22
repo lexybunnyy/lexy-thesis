@@ -130,10 +130,14 @@ function basicTable (aConfig) {
         return that.getNumOfCols();
     };
 
-    /** Törli a táblázatot, majd létrehoz egy cellát (Egy sor egy oszlop)*/
-    that.addNewTableOneCell = function(value, inputAttributes) {
+    that.newTable = function() {
         that.deleteTable();
         addNewRowTagToTable();
+    }
+
+    /** Törli a táblázatot, majd létrehoz egy cellát (Egy sor egy oszlop)*/
+    that.addNewTableOneCell = function(value, inputAttributes) {
+        that.newTable();
         that.addNewCellToRow(0, value, inputAttributes);
     };
 
@@ -182,6 +186,16 @@ function basicTable (aConfig) {
         return inputTag.value;
     };
 
+    /** findValue() */
+    that.findValue = function(column, value){
+        for(var i = 0; i < that.reference.rows.length; i++) {
+            if(value == that.getValue(i, column)){
+                return i;
+            };
+        }
+        return null;
+    };
+
     /** Egy adott cella érték beállítása*/
     that.setValue = function(i, j, value, form){
         var tableRow = gTableRows[i].getElementsByTagName("INPUT");
@@ -199,6 +213,11 @@ function basicTable (aConfig) {
         addNewRowTagToTable();
         gTableRows = [];
     };
+
+    that.remove = function(row) {
+        gTableRows.splice(row, 1);
+        that.reference.deleteRow(row);
+    }
 
     return that;
 }

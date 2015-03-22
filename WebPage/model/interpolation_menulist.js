@@ -11,6 +11,7 @@ function interpolationMenulist (aConfig) {
 	var gInterpTable = aConfig.interpolationTable;
 	var gSaveButton = aConfig.save;
 	var gActualData = 1;
+	var gIndexMax = 0;
     var gCellButtonForm = {
         "type" :  "button",
     };
@@ -19,28 +20,45 @@ function interpolationMenulist (aConfig) {
         "disabled": "true"
     };
 	
+	/** Új Lista elem */
 	function newItem() {
 		var newIndex = gTable.addNewRowToTable();
+		gIndexMax = gIndexMax + 1;
 
-		gTable.setValue(newIndex, 0, 'Uj Interpolacio ' + newIndex, gCellButtonForm);
-		gTable.getInputTag(newIndex, 0).onclick = function () {
+
+		gTable.setValue(newIndex, 0, gIndexMax);
+		gTable.setValue(newIndex, 1, 'new_interpolation_' + gIndexMax, gCellButtonForm);
+		gTable.getInputTag(newIndex, 1).onclick = function () {
+			console
 			loadItemSettings(newIndex);
+		};
+
+		gTable.setValue(1, 2, JSON.stringify(ExampleData.senderOneData));
+
+		gTable.setValue(newIndex, 3, 'DEL', gCellButtonForm);
+		gTable.getInputTag(newIndex, 3).onclick = function () {
+			//TODO Fix or remove
+			var row = gTable.findValue(1, gIndexMax);
+			console.log(gIndexMax);
+			gTable.remove(row);
 		};
 	}
 
+	/** Elmenti az adatokat a táblából (az aktuális Interpolációból) */
 	function saveItemSettings () {
 		var saveObject = {};
 		saveObject.tableData = gInterpTable.getData();
 		saveObject.plotSetting = gInterpPlot.getPlotSettings();
 		
 		var saveJSON = JSON.stringify(saveObject);
-		gTable.setValue(gActualData, 1, saveJSON);
+		gTable.setValue(gActualData, 2, saveJSON);
 	}
 	
+	/** Betölti az egyik indexből az adatokat a táblába */
 	function loadItemSettings(index) {
 		gActualData = index || gActualData;
 		try {
-			var loadJSON = gTable.getValue(gActualData, 1);
+			var loadJSON = gTable.getValue(gActualData, 2);
 			var loadObject = JSON.parse(loadJSON);
 		} catch (e){
 			loadObject = {};
@@ -50,6 +68,7 @@ function interpolationMenulist (aConfig) {
 		gInterpPlot.refresh(gInterpTable.getData());
 	}
 	
+	/** Leggenerálja/Elmenti a Listában szereplő összes Interpolációt */
 	function saveAll() {
 		var saveObject = {};
 		saveObject.data_set = [];
@@ -60,7 +79,7 @@ function interpolationMenulist (aConfig) {
 			try {
 				data.sender = JSON.parse(gTable.getValue(i, 1));
 			} catch (e) {
-				data.sender = gTable.getValue(i, 1);
+				data.sender = gTable.getValue(i, 2);
 			}
 			saveObject.data_set.push(data);
 		}
@@ -68,22 +87,34 @@ function interpolationMenulist (aConfig) {
         Base.erlangJSON(saveObject);
 	}
 	
+	/** Betölti az összes Interpolációt az adott adathalmazból */
 	function loadAll(loadObject){
+		newMenulist();
 		loadObject.data_set.forEach(function(data, index){
 			newItem();
 			var i = 1 + index;
-			gTable.setValue(i, 0, data.name);
-			gTable.setValue(i, 1, JSON.stringify(data.sender));
+			gTable.setValue(i, 1, data.name);
+			gTable.setValue(i, 2, JSON.stringify(data.sender));
 		});
 	}
 	
-	function newMenulist(){
-		gTable.deleteTable();
-		gTable.addNewTableOneCell('Interpolacio neve', gFirstRowForm);
-		gTable.addNewColumnToTable();
-		gTable.setCellForm(0, 1, gFirstRowForm);
+	function newMenuListHeaderItem(HeaderName) {
+		var index = gTable.addNewColumnToTable();
+		//console.log(HeaderName, index);
+		gTable.setValue(0, index-1, HeaderName);
+		gTable.setCellForm(0, index-1, gFirstRowForm);
 	}
-	 
+
+	/** Új menülista: régi menü kitörlése, és egy új generálása */
+	function newMenulist(){
+		gTable.newTable();
+		newMenuListHeaderItem('Id');
+		newMenuListHeaderItem('Name');
+		newMenuListHeaderItem('JSON');
+		newMenuListHeaderItem('Delete');
+	}
+	
+	/** Gombok Inicializálása */
 	aConfig.newItemButton.onclick = function () {
 		newItem();
 	};
@@ -106,7 +137,7 @@ function interpolationMenulist (aConfig) {
 
 	newMenulist();
 	newItem();
-	gTable.setValue(1, 1, JSON.stringify(ExampleData.senderOneData));
+	gTable.setValue(1, 2, JSON.stringify(ExampleData.senderOneData));
 	loadItemSettings();
     return that;
 }
