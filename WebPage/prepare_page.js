@@ -105,5 +105,12 @@ $(function() {
 		console.log(Base.get('filePicker').value);
 	}
 
+			//-----------------------------------
+
+	Base.get('sendServer').onclick = function () {
+		connection({
+			test: "Szia!"
+		});
+	}
 	$("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
 });
