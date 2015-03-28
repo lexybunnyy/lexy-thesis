@@ -1,7 +1,11 @@
 %%http://stackoverflow.com/questions/2206933/how-to-write-a-simple-webserver-in-erlang
-%%erl simpleServer:start(8082).
+%%erl
+%%c(simpleServer)
+%%simpleServer:start(8082).
 %%http://192.168.1.103:8086/prepare_page.html
 %%http://192.168.1.103:8086/API
+%%http://localhost:8086/prepare_page.html
+%%http://localhost:8086/API
 
 -module(simpleServer).
 -export([start/1]).
@@ -22,11 +26,11 @@ handle(Conn) ->
     gen_tcp:close(Conn).
 
 response(Str) ->
-    B = iolist_to_binary(Str),
+    B = iolist_to_binary("{}"),
     %%B = Str,
     iolist_to_binary(
       io_lib:fwrite(
-         "HTTP/1.0 200 OK\nContent-Type: text/html\nContent-Length: ~p\n\n~s",
+         "HTTP/1.0 200 OK\nContent-Type: application/json\nContent-Length: ~p\n\n~s",
          [size(B), B])).
 
 
