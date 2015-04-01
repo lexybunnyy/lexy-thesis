@@ -26,6 +26,10 @@ handle(Conn) ->
     gen_tcp:close(Conn).
 
 response(Str) ->
+    Test = erlang:decode_packet(http_bin, Str, []),
+    Resp = getDecodeData(Test),
+    Try = apply(mochijson, decode, [Resp]),
+    io:format("response: ~p \n", [Resp, Try]),
     B = iolist_to_binary("{}"),
     %%B = Str,
     iolist_to_binary(
@@ -33,6 +37,8 @@ response(Str) ->
          "HTTP/1.0 200 OK\nContent-Type: application/json\nContent-Length: ~p\n\n~s",
          [size(B), B])).
 
+getDecodeData({ok, {http_request,'GET', {abs_path, Result }, _Length} , Rest}) -> binary_to_list(Result);
+getDecodeData(_) -> error.
 
 %%http://erlang.org/doc/man/gen_tcp.html
 client() ->
