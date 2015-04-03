@@ -22,3 +22,11 @@ Base.erlangJSON = function (Obj) {
     var res = JsonObj.replace(/"/g, '\\"');
     console.log(res);
 };
+
+Base.forEach = function(object, callback) {
+    for (var key in object) {
+        if (object.hasOwnProperty(key)) {
+            callback(key, object[key]);
+        } 
+    }
+}

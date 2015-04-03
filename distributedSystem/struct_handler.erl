@@ -16,6 +16,7 @@
 %% @doc konvertálók, melyekkel ,egyszerűen megkapjuk a kívánt adatot. 
 getDataByJson(JsonSting) -> apply(mochijson, decode, [JsonSting]).
 getDataSet(Data) -> getElementByKeyList(["data_set", array], Data).
+getDataSetStruct(Data) -> getElementByKeyList(["data_set", struct], Data).
 
 getTableData(DataSetElement) -> 
 	getElementByKeyList(["sender", "tableData"], DataSetElement).
@@ -43,6 +44,7 @@ getArrayElement(N, Array) -> lists:nth(N, Array).
 %% @doc Segédfüggvények
 
 getElementByKey(array, {array, Array}) -> Array;
+getElementByKey(struct, {struct, Array}) -> Array;
 getElementByKey(Name, {struct, Struct}) -> getElementByKey(Name, Struct);
 getElementByKey(Name,[{Name, Value}]) -> Value;
 getElementByKey(_Name,[_Wrong]) -> false;

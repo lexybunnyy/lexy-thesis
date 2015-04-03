@@ -93,12 +93,12 @@ $(function() {
 	
 	var interpMenulist = interpolationMenulist({
 		table: menuListTable,
-		debug: bDebug,
-		newItemButton: Base.get('addNewMenulistItem'),
 		interpolationPlot: interpPlot,
 		interpolationTable: interpTable,
+		newItemButton: Base.get('addNewMenulistItem'),
 		save: Base.get('saveInMenulist'),
-		loadFromDebug: Base.get('loadFromDebug')
+		loadFromDebug: Base.get('loadFromDebug'),
+		debug: bDebug,
 	});
 	
 	Base.get('filePicker').onclick = function () {
@@ -108,9 +108,8 @@ $(function() {
 			//-----------------------------------
 
 	Base.get('sendServer').onclick = function () {
-		connection({
-			test: "Szia!"
-		});
+		//console.log(interpMenulist.getDataObject());
+		connection(interpMenulist.getDataArray());
 	}
 	$("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
 });

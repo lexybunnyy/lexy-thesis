@@ -42,7 +42,7 @@ receiver([HeadPidList], ResultList) ->
     {HeadPidList, forkresult, _Number, Result} ->
       ResultList ++ [Result]
   after
-    10000 ->
+    1000000 ->
       [ResultList, afterEnded]
   end;
 receiver([HeadPidList|TailPidList], ResultList) ->
@@ -50,7 +50,7 @@ receiver([HeadPidList|TailPidList], ResultList) ->
     {HeadPidList, forkresult, _Number, Result} ->
       receiver(TailPidList, ResultList++[Result])
   after
-    10000 ->
+    1000000 ->
       [ResultList, afterEnded]
   end.
 

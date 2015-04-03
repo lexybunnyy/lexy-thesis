@@ -29,7 +29,6 @@ function interpolationMenulist (aConfig) {
 		gTable.setValue(newIndex, 0, gIndexMax);
 		gTable.setValue(newIndex, 1, 'new_interpolation_' + gIndexMax, gCellButtonForm);
 		gTable.getInputTag(newIndex, 1).onclick = function () {
-			console
 			loadItemSettings(newIndex);
 		};
 
@@ -42,6 +41,7 @@ function interpolationMenulist (aConfig) {
 			console.log(gIndexMax);
 			gTable.remove(row);
 		};
+		return newIndex;
 	}
 
 	/** Elmenti az adatokat a táblából (az aktuális Interpolációból) */
@@ -70,32 +70,23 @@ function interpolationMenulist (aConfig) {
 	
 	/** Leggenerálja/Elmenti a Listában szereplő összes Interpolációt */
 	function saveAll() {
-		var saveObject = {};
-		saveObject.data_set = [];
-        var i;
-		for (i = 1; i < gTable.getNumOfRows(); i++) {
-			var data = {};
-			data.name = gTable.getValue(i, 0);
-			try {
-				data.sender = JSON.parse(gTable.getValue(i, 1));
-			} catch (e) {
-				data.sender = gTable.getValue(i, 2);
-			}
-			saveObject.data_set.push(data);
-		}
+		var saveObject = that.getDataObject();
+		console.log(saveObject);
 		gDebug.setInputValue(JSON.stringify(saveObject));
         Base.erlangJSON(saveObject);
 	}
-	
+
 	/** Betölti az összes Interpolációt az adott adathalmazból */
 	function loadAll(loadObject){
 		newMenulist();
-		loadObject.data_set.forEach(function(data, index){
-			newItem();
-			var i = 1 + index;
-			gTable.setValue(i, 1, data.name);
-			gTable.setValue(i, 2, JSON.stringify(data.sender));
+		Base.forEach(loadObject.data_set, function(key, value){
+			var i = newItem();
+			console.log(i, value.id, value);
+			gTable.setValue(i, 0, value.id);
+			gTable.setValue(i, 1, value.name);
+			gTable.setValue(i, 2, JSON.stringify(value.sender));
 		});
+		console.log('hello');
 	}
 	
 	function newMenuListHeaderItem(HeaderName) {
@@ -134,6 +125,40 @@ function interpolationMenulist (aConfig) {
 		saveItemSettings();
 		saveAll();
 	};
+
+	function getData(i){
+		var data = {};
+		data.id = gTable.getValue(i, 0);
+		data.name = gTable.getValue(i, 1);
+		try {
+			data.sender = JSON.parse(gTable.getValue(i, 2));
+		} catch (e) {
+			data.sender = gTable.getValue(i, 2);
+		}
+		return data;
+	}
+
+	that.getDataObject = function(){
+		var saveObject = {};
+		saveObject.data_set = {};
+        var i;
+		for (i = 1; i < gTable.getNumOfRows(); i++) {
+			var data = getData(i)
+			saveObject.data_set[data.id] = data;
+		}
+		return saveObject;
+	}
+
+	that.getDataArray = function() {
+		var saveObject = {};
+		saveObject.data_set = [];
+        var i;
+		for (i = 1; i < gTable.getNumOfRows(); i++) {
+			console.log(getData(i));
+			saveObject.data_set.push(getData(i));
+		}
+		return saveObject;
+	} 
 
 	newMenulist();
 	newItem();

@@ -30,7 +30,11 @@ init() ->
 	compile:file('source/mochijson'),
 	compile:file('node_handler'),
 	compile:file('test'),
+	compile:file('../connectionServer/simpleServer'),
 	apply(test, run, [ok]).
+
+initPort() -> 
+	apply(simpleServer, start, [8082]).
 
 callDistributedCaluclate(JsonSting) -> 
 	Data = apply(struct_handler, getDataByJson, [JsonSting]),

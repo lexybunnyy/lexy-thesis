@@ -29,8 +29,18 @@ getFirstElementOfDataSet() ->
 getFirstElementOfDataSet([Head]) -> Head;
 getFirstElementOfDataSet([Head|_Tail]) -> Head.
 
+getNewParseTest() -> 
+	JsonSting = getNewJSONString(),
+	Data = apply(struct_handler, getDataByJson, [JsonSting]),
+	DataSet = apply(struct_handler, getDataSetStruct, [Data]),
+	_DataLength = length(DataSet),
+	getFirstElementOfDataSet(DataSet).
+
 getJSONString() -> 
   "{\"data_set\":[{\"id\":0,\"name\":\"UjInterpolacio1\",\"sender\":{\"type\":1,\"inverse\":0,\"tableData\":{\"points\":[{\"x\":0,\"y\":[0,0,2,0]},{\"x\":1,\"y\":[1,2,2,0]},{\"x\":2,\"y\":[4,4,2,0]},{\"x\":3,\"y\":[9,6,2,0]},{\"x\":4,\"y\":[16,8,2,0]},{\"x\":5,\"y\":[25,10,2,0]},{\"x\":6,\"y\":[36,12,2,0]}],\"num_of_points\":7,\"max_derivate\":3,\"num_of_cols\":8}}},{\"id\":1,\"name\":\"UjInterpolacio2\",\"sender\":{\"type\":1,\"inverse\":1,\"tableData\":{\"points\":[{\"x\":0,\"y\":[0]}],\"num_of_points\":1,\"max_derivate\":0,\"num_of_cols\":2,\"num_of_rows\":2}}}]}".
+
+getNewJSONString()  -> 
+ "{\"data_set\":{\"1\":{\"id\":\"1\",\"name\":\"new_ddfdf_1\",\"sender\":{\"tableData\":{\"points\":[{\"x\":0,\"y\":[0,0,2,0]},{\"x\":1,\"y\":[1,2,2,0]},{\"x\":2,\"y\":[4,4,2,0]},{\"x\":3,\"y\":[9,6,2,0]},{\"x\":4,\"y\":[16,8,2,0]},{\"x\":5,\"y\":[25,10,2,0]},{\"x\":6,\"y\":[36,12,2,0]}],\"num_of_points\":7,\"max_derivate\":3,\"num_of_cols\":8,\"num_of_rows\":5},\"plotSetting\":{\"xaxis_min\":\"-1\",\"xaxis_max\":\"9\",\"yaxis_min\":\"-1\",\"yaxis_max\":\"36\",\"derivNum_max\":\"\"}}},\"2\":{\"id\":\"2\",\"name\":\"new_dfdfdf_2\",\"sender\":\"-\"},\"3\":{\"id\":\"3\",\"name\":\"new_interpolation_3\",\"sender\":{\"tableData\":{\"points\":[{\"x\":0,\"y\":[0]}],\"num_of_points\":1,\"max_derivate\":0,\"num_of_cols\":2,\"num_of_rows\":2},\"plotSetting\":{\"xaxis_min\":\"-2\",\"xaxis_max\":\"2\",\"yaxis_min\":\"-2\",\"yaxis_max\":\"2\",\"derivNum_max\":\"\"}}},\"4\":{\"id\":\"4\",\"name\":\"new_interpolation_4\",\"sender\":\"-\"}}}".
 
 jsonConvert() -> 
   ConvertPoints = 

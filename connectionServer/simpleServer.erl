@@ -29,13 +29,18 @@ response(Str) ->
     Test = erlang:decode_packet(http_bin, Str, []),
     Resp = getDecodeData(Test),
     RespJson = getResponseJSON(Resp),
+    ResultJson = callMain(RespJson),
     io:format("response: ~p \n", [RespJson]),
+    io:format("result: ~p \n", [ResultJson]),
     B = iolist_to_binary(RespJson),
     %%B = Str,
     iolist_to_binary(
       io_lib:fwrite(
          "HTTP/1.0 200 OK\nContent-Type: application/json\nContent-Length: ~p\n\n~s",
          [size(B), B])).
+
+callMain(RespJson) -> 
+    apply(main, callDistributedCaluclate, [RespJson]).
 
 getResponseJSON(InitStr) ->
   case string:span(InitStr,"/?") > 1 of
