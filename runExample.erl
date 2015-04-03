@@ -1,4 +1,4 @@
-erl
+erl -s toolbar
 c(simpleServer).
 simpleServer:start(8082).
 http://192.168.1.103:8086/prepare_page.html

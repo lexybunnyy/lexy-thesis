@@ -28,16 +28,22 @@ handle(Conn) ->
 response(Str) ->
     Test = erlang:decode_packet(http_bin, Str, []),
     Resp = getDecodeData(Test),
-    Try = apply(mochijson, decode, [Resp]),
-    io:format("response: ~p \n", [Resp, Try]),
-    B = iolist_to_binary("{}"),
+    RespJson = getResponseJSON(Resp),
+    io:format("response: ~p \n", [RespJson]),
+    B = iolist_to_binary(RespJson),
     %%B = Str,
     iolist_to_binary(
       io_lib:fwrite(
          "HTTP/1.0 200 OK\nContent-Type: application/json\nContent-Length: ~p\n\n~s",
          [size(B), B])).
 
-getDecodeData({ok, {http_request,'GET', {abs_path, Result }, _Length} , Rest}) -> binary_to_list(Result);
+getResponseJSON(InitStr) ->
+  case string:span(InitStr,"/?") > 1 of
+    true -> string:substr(http_uri:decode(InitStr), 3);
+    _ -> "{\"success\": \"false\", \"error:\": \"Invalid Things\"}"
+  end.
+
+getDecodeData({ok, {http_request,'GET', {abs_path, Result }, _Length} , _Rest}) -> binary_to_list(Result);
 getDecodeData(_) -> error.
 
 %%http://erlang.org/doc/man/gen_tcp.html
