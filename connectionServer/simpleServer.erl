@@ -32,6 +32,8 @@ response(Str) ->
     ResponseParams = getDecodeData(ResponseStruct),
     RespData = convertData(ResponseParams),
         io:format("response: ~p \n", [RespData]),
+    Result = callMain(RespData),
+        io:format("result: ~p \n", [Result]),
     B = convetToSend(RespData),
     %%B = convetToSend(RespData),
     %%B = sendExample(),
@@ -82,11 +84,11 @@ convertData(ResponseParams) ->
     _ -> error
   end.
 
-%%callMain(RespJson) -> 
-%%    case RespJson of
-%%        error -> "{\"success\": \"false\", \"error:\": \"Invalid Things\"}";
-%%        _ -> apply(main, callDistributedCaluclate, [RespJson])
-%%    end.
+callMain(RespJson) -> 
+    case RespJson of
+        error -> "{\"success\": \"false\", \"error:\": \"Invalid Things\"}";
+        _ -> apply(main, callDistributedCaluclate, [RespJson])
+    end.
 
 convetToSend(Object) -> 
     JSON = apply(mochijson, encode, [Object]),

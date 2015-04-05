@@ -36,8 +36,7 @@ init() ->
 initPort() -> 
 	apply(simpleServer, start, [8082]).
 
-callDistributedCaluclate(JsonSting) -> 
-	Data = apply(struct_handler, getDataByJson, [JsonSting]),
+callDistributedCaluclate(Data) -> 
 	DataSet = apply(struct_handler, getDataSet, [Data]),
 	DataLength = length(DataSet),
 	apply(node_handler, nodeCall, [DataLength, fork, DataSet]).
