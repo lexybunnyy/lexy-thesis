@@ -1,4 +1,3 @@
-%%http://stackoverflow.com/questions/2206933/how-to-write-a-simple-webserver-in-erlang
 %%erl
 %%c(simpleServer)
 %%simpleServer:start(8082).
@@ -8,8 +7,11 @@
 %%http://localhost:8086/API
 
 -module(simpleServer).
--export([start/1]).
+-export([start/1, sendExample/0]).
 
+
+%% ------------------------------------------- Simple Server
+%%http://stackoverflow.com/questions/2206933/how-to-write-a-simple-webserver-in-erlang
 start(Port) ->
     spawn(fun () -> {ok, Sock} = gen_tcp:listen(Port, [{active, false}]), 
                     loop(Sock) end).
@@ -26,31 +28,22 @@ handle(Conn) ->
     gen_tcp:close(Conn).
 
 response(Str) ->
-    Test = erlang:decode_packet(http_bin, Str, []),
-    Resp = getDecodeData(Test),
-    RespJson = getResponseJSON(Resp),
-    ResultJson = callMain(RespJson),
-    io:format("response: ~p \n", [RespJson]),
-    io:format("result: ~p \n", [ResultJson]),
-    B = iolist_to_binary(RespJson),
-    %%B = Str,
+    ResponseStruct = erlang:decode_packet(http_bin, Str, []),
+    ResponseParams = getDecodeData(ResponseStruct),
+    RespData = convertData(ResponseParams),
+        io:format("response: ~p \n", [RespData]),
+    B = convetToSend(RespData),
+    %%B = convetToSend(RespData),
+    %%B = sendExample(),
+    %%B = getTheSameResult(ResponseParams),
     iolist_to_binary(
       io_lib:fwrite(
          "HTTP/1.0 200 OK\nContent-Type: application/json\nContent-Length: ~p\n\n~s",
          [size(B), B])).
 
-callMain(RespJson) -> 
-    apply(main, callDistributedCaluclate, [RespJson]).
 
-getResponseJSON(InitStr) ->
-  case string:span(InitStr,"/?") > 1 of
-    true -> string:substr(http_uri:decode(InitStr), 3);
-    _ -> "{\"success\": \"false\", \"error:\": \"Invalid Things\"}"
-  end.
 
-getDecodeData({ok, {http_request,'GET', {abs_path, Result }, _Length} , _Rest}) -> binary_to_list(Result);
-getDecodeData(_) -> error.
-
+%% ------------------------------------------- TCP server
 %%http://erlang.org/doc/man/gen_tcp.html
 client() ->
     SomeHostInNet = "localhost", % to make it runnable on one machine
@@ -74,3 +67,46 @@ do_recv(Sock, Bs) ->
         {error, closed} ->
             {ok, list_to_binary(Bs)}
     end.
+
+
+
+%% ------------------------------------------- Response Helpers 
+getDecodeData({ok, {http_request,'GET', {abs_path, Result }, _Length} , _Rest}) -> binary_to_list(Result);
+getDecodeData(_) -> error.
+
+convertData(ResponseParams) ->
+  case string:span(ResponseParams,"/?") > 1 of
+    true -> 
+        JSONStr = string:substr(http_uri:decode(ResponseParams), 3),
+        apply(mochijson, decode, [JSONStr]);
+    _ -> error
+  end.
+
+%%callMain(RespJson) -> 
+%%    case RespJson of
+%%        error -> "{\"success\": \"false\", \"error:\": \"Invalid Things\"}";
+%%        _ -> apply(main, callDistributedCaluclate, [RespJson])
+%%    end.
+
+convetToSend(Object) -> 
+    JSON = apply(mochijson, encode, [Object]),
+    iolist_to_binary(JSON).
+
+
+%% ------------------------------------------- Simple Examples
+%% iolist_to_binary([123,"\"1\"",58,[91,"1",44,"2",44,"3",93],125]).
+%% binary_to_list(<<"{\"1\":[1,2,3]}">>).
+%% mochijson:encode({struct,[{1, {array, [1,2,3]}}]}).
+
+sendExample() -> 
+    ResultExample = {struct,[{1, {array, [1,2,3]}}]},
+    convetToSend(ResultExample).
+
+getTheSameResult(ResponseParams) -> 
+    RespJson = 
+        case string:span(ResponseParams,"/?") > 1 of
+            true -> string:substr(http_uri:decode(ResponseParams), 3);
+            _ -> "{}"
+        end,
+        io:format("response: ~p \n", [RespJson]),
+    iolist_to_binary(RespJson).
