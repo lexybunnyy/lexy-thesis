@@ -18,6 +18,38 @@ getDataByJson(JsonSting) -> apply(mochijson, decode, [JsonSting]).
 getDataSet(Data) -> getElementByKeyList(["data_set", array], Data).
 getDataSetStruct(Data) -> getElementByKeyList(["data_set", struct], Data).
 
+convertStringList(Array) ->
+  convertStringList(Array, []).
+convertStringList([], Array) -> 
+  Array;
+convertStringList([H], Array) -> 
+  Array ++ [convetString(H)];
+convertStringList([H|T], Array) ->
+  convertStringList(T, Array ++ [convetString(H)]);
+convertStringList(_other, _array) -> error.
+
+convertAnElement({Key, Array}) when is_list(Array)-> 
+  {Key, {array, convertStringList(Array)}};
+convertAnElement({Key, Array}) -> 
+  {Key, {array, [convetString(Array)]}};
+convertAnElement(Obj) -> 
+  {"error", {array, [convetString(Obj)]}}.
+
+convetString(Term) -> lists:flatten(io_lib:format("~p", [Term])).
+
+structArrayParser([], Array) ->
+  Array;
+structArrayParser([H], Array) -> 
+  Array ++ [convertAnElement(H)];
+structArrayParser([H|T], Array) ->
+  structArrayParser(T, Array ++ [convertAnElement(H)]);
+structArrayParser(Object, _Array) -> 
+  [convertAnElement(Object)].
+
+convertToMochi(Object) -> 
+  StructList = structArrayParser(Object, []),
+  {struct, StructList}.
+
 getTableData(DataSetElement) -> 
 	getElementByKeyList(["sender", "tableData"], DataSetElement).
 

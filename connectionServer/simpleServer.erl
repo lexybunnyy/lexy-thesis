@@ -34,10 +34,7 @@ response(Str) ->
         io:format("response: ~p \n", [RespData]),
     Result = callMain(RespData),
         io:format("result: ~p \n", [Result]),
-    B = convetToSend(RespData),
-    %%B = convetToSend(RespData),
-    %%B = sendExample(),
-    %%B = getTheSameResult(ResponseParams),
+    B = convetToSend(Result),
     iolist_to_binary(
       io_lib:fwrite(
          "HTTP/1.0 200 OK\nContent-Type: application/json\nContent-Length: ~p\n\n~s",
@@ -86,13 +83,16 @@ convertData(ResponseParams) ->
 
 callMain(RespJson) -> 
     case RespJson of
-        error -> "{\"success\": \"false\", \"error:\": \"Invalid Things\"}";
+        error -> {error, "Invalid Response"};
         _ -> apply(main, callDistributedCaluclate, [RespJson])
     end.
 
 convetToSend(Object) -> 
-    JSON = apply(mochijson, encode, [Object]),
-    iolist_to_binary(JSON).
+    MochiStruct = apply(struct_handler, convertToMochi, [Object]),
+    JSON = apply(mochijson, encode, [MochiStruct]),
+    Binary = iolist_to_binary(JSON),
+        io:format("Binary: ~p \n", [Binary]),
+    Binary.
 
 
 %% ------------------------------------------- Simple Examples

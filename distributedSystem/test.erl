@@ -12,6 +12,45 @@ simpulateDistributedCalculate() ->
 	JsonSting = getJSONString(),
 	apply(main, callDistributedCaluclate, [JsonSting]).
 
+%%Convertálás: 
+convertTest1() -> 
+	{In, Expected} = getMochiJsonStruct1(),
+	Result = apply(struct_handler, convertToMochi, [In]),
+	case Expected == Result of 
+		true -> ok;
+		_ -> {false, Result, Expected}
+	end.
+
+convertTest2() -> 
+	{In, Expected} = getMochiJsonStruct2(),
+	Result = apply(struct_handler, convertToMochi, [In]),
+	case Expected == Result of 
+		true -> ok;
+		_ -> {false, Result, Expected}
+	end.
+
+getMochiJsonStruct2() -> 
+	In = [ {"errorIn", {array,"Hello You have a biggy big error in your head"}} ],
+	Expected = {struct,[
+		{"errorIn", {array,["{array,\"Hello You have a biggy big error in your head\"}"]} }
+	]},
+	{In, Expected}.
+
+getMochiJsonStruct1() -> 
+	In = [
+		{"1",[0.0,0.0,1.0,0.0,0.0,0.0,0.0]},
+		{"2",[0.0,0.0,1.0,0.0,0.0,0.0,0.0]},
+		{"3", {error, "Test Error"}},
+		{"nodes notfound"}
+	],
+	Expected = {struct,[
+		{"1", {array, [0.0,0.0,1.0,0.0,0.0,0.0,0.0]}},
+		{"2", {array, [0.0,0.0,1.0,0.0,0.0,0.0,0.0]}},
+		{"3",{array,["{error,\"Test Error\"}"]}},
+		{"error",{array,["{\"nodes notfound\"}"]}}
+	]},
+	{In, Expected}.
+
 %% Segítség az elosztás előtt/Után
 simpulateFirstParseAndRun() -> 
 	DataSetElement = getFirstElementOfDataSet(),

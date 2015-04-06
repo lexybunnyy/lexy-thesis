@@ -64,7 +64,7 @@ worker_main(Ppid, Number, Timeout, Module, Function) ->
       Result = apply(Module, Function, [Data]),
       Ppid ! {self(), forkresult, Number, Result};
     {forkdata, OtherNumber, Data} ->
-      Ppid ! {self(), error, Number ,OtherNumber, Data};
+      Ppid ! {self(), error, Number, OtherNumber, Data};
     {theEnd, Number} ->
       Ppid ! {self(), theEnd, Number};
     _Msg ->

@@ -9,4 +9,5 @@ http://localhost:8086/API
 c(main).
 c(fork).
 c('../connectionServer/simpleServer'). 
+c(struct_handler).
 main:initPort().
