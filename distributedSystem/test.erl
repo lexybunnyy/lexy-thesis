@@ -12,6 +12,10 @@ simpulateDistributedCalculate() ->
 	JsonSting = getJSONString(),
 	apply(main, callDistributedCaluclate, [JsonSting]).
 
+simplifyPolinomialTest() -> 
+	Result = [0.0,0.0,1.0,0.0,0.0,0.0,0.0],
+	apply(struct_handler, simplifyPolinomial, [Result, []]).
+
 %%Convertálás: 
 convertTest1() -> 
 	{In, Expected} = getMochiJsonStruct1(),

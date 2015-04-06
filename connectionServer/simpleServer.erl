@@ -34,7 +34,7 @@ response(Str) ->
         io:format("response: ~p \n", [RespData]),
     Result = callMain(RespData),
         io:format("result: ~p \n", [Result]),
-    B = convetToSend(Result),
+    B = convertToSend(Result),
     iolist_to_binary(
       io_lib:fwrite(
          "HTTP/1.0 200 OK\nContent-Type: application/json\nContent-Length: ~p\n\n~s",
@@ -67,8 +67,6 @@ do_recv(Sock, Bs) ->
             {ok, list_to_binary(Bs)}
     end.
 
-
-
 %% ------------------------------------------- Response Helpers 
 getDecodeData({ok, {http_request,'GET', {abs_path, Result }, _Length} , _Rest}) -> binary_to_list(Result);
 getDecodeData(_) -> error.
@@ -87,8 +85,13 @@ callMain(RespJson) ->
         _ -> apply(main, callDistributedCaluclate, [RespJson])
     end.
 
-convetToSend(Object) -> 
-    MochiStruct = apply(struct_handler, convertToMochi, [Object]),
+convertToSend(Object) ->
+    MochiStruct = 
+        case Object of 
+            {error, Str} -> {struct, [{"success", "false"}, {"msg", Str}]};
+            _ -> apply(struct_handler, convertToMochi, [Object])
+        end,
+        io:format("Binary: ~p \n", [MochiStruct]),
     JSON = apply(mochijson, encode, [MochiStruct]),
     Binary = iolist_to_binary(JSON),
         io:format("Binary: ~p \n", [Binary]),
@@ -102,7 +105,7 @@ convetToSend(Object) ->
 
 sendExample() -> 
     ResultExample = {struct,[{1, {array, [1,2,3]}}]},
-    convetToSend(ResultExample).
+    convertToSend(ResultExample).
 
 getTheSameResult(ResponseParams) -> 
     RespJson = 

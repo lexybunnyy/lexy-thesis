@@ -46,6 +46,32 @@ structArrayParser([H|T], Array) ->
 structArrayParser(Object, _Array) -> 
   [convertAnElement(Object)].
 
+
+convertResultList(List) -> 
+  convertStringList(simplifyPolinomial(List, [])).
+
+simplifyPolinomial([H], Array) ->
+  case isFullNullList(H) of
+    true -> Array;
+    _ -> Array ++ [H]
+  end;
+simplifyPolinomial([H|T], Array) ->
+  io:format("simplifyPolinomial: ~p ~p ~p \n", [H, T, Array]),
+  case isFullNullList(T) of
+    true -> Array ++ [H];
+    _ -> simplifyPolinomial(T, Array ++ [H])
+  end.
+isFullNullList(List) when is_list(List) -> 
+  {_List, Res} = lists:mapfoldl(
+    fun(X, Res) -> {X, Res and isPoliNullElement(X)} end, true, List),
+  Res;
+isFullNullList(List) -> false.
+isPoliNullElement(X) ->
+  case is_float(X) of
+    true -> X == 0.0;
+    _ -> false
+  end.
+
 convertToMochi(Object) -> 
   StructList = structArrayParser(Object, []),
   {struct, StructList}.
