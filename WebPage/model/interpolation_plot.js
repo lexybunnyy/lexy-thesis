@@ -53,7 +53,7 @@ function interpolationPlot(aConfig) {
         }
     }
 
-    function generateData(senderData, receiverData){
+    function generateData(senderData, polynomial){
         var resultArray = [];
         var settings = aConfig.plotGenerateSettings;
         if (!senderData || (!settings.derivNum_max && !senderData.max_derivate)) {
@@ -65,7 +65,7 @@ function interpolationPlot(aConfig) {
             return resultArray;
         }
 
-        if (receiverData) {
+        if (polynomial) {
             var begin = parseFloat(gSettings.xaxis_min.value);
             var end = parseFloat(gSettings.xaxis_max.value);
 
@@ -77,7 +77,7 @@ function interpolationPlot(aConfig) {
 
             resultArray.push({
                 label: 'Eredmény polinóm',
-                data: makePolinome(receiverData.polynomial, plotFor),
+                data: makePolinome(polynomial, plotFor),
                 lines: { show: true }
             });
         }

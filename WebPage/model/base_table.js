@@ -44,7 +44,7 @@ var table = basicTable({
 function basicTable (aConfig) {
     var that = {};
     that.id =  aConfig.tableId;
-    that.reference = document.getElementById(aConfig.tableId);
+    that.reference = Base.get(aConfig.tableId, 'id');
     var gTableRows = [];
 
     /** Ad egy új sort a táblázathoz

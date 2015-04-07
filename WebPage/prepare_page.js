@@ -1,3 +1,8 @@
+/**
+Result Merge Minta: 
+{"tableData":{"name":"xsquared_example","polynomial":[0,0,1],"points":[{"x":0,"y":[0,0,2,0]},{"x":1,"y":[1,2,2,0]},{"x":2,"y":[4,4,2,0]},{"x":3,"y":[9,6,2,0]},{"x":4,"y":[16,8,2,0]},{"x":5,"y":[25,10,2,0]},{"x":6,"y":[36,12,2,0]}],"max_derivate":3,"num_of_points":7,"num_of_rows":5,"num_of_cols":8,"type_of_interpolation":"","inverze":false},"plotSetting":{"xaxis_min":"-1","xaxis_max":"9","yaxis_min":"-1","yaxis_max":"36","derivNum_max":""}}
+*/
+var plotGenerateSettings = null;
 $(function() {
 	//-----------------------------------default
 	$("<div id='tooltip'></div>").css({
@@ -16,7 +21,7 @@ $(function() {
     });
 	
 		//-----------------------------------plot
-	var plotGenerateSettings = {
+	plotGenerateSettings = {
 		xaxis_min : Base.get('minx'),
 		xaxis_max : Base.get('maxx'),
 		yaxis_min : Base.get('miny'),
@@ -64,13 +69,8 @@ $(function() {
 		newTableButton: Base.get('refresh_button')
 	});
 
-    //interpTable.getData();
-    //interpTable.setData(ExampleData.senderOneData);
-    //interpPlot.refresh(interpTable.getData());
-
 		//-----------------------------------contact
     Base.get('refreshPlot').onclick = function() {
-        //interpPlot.refresh(ExampleData.senderOneData, ExampleData.receiverOneData);
         interpPlot.refresh(interpTable.getData());
     };
 
@@ -86,30 +86,39 @@ $(function() {
     interpPlot.refresh(interpTable.getData());
 	
 		//-----------------------------------menulist
-	var menuListTable = basicTable({
-		tableId: 'interpoationSetTable',
-		debug: bDebug
-	});
-	
 	var interpMenulist = interpolationMenulist({
-		table: menuListTable,
+		tableId: 'interpoationSetTable',
 		interpolationPlot: interpPlot,
 		interpolationTable: interpTable,
-		newItemButton: Base.get('addNewMenulistItem'),
-		save: Base.get('saveInMenulist'),
-		loadFromDebug: Base.get('loadFromDebug'),
-		debug: bDebug,
+		newItemButton: Base.get('addNewMenulistItem')
 	});
+
+			//-----------------------------------
+	/** Leggenerálja/Elmenti a Listában szereplő összes Interpolációt */
+	function save() {
+		interpMenulist.saveItemSettings();
+		//Base.erlangJSON();
+        Base.get('sendServerText').value = JSON.stringify(interpMenulist.getDataArray());
+        Base.get('saveText').value = JSON.stringify(interpMenulist.getDataObject());
+	}
+
+	Base.get('saveInMenulist').onclick = save;
+	Base.get('saveButton').onclick = save;
+
+	Base.get('resultLoad').onclick = function () {
+		console.log(Base.get("sendServerText").value);
+		// TODO: interpMenulist.loadLabel();
+	}
 	
 	Base.get('filePicker').onclick = function () {
 		console.log(Base.get('filePicker').value);
 	}
 
-			//-----------------------------------
-
 	Base.get('sendServer').onclick = function () {
-		//console.log(interpMenulist.getDataObject());
-		connection(interpMenulist.getDataArray());
+		Connection.request({
+			params: interpMenulist.getDataArray()
+		});
 	}
+
 	$("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
 });

@@ -5,11 +5,8 @@
 */
 function interpolationMenulist (aConfig) {
     var that = {};
-	var gTable = aConfig.table;
-	var gDebug = aConfig.debug;
 	var gInterpPlot = aConfig.interpolationPlot;
 	var gInterpTable = aConfig.interpolationTable;
-	var gSaveButton = aConfig.save;
 	var gActualData = 1;
 	var gIndexMax = 0;
     var gCellButtonForm = {
@@ -19,6 +16,10 @@ function interpolationMenulist (aConfig) {
         "type" :  "text",
         "disabled": "true"
     };
+    var gTable = basicTable({
+		tableId: aConfig.tableId,
+		debug: null
+	});
 	
 	/** Új Lista elem */
 	function newItem() {
@@ -43,16 +44,6 @@ function interpolationMenulist (aConfig) {
 		};
 		return newIndex;
 	}
-
-	/** Elmenti az adatokat a táblából (az aktuális Interpolációból) */
-	function saveItemSettings () {
-		var saveObject = {};
-		saveObject.tableData = gInterpTable.getData();
-		saveObject.plotSetting = gInterpPlot.getPlotSettings();
-		
-		var saveJSON = JSON.stringify(saveObject);
-		gTable.setValue(gActualData, 2, saveJSON);
-	}
 	
 	/** Betölti az egyik indexből az adatokat a táblába */
 	function loadItemSettings(index) {
@@ -63,30 +54,10 @@ function interpolationMenulist (aConfig) {
 		} catch (e){
 			loadObject = {};
 		}
+		var gCurrentPoly = loadObject.tableData.polynomial;
 		gInterpTable.setData(loadObject.tableData);
 		gInterpPlot.setPlotSettings(loadObject.plotSetting);
-		gInterpPlot.refresh(gInterpTable.getData());
-	}
-	
-	/** Leggenerálja/Elmenti a Listában szereplő összes Interpolációt */
-	function saveAll() {
-		var saveObject = that.getDataObject();
-		console.log(saveObject);
-		gDebug.setInputValue(JSON.stringify(saveObject));
-        Base.erlangJSON(saveObject);
-	}
-
-	/** Betölti az összes Interpolációt az adott adathalmazból */
-	function loadAll(loadObject){
-		newMenulist();
-		Base.forEach(loadObject.data_set, function(key, value){
-			var i = newItem();
-			console.log(i, value.id, value);
-			gTable.setValue(i, 0, value.id);
-			gTable.setValue(i, 1, value.name);
-			gTable.setValue(i, 2, JSON.stringify(value.sender));
-		});
-		console.log('hello');
+		gInterpPlot.refresh(gInterpTable.getData(), gCurrentPoly);
 	}
 	
 	function newMenuListHeaderItem(HeaderName) {
@@ -110,35 +81,53 @@ function interpolationMenulist (aConfig) {
 		newItem();
 	};
 
-	aConfig.loadFromDebug.onclick = function() {
-		var loadJSON = gDebug.getInputValue();
-		try {
-			var loadObject = JSON.parse(loadJSON);
-			loadAll(loadObject);
-		} catch (e) {
-			console.log('invalid JSON');
-			return false;
-		}
-	};
-	
-	gSaveButton.onclick = function () {
-		saveItemSettings();
-		saveAll();
-	};
-
 	function getData(i){
 		var data = {};
 		data.id = gTable.getValue(i, 0);
 		data.name = gTable.getValue(i, 1);
+		var JSONStr = gTable.getValue(i, 2);
 		try {
-			data.sender = JSON.parse(gTable.getValue(i, 2));
+			var Sender = JSON.parse(JSONStr);
+			Base.forEach(Sender, function(key, value) {
+				data[key] = value;
+			});
 		} catch (e) {
-			data.sender = gTable.getValue(i, 2);
+			data.sender = JSONStr;
 		}
 		return data;
 	}
 
-	that.getDataObject = function(){
+	/** Betölti az összes Interpolációt az adott adathalmazból */
+	that.loadAll = function(loadObject) {
+		newMenulist();
+		Base.forEach(loadObject.data_set, function(id, value){
+			var i = newItem();
+			gTable.setValue(i, 0, value.id);
+			gTable.setValue(i, 1, value.name);
+			gTable.setValue(i, 2, JSON.stringify({
+				tableData: value.tableData,
+				inverse: value.inverse,
+				type: value.type
+			}));
+		});
+	}
+
+	/** Elmenti az adatokat a táblából (az aktuális Interpolációból) */
+	that.saveItemSettings = function() {
+		var saveObject = {};
+		saveObject.type = Base.get("type").value;
+		console.log(Base.get("type").value);
+		console.log(Base.get("inverse").checked);
+		saveObject.inverse = Base.get("inverse").checked;
+		saveObject.tableData = gInterpTable.getData();
+		saveObject.tableData.polynomial = gCurrentPoly;
+		saveObject.plotSetting = gInterpPlot.getPlotSettings();
+		
+		var saveJSON = JSON.stringify(saveObject);
+		gTable.setValue(gActualData, 2, saveJSON);
+	}
+
+	that.getDataObject = function() {
 		var saveObject = {};
 		saveObject.data_set = {};
         var i;
@@ -154,11 +143,14 @@ function interpolationMenulist (aConfig) {
 		saveObject.data_set = [];
         var i;
 		for (i = 1; i < gTable.getNumOfRows(); i++) {
-			console.log(getData(i));
 			saveObject.data_set.push(getData(i));
 		}
 		return saveObject;
-	} 
+	}
+
+	that.refresh = function() {
+		return gCurrentPoly;
+	}
 
 	newMenulist();
 	newItem();

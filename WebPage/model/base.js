@@ -8,8 +8,6 @@ Base.get = function (name, by) {
     switch (by) {
         case 'id':
             return document.getElementById(name);
-        case 'name':
-            return document.getElementsByName(name)[0];
         default :
             return document.getElementsByName(name)[0];
     }
@@ -20,7 +18,7 @@ Base.erlangJSON = function (Obj) {
         return value;
     });
     var res = JsonObj.replace(/"/g, '\\"');
-    console.log(res);
+	return res;
 };
 
 Base.forEach = function(object, callback) {

@@ -56,6 +56,14 @@
 				<p><input type="button" name="addPoint"  value="Add The Point"></p>
 			</th>
 			<th>
+				<label>Inverz Interpoláció: </label>
+				<input type="checkbox" name="inverse">
+				 <label>Típusa: </label>
+				 <select name="type">
+				  <option value="0">Lagrange</option>
+				  <option value="1">Newton</option>
+				  <option value="2">Hermite</option>
+				</select> 
 				<table id="interpolationTable"></table>
 			</th>
 			</tr></table>
@@ -92,10 +100,17 @@
 			<table id="interpoationSetTable"></table>
 		</div>
 	</div>
-	<div id="debug">
-		<input type="button" name="loadFromDebug"  value="loadFromDebug">
+	<div id="send">
 		<input type="button" name="sendServer"  value="Send">
-		<input type="text" name="debug_text" id="debug_text">
+		<input type="text" name="sendServerText" id="sendServerText">
+	</div>
+	<div id="save">
+		<input type="button" name="saveButton"  value="Save">
+		<input type="text" name="saveText" id="saveText">
+	</div>
+	<div id="result">
+		<input type="button" name="resultLoad"  value="resultLoad">
+		<input type="text" name="resultLoadText" id="resultLoadText">
 	</div>
 	<div id="footer">
 		Copyright &copy; 2014 Alexandra Cselyuszka
