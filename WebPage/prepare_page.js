@@ -97,7 +97,6 @@ $(function() {
 	/** Leggenerálja/Elmenti a Listában szereplő összes Interpolációt */
 	function save() {
 		interpMenulist.saveItemSettings();
-		//Base.erlangJSON();
         Base.get('sendServerText').value = JSON.stringify(interpMenulist.getDataArray());
         Base.get('saveText').value = JSON.stringify(interpMenulist.getDataObject());
 	}

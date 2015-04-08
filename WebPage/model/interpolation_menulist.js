@@ -12,6 +12,7 @@ function interpolationMenulist (aConfig) {
     var gCellButtonForm = {
         "type" :  "button",
     };
+    var gCurrentPoly = null;
 	var gFirstRowForm = {
         "type" :  "text",
         "disabled": "true"
@@ -54,8 +55,9 @@ function interpolationMenulist (aConfig) {
 		} catch (e){
 			loadObject = {};
 		}
-		var gCurrentPoly = loadObject.tableData.polynomial;
-		gInterpTable.setData(loadObject.tableData);
+		var tableData = loadObject.tableData;
+		var gCurrentPoly = tableData ? tableData.polynomial : null;
+		gInterpTable.setData(tableData);
 		gInterpPlot.setPlotSettings(loadObject.plotSetting);
 		gInterpPlot.refresh(gInterpTable.getData(), gCurrentPoly);
 	}
@@ -116,14 +118,13 @@ function interpolationMenulist (aConfig) {
 	that.saveItemSettings = function() {
 		var saveObject = {};
 		saveObject.type = Base.get("type").value;
-		console.log(Base.get("type").value);
-		console.log(Base.get("inverse").checked);
 		saveObject.inverse = Base.get("inverse").checked;
 		saveObject.tableData = gInterpTable.getData();
-		saveObject.tableData.polynomial = gCurrentPoly;
+		saveObject.tableData.polynomial = gCurrentPoly || null;
 		saveObject.plotSetting = gInterpPlot.getPlotSettings();
 		
 		var saveJSON = JSON.stringify(saveObject);
+		console.log(saveJSON, saveObject);
 		gTable.setValue(gActualData, 2, saveJSON);
 	}
 
@@ -146,10 +147,6 @@ function interpolationMenulist (aConfig) {
 			saveObject.data_set.push(getData(i));
 		}
 		return saveObject;
-	}
-
-	that.refresh = function() {
-		return gCurrentPoly;
 	}
 
 	newMenulist();

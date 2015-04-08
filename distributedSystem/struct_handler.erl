@@ -77,19 +77,19 @@ convertToMochi(Object) ->
   {struct, StructList}.
 
 getTableData(DataSetElement) -> 
-	getElementByKeyList(["sender", "tableData"], DataSetElement).
+	getElementByKeyList(["tableData"], DataSetElement).
 
 getInverse(DataSetElement) -> 
-  getElementByKeyList(["sender", "inverse"], DataSetElement).
+  getElementByKeyList(["inverse"], DataSetElement).
 
 getType(DataSetElement) -> 
-  getElementByKeyList(["sender", "type"], DataSetElement).
+  getElementByKeyList(["type"], DataSetElement).
 
 getId(DataSetElement) ->
   getElementByKeyList(["id"], DataSetElement).
 
 getTableData(DataSetElement, Key) -> 
-	KeyList = lists:append(["sender", "tableData"], [Key]),
+	KeyList = lists:append(["tableData"], [Key]),
 	getElementByKeyList(KeyList, DataSetElement).
 
 getPoints(DataSetElement) -> 
