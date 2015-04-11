@@ -83,5 +83,8 @@ receiveData(RecPid) ->
 
 calculate(Data) ->
   Id = apply(struct_handler, getId, [Data]),
-  Result = apply(calculator, calculateByData, [Data]),
-  {Id, Result}.
+  try apply(calculator, calculateByData, [Data]) of 
+    Result -> {Id, Result}
+  catch 
+    _:_ -> {error, "failed"}
+  end.

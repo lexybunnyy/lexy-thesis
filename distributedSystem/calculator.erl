@@ -14,4 +14,5 @@ calculateByData(DataSetElement) ->
   Inverse = apply(struct_handler, getInverse, [DataSetElement]),
   X = apply(struct_handler, getElementByKey, [x, Points]),
   Y = apply(struct_handler, getElementByKey, [y, Points]),
-  calculate(X, Y, Type, Inverse).
+  Result = calculate(X, Y, Type, Inverse),
+  apply(struct_handler, simplifyPolinomial, [Result, []]).

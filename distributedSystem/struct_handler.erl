@@ -18,6 +18,10 @@ getDataByJson(JsonSting) -> apply(mochijson, decode, [JsonSting]).
 getDataSet(Data) -> getElementByKeyList(["data_set", array], Data).
 getDataSetStruct(Data) -> getElementByKeyList(["data_set", struct], Data).
 
+parseBoolToInteger(true) -> 1;
+parseBoolToInteger(false) -> 0;
+parseBoolToInteger(_other) -> error.  
+
 convertStringList(Array) ->
   convertStringList(Array, []).
 convertStringList([], Array) -> 
@@ -79,10 +83,13 @@ getTableData(DataSetElement) ->
 	getElementByKeyList(["tableData"], DataSetElement).
 
 getInverse(DataSetElement) -> 
-  getElementByKeyList(["inverse"], DataSetElement).
+  Inverse = getElementByKeyList(["inverse"], DataSetElement),
+  parseBoolToInteger(Inverse).
 
 getType(DataSetElement) -> 
-  getElementByKeyList(["type"], DataSetElement).
+  TypeStr = getElementByKeyList(["type"], DataSetElement),
+  {Type, _other} = string:to_integer(TypeStr),
+  Type.
 
 getId(DataSetElement) ->
   getElementByKeyList(["id"], DataSetElement).

@@ -12,16 +12,18 @@ fork(TestList) when is_list(TestList) ->
 fork(NumOfPids) ->
     apply(node_handler, makeNodeStructure, [NumOfPids, fork]).
 
+%% cannot call on_load main
 simulateDistributedCalculate() -> 
 	JsonSting = getJSONString(),
-	apply(main, callDistributedCaluclate, [JsonSting]).
-
-%% Segítség az elosztás előtt/Után
-simpulateFirstParseAndRun() -> 
-	DataSetElement = getFirstElementOfDataSet(),
-	Id = apply(struct_handler, getId, [DataSetElement]),
-	Result = apply(calculator, calculateByData, [DataSetElement]),
-	{Id, Result}.
+	Data = apply(struct_handler, getDataByJson, [JsonSting]),
+	Result = apply(main, callDistributedCaluclate, [Data]),
+	case Result of 
+		[R1, R2, _R3] -> 
+			[
+				getResultTestHelper(R1, {"1",[0.0,0.0,1.0]}),
+				getResultTestHelper(R2, {"2",[0.0]})
+			]
+	end.
 
 %% ------------------ Run ---------------------------------
 run(ReturnOk) -> 
@@ -37,7 +39,8 @@ runCheck() ->
 	JSONParse2 = getParseJSONParams(),
 	Polin = simplifyPolinomialTest(),
 	Result = getResultTest(),
-	[Element, Polin] ++ JSONParse2 ++ Result ++ NewPoint.
+	CallCalculate = simulateFirstParseAndRun(),
+	[Element, Polin, CallCalculate] ++ JSONParse2 ++ Result ++ NewPoint.
 
 %% ------------------ In Active Run Tests ---------------------------------
 
@@ -89,11 +92,11 @@ getParseJSONParams() ->
   	X = apply(struct_handler, getElementByKey, [x, Points]),
   	Y = apply(struct_handler, getElementByKey, [y, Points]),
   	[
-  		DataLength == 4,
-  		X == [0,1,2,3,4,5,6],
-  		Y == [[0,0,2,0],[1,2,2,0],[4,4,2,0],[9,6,2,0],[16,8,2,0],[25,10,2,0],[36,12,2,0]],
-  		Type == "0",
-  		Inverse == false
+  		getResultTestHelper(DataLength, 3),
+  		getResultTestHelper(X, [0,1,2,3,4,5,6]),
+  		getResultTestHelper(Y, [[0,0,2,0],[1,2,2,0],[4,4,2,0],[9,6,2,0],[16,8,2,0],[25,10,2,0],[36,12,2,0]]),
+  		getResultTestHelper(Type, 1),
+  		getResultTestHelper(Inverse, 0)
   	].
 
 convertStruct() -> 
@@ -110,6 +113,11 @@ convertStruct() ->
 		getResultTestHelper(InArray, OutArray, struct_handler, convertPoints)
 	].
 
+simulateFirstParseAndRun() -> 
+	DataSetElement = getFirstElementOfDataSet(),
+	Expected = [0.0,0.0,1.0],
+	getResultTestHelper([DataSetElement], Expected, calculator, calculateByData).
+
 %% --------------------------------------------------------- helpers 
 %% Vissza adja a minta adatok első elemét
 getFirstElementOfDataSet() ->
@@ -123,18 +131,22 @@ getFirstElementOfDataSet([Head|_Tail]) -> Head.
 
 %% Egy minta adathalmaz ami jöhet a felületről
 getJSONString()  ->
-	"{\"data_set\":[{\"id\":\"1\",\"name\":\"new_interpolation_1\",\"type\":\"0\",\"inverse\":false,\"tableData\":{\"points\":[{\"x\":0,\"y\":[0,0,2,0]},{\"x\":1,\"y\":[1,2,2,0]},{\"x\":2,\"y\":[4,4,2,0]},{\"x\":3,\"y\":[9,6,2,0]},{\"x\":4,\"y\":[16,8,2,0]},{\"x\":5,\"y\":[25,10,2,0]},{\"x\":6,\"y\":[36,12,2,0]}],\"num_of_points\":7,\"max_derivate\":3,\"num_of_cols\":8,\"num_of_rows\":5,\"polynomial\":null},\"plotSetting\":{\"xaxis_min\":\"-1\",\"xaxis_max\":\"9\",\"yaxis_min\":\"-1\",\"yaxis_max\":\"36\",\"derivNum_max\":\"\"}},{\"id\":\"2\",\"name\":\"new_interpolation_2\",\"type\":\"0\",\"inverse\":false,\"tableData\":{\"points\":[{\"x\":0,\"y\":[0]}],\"num_of_points\":1,\"max_derivate\":0,\"num_of_cols\":2,\"num_of_rows\":2,\"polynomial\":null},\"plotSetting\":{\"xaxis_min\":\"-2\",\"xaxis_max\":\"2\",\"yaxis_min\":\"-2\",\"yaxis_max\":\"2\",\"derivNum_max\":\"\"}},{\"id\":\"3\",\"name\":\"new_interpolation_3\",\"type\":\"0\",\"inverse\":false,\"tableData\":{\"points\":[{\"x\":0,\"y\":[0,0,2,0]},{\"x\":1,\"y\":[1,2,2,0]},{\"x\":2,\"y\":[4,4,2,0]},{\"x\":3,\"y\":[9,6,2,0]},{\"x\":4,\"y\":[16,8,2,0]},{\"x\":5,\"y\":[25,10,2,0]},{\"x\":6,\"y\":[36,12,2,0]},{\"x\":6.17,\"y\":[27.52]}],\"num_of_points\":8,\"max_derivate\":3,\"num_of_cols\":9,\"num_of_rows\":5,\"polynomial\":null},\"plotSetting\":{\"xaxis_min\":\"-1\",\"xaxis_max\":\"9\",\"yaxis_min\":\"-1\",\"yaxis_max\":\"36\",\"derivNum_max\":\"\"}},{\"id\":\"4\",\"name\":\"new_interpolation_4\",\"sender\":\"\"}]}".	
+	"{\"data_set\":[{\"id\":\"1\",\"name\":\"new_interpolation_1\",\"type\":\"1\",\"inverse\":false,\"tableData\":{\"points\":[{\"x\":0,\"y\":[0,0,2,0]},{\"x\":1,\"y\":[1,2,2,0]},{\"x\":2,\"y\":[4,4,2,0]},{\"x\":3,\"y\":[9,6,2,0]},{\"x\":4,\"y\":[16,8,2,0]},{\"x\":5,\"y\":[25,10,2,0]},{\"x\":6,\"y\":[36,12,2,0]}],\"num_of_points\":7,\"max_derivate\":3,\"num_of_cols\":8,\"num_of_rows\":5,\"polynomial\":null},\"plotSetting\":{\"xaxis_min\":\"-1\",\"xaxis_max\":\"9\",\"yaxis_min\":\"-1\",\"yaxis_max\":\"36\",\"derivNum_max\":\"\"}},{\"id\":\"2\",\"name\":\"new_interpolation_2\",\"type\":\"0\",\"inverse\":false,\"tableData\":{\"points\":[{\"x\":0,\"y\":[0]}],\"num_of_points\":1,\"max_derivate\":0,\"num_of_cols\":2,\"num_of_rows\":2,\"polynomial\":null},\"plotSetting\":{\"xaxis_min\":\"-2\",\"xaxis_max\":\"2\",\"yaxis_min\":\"-2\",\"yaxis_max\":\"2\",\"derivNum_max\":\"\"}},{\"id\":\"3\",\"name\":\"new_interpolation_3\",\"type\":\"0\",\"inverse\":false,\"tableData\":{\"points\":[{\"x\":0,\"y\":[0,0,2,0]},{\"x\":1,\"y\":[1,2,2,0]},{\"x\":2,\"y\":[4,4,2,0]},{\"x\":3,\"y\":[9,6,2,0]},{\"x\":4,\"y\":[16,8,2,0]},{\"x\":5,\"y\":[25,10,2,0]},{\"x\":6,\"y\":[36,12,2,0]},{\"x\":6.17,\"y\":[27.52]}],\"num_of_points\":8,\"max_derivate\":3,\"num_of_cols\":9,\"num_of_rows\":5,\"polynomial\":null},\"plotSetting\":{\"xaxis_min\":\"-1\",\"xaxis_max\":\"9\",\"yaxis_min\":\"-1\",\"yaxis_max\":\"36\",\"derivNum_max\":\"\"}}]}".	
+getJSONStringBig() -> 
+	"{\"data_set\":[{\"id\":\"1\",\"name\":\"new_interpolation_1\",\"type\":\"1\",\"inverse\":false,\"tableData\":{\"points\":[{\"x\":0,\"y\":[0,0,2,0]},{\"x\":1,\"y\":[1,2,2,0]},{\"x\":2,\"y\":[4,4,2,0]},{\"x\":3,\"y\":[9,6,2,0]},{\"x\":4,\"y\":[16,8,2,0]},{\"x\":5,\"y\":[25,10,2,0]},{\"x\":6,\"y\":[36,12,2,0]}],\"num_of_points\":7,\"max_derivate\":3,\"num_of_cols\":8,\"num_of_rows\":5,\"polynomial\":null},\"plotSetting\":{\"xaxis_min\":\"-1\",\"xaxis_max\":\"9\",\"yaxis_min\":\"-1\",\"yaxis_max\":\"36\",\"derivNum_max\":\"\"}},{\"id\":\"2\",\"name\":\"new_interpolation_2\",\"type\":\"0\",\"inverse\":false,\"tableData\":{\"points\":[{\"x\":0,\"y\":[0]}],\"num_of_points\":1,\"max_derivate\":0,\"num_of_cols\":2,\"num_of_rows\":2,\"polynomial\":null},\"plotSetting\":{\"xaxis_min\":\"-2\",\"xaxis_max\":\"2\",\"yaxis_min\":\"-2\",\"yaxis_max\":\"2\",\"derivNum_max\":\"\"}},{\"id\":\"3\",\"name\":\"new_interpolation_3\",\"type\":\"0\",\"inverse\":false,\"tableData\":{\"points\":[{\"x\":0,\"y\":[0,0,2,0]},{\"x\":1,\"y\":[1,2,2,0]},{\"x\":2,\"y\":[4,4,2,0]},{\"x\":3,\"y\":[9,6,2,0]},{\"x\":4,\"y\":[16,8,2,0]},{\"x\":5,\"y\":[25,10,2,0]},{\"x\":6,\"y\":[36,12,2,0]},{\"x\":6.17,\"y\":[27.52]}],\"num_of_points\":8,\"max_derivate\":3,\"num_of_cols\":9,\"num_of_rows\":5,\"polynomial\":null},\"plotSetting\":{\"xaxis_min\":\"-1\",\"xaxis_max\":\"9\",\"yaxis_min\":\"-1\",\"yaxis_max\":\"36\",\"derivNum_max\":\"\"}},{\"id\":\"4\",\"name\":\"new_interpolation_4\",\"sender\":\"\"}]}".	
 
+getResultTestHelper(Result, Expected) -> 
+	case Result == Expected of 
+		true -> true;
+		_ -> {failed, {result, Result}, {expected, Expected}}
+	end.
 getResultTestHelper(In, Expected, Module, Function) ->
 	Result = 
 		case is_list(In) of 
 			true -> apply(Module, Function, In);
 			_ -> apply(Module, Function, [In])
 		end,
-	case Result == Expected of 
-		true -> true;
-		_ -> {failed, {result, Result}, {expected, Expected}}
-	end.
+	getResultTestHelper(Result, Expected).
 
 trueList()-> true.
 trueList([true]) -> true;

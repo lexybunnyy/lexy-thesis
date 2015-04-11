@@ -7,7 +7,7 @@
 %%% @end
 %%% Created : 18. márc. 2014 11:16
 %% g++ -std=c++11 -o calculator.so -fpic -shared ./../Calculator/erlang.cpp ./../Calculator/logTest.cpp ./../Calculator/calculator.cpp 
-
+%%% escript: http://www.erlang.org/doc/man/escript.html
 %%% erl
 %%% c(main).
 %%% calculator:calculate([0,1], [[0],[1]]).
@@ -39,4 +39,8 @@ initPort() ->
 callDistributedCaluclate(Data) -> 
 	DataSet = apply(struct_handler, getDataSet, [Data]),
 	DataLength = length(DataSet),
-	apply(node_handler, nodeCall, [DataLength, fork, DataSet]).
+	try apply(node_handler, nodeCall, [DataLength, fork, DataSet]) of 
+		SuccessPattern -> SuccessPattern
+	catch 
+		_:_ -> {error, "failed"}
+	end.
