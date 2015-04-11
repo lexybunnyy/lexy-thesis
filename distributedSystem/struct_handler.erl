@@ -56,7 +56,6 @@ simplifyPolinomial([H], Array) ->
     _ -> Array ++ [H]
   end;
 simplifyPolinomial([H|T], Array) ->
-  io:format("simplifyPolinomial: ~p ~p ~p \n", [H, T, Array]),
   case isFullNullList(T) of
     true -> Array ++ [H];
     _ -> simplifyPolinomial(T, Array ++ [H])
