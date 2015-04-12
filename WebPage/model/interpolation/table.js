@@ -217,6 +217,6 @@ function interpolationTable(aConfig){
 
     configButtons();
     that.setData();
-    return that;
 
+    return that;
 }

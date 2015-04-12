@@ -23,10 +23,9 @@ function interpolationMenulist (aConfig) {
 	});
 	
 	/** Új Lista elem */
-	function newItem() {
+	that.newItem = function() {
 		var newIndex = gTable.addNewRowToTable();
 		gIndexMax = gIndexMax + 1;
-
 
 		gTable.setValue(newIndex, 0, gIndexMax);
 		gTable.setValue(newIndex, 1, 'new_interpolation_' + gIndexMax, gCellButtonForm);
@@ -34,14 +33,15 @@ function interpolationMenulist (aConfig) {
 			loadItemSettings(newIndex);
 		};
 
-		gTable.setValue(1, 2, JSON.stringify(ExampleData.senderOneData));
+		//gTable.setValue(1, 2, JSON.stringify(ExampleData.senderOneData));
+		var ID = gTable.getValue(newIndex, 0);
 
 		gTable.setValue(newIndex, 3, 'DEL', gCellButtonForm);
 		gTable.getInputTag(newIndex, 3).onclick = function () {
-			//TODO Fix or remove
-			var row = gTable.findValue(1, gIndexMax);
-			console.log(gIndexMax);
-			gTable.remove(row);
+			var row = gTable.findValue(0, ID);
+			if (row && row > 0) {
+				gTable.remove(row+1);
+			}
 		};
 		return newIndex;
 	}
@@ -58,6 +58,7 @@ function interpolationMenulist (aConfig) {
 		var tableData = loadObject.tableData;
 		var gCurrentPoly = tableData ? tableData.polynomial : null;
 		gInterpTable.setData(tableData);
+
 		gInterpPlot.setPlotSettings(loadObject.plotSetting);
 		gInterpPlot.refresh(gInterpTable.getData(), gCurrentPoly);
 	}
@@ -79,7 +80,7 @@ function interpolationMenulist (aConfig) {
 	
 	/** Gombok Inicializálása */
 	aConfig.newItemButton.onclick = function () {
-		newItem();
+		that.newItem();
 	};
 
 	function getData(i){
@@ -123,7 +124,6 @@ function interpolationMenulist (aConfig) {
 		saveObject.plotSetting = gInterpPlot.getPlotSettings();
 		
 		var saveJSON = JSON.stringify(saveObject);
-		console.log(saveJSON, saveObject);
 		gTable.setValue(gActualData, 2, saveJSON);
 	}
 
@@ -149,7 +149,6 @@ function interpolationMenulist (aConfig) {
 	}
 
 	newMenulist();
-	newItem();
-	loadItemSettings();
+
     return that;
 }

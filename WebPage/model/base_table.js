@@ -187,9 +187,10 @@ function basicTable (aConfig) {
     };
 
     /** findValue() */
-    that.findValue = function(column, value){
+    that.findValue = function(column, value) {
         for(var i = 0; i < that.reference.rows.length; i++) {
-            if(value == that.getValue(i, column)){
+            var currentValue = that.getValue(i, column);
+            if(value === currentValue){
                 return i;
             };
         }
@@ -197,7 +198,11 @@ function basicTable (aConfig) {
     };
 
     /** Egy adott cella érték beállítása*/
-    that.setValue = function(i, j, value, form){
+    that.setValue = function(i, j, value, form) {
+        if (!gTableRows[i]) {
+            console.log(i, j, value, form);
+            return;
+        }
         var tableRow = gTableRows[i].getElementsByTagName("INPUT");
         tableRow[j].value = value;
         if (form){
@@ -215,7 +220,7 @@ function basicTable (aConfig) {
     };
 
     that.remove = function(row) {
-        gTableRows.splice(row, 1);
+        gTableRows.splice(row-1, 1);
         that.reference.deleteRow(row);
     }
 

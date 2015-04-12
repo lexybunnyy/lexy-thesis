@@ -127,7 +127,6 @@ function interpolationPlot(aConfig) {
             generateType()
         );
     };
-    that.refresh();
 	
 	that.getPlotSettings = function () {
 		var result = {};
@@ -151,6 +150,5 @@ function interpolationPlot(aConfig) {
 		gSettings.derivNum_max.value = setterValues.derivNum_max;
 	};
 	
-	setDefaultSettings();
     return that;
 }
