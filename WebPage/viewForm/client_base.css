@@ -15,7 +15,6 @@ body
 	margin:0 auto;
 
 	background-color:black;
-	background: url(kepek/kekviragok.jpg);
 	background-size:120% auto; /*auto, contain,cover*/
 	background-repeat:repeat-y;
 	background-position:left top;
