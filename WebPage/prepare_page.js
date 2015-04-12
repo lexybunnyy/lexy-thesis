@@ -26,10 +26,6 @@ $(function() {
          debugSpan: $("#debugSpanId"),
 		 debugInput: Base.get('debug_text')
     });
-
-	init = function() {
-		 interpPlot.refresh(interpTable.getData());
-	}
    
 	$("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
 });

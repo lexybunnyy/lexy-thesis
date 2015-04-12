@@ -39,5 +39,9 @@ $(function() {
 			params: interpMenulist.getDataArray()
 		});
 	}
-	init(); 
+	
+	function init() {
+		console.log('hello');
+	};
+	init();
 })

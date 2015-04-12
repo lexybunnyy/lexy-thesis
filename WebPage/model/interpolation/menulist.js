@@ -64,7 +64,6 @@ function interpolationMenulist (aConfig) {
 	
 	function newMenuListHeaderItem(HeaderName) {
 		var index = gTable.addNewColumnToTable();
-		//console.log(HeaderName, index);
 		gTable.setValue(0, index-1, HeaderName);
 		gTable.setCellForm(0, index-1, gFirstRowForm);
 	}
@@ -151,7 +150,6 @@ function interpolationMenulist (aConfig) {
 
 	newMenulist();
 	newItem();
-	gTable.setValue(1, 2, JSON.stringify(ExampleData.senderOneData));
 	loadItemSettings();
     return that;
 }
