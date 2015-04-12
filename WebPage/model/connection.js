@@ -13,6 +13,7 @@ Connection.request = function (aConfig) {
 		data: JSON.stringify(aConfig.params),
 	}).done(function(param1) {
     	console.log( "success", param1, 'dd');
+    	Base.get('resultLoadText').value = JSON.stringify(param1);
     	alert("Calculate Done!");
 	}).fail(function(info, textstatus) {
 	    console.log( "error", info, textstatus);

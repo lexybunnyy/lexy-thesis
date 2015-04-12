@@ -100,16 +100,20 @@ function interpolationMenulist (aConfig) {
 	}
 
 	/** Betölti az összes Interpolációt az adott adathalmazból */
-	that.loadAll = function(loadObject) {
+	that.loadAll = function(savedObject, resultObject) {
 		newMenulist();
-		Base.forEach(loadObject.data_set, function(id, value){
-			var i = newItem();
+		Base.forEach(savedObject.data_set, function(id, value) {
+			var i = that.newItem();
+
+			var tableData = value.tableData;
+			tableData.polynomial = resultObject[value.id];
+
 			gTable.setValue(i, 0, value.id);
 			gTable.setValue(i, 1, value.name);
 			gTable.setValue(i, 2, JSON.stringify({
 				tableData: value.tableData,
 				inverse: value.inverse,
-				type: value.type
+				type: value.type,
 			}));
 		});
 	}

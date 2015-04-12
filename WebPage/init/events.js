@@ -26,8 +26,18 @@ $(function() {
 	Base.get('saveButton').onclick = save;
 
 	Base.get('resultLoad').onclick = function () {
-		console.log(Base.get("sendServerText").value);
-		// TODO: interpMenulist.loadLabel();
+		var serverResultTest = {};
+		var savedTextJSON = Base.get("saveText").value;
+		var savedText = JSON.parse(savedTextJSON);
+
+		try {
+			var serverResultJSON = Base.get("resultLoadText").value
+			serverResult = JSON.parse(serverResultTest);
+		} catch (e) {
+			serverResult = {};
+		}
+		console.log(savedText, serverResultTest);
+		interpMenulist.loadAll(savedText, serverResult);
 	}
 	
 	Base.get('filePicker').onclick = function () {
@@ -40,6 +50,11 @@ $(function() {
 		});
 	}
 	
+	Base.get('loadExample1').onclick = function () {
+		var JSONExample = '{"data_set":{"1":{"id":"1","name":"new_interpolation_1","type":"1","inverse":false,"tableData":{"points":[{"x":0,"y":[0,0,2,0]},{"x":1,"y":[1,2,2,0]},{"x":2,"y":[4,4,2,0]},{"x":3,"y":[9,6,2,0]},{"x":4,"y":[16,8,2,0]},{"x":5,"y":[25,10,2,0]},{"x":6,"y":[36,12,2,0]}],"num_of_points":7,"max_derivate":3,"num_of_cols":8,"num_of_rows":5,"polynomial":null},"plotSetting":{"xaxis_min":"-1","xaxis_max":"9","yaxis_min":"-1","yaxis_max":"36","derivNum_max":""}}}}';
+		Base.get('saveText').value = JSONExample;
+	}
+
 	function init() {
 		console.log('hello');
 	};
