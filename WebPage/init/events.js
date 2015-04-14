@@ -3,7 +3,8 @@
 $(function() {
 
     Base.get('refreshPlot').onclick = function() {
-        interpPlot.refresh(interpTable.getData());
+    	save();
+    	load();
     };
 
     Base.get('addPoint').onclick = function() {
@@ -22,23 +23,31 @@ $(function() {
         Base.get('saveText').value = JSON.stringify(interpMenulist.getDataObject());
 	}
 
-	Base.get('saveInMenulist').onclick = save;
-	Base.get('saveButton').onclick = save;
+	function load(result) {
+		if (result) {
+			Base.get('resultLoadText').value = JSON.stringify(result);
+		}
 
-	Base.get('resultLoad').onclick = function () {
-		var serverResultTest = {};
 		var savedTextJSON = Base.get("saveText").value;
 		var savedText = JSON.parse(savedTextJSON);
+		var serverResult = {};
 
 		try {
 			var serverResultJSON = Base.get("resultLoadText").value
-			serverResult = JSON.parse(serverResultTest);
+			serverResult = JSON.parse(serverResultJSON);
 		} catch (e) {
+			console.log(e);
 			serverResult = {};
 		}
-		console.log(savedText, serverResultTest);
 		interpMenulist.loadAll(savedText, serverResult);
+		interpMenulist.loadItemSettings();
 	}
+
+	Base.get('saveInMenulist').onclick = save;
+	Base.get('saveButton').onclick = save;
+	Base.get('resultLoad').onclick = function(){
+		load();
+	};
 	
 	Base.get('filePicker').onclick = function () {
 		console.log(Base.get('filePicker').value);
@@ -46,7 +55,8 @@ $(function() {
 
 	Base.get('sendServer').onclick = function () {
 		Connection.request({
-			params: interpMenulist.getDataArray()
+			params: interpMenulist.getDataArray(),
+			callback: load
 		});
 	}
 	

@@ -7,14 +7,14 @@ Connection.request = function (aConfig) {
 	$.ajax({
 		crossDomain: true,
 		dataType: "json",
-		type: "GET",
+		type: "POST",
 		contentType:  "application/json; charset=utf-8",
 		url: 'http://localhost:8086/API',
 		data: JSON.stringify(aConfig.params),
-	}).done(function(param1) {
-    	console.log( "success", param1, 'dd');
-    	Base.get('resultLoadText').value = JSON.stringify(param1);
+	}).done(function(result) {
+    	console.log( "success", result, 'dd');
     	alert("Calculate Done!");
+    	aConfig.callback(result);
 	}).fail(function(info, textstatus) {
 	    console.log( "error", info, textstatus);
 	}).always(function() {
