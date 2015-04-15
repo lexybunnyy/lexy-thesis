@@ -13,10 +13,11 @@ Connection.request = function (aConfig) {
 		data: JSON.stringify(aConfig.params),
 	}).done(function(result) {
     	console.log( "success", result, 'dd');
-    	alert("Calculate Done!");
+    	alert("Számítás Befejeződött!");
     	aConfig.callback(result);
 	}).fail(function(info, textstatus) {
 	    console.log( "error", info, textstatus);
+	    alert("Hiba a kapcsolatban!");
 	}).always(function() {
 	    console.log( "end" );
 	});
