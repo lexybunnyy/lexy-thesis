@@ -29,7 +29,9 @@ handle(Conn) ->
 
 response(Str) ->
     ResponseStruct = erlang:decode_packet(http_bin, Str, []),
+    io:format("ResponseStruct: ~1000p \n", [ResponseStruct]),
     ResponseParams = getDecodeData(ResponseStruct),
+    io:format("ResponseParams: ~1000p \n", [ResponseParams]),
     RespData = convertData(ResponseParams),
         io:format("response: ~p \n", [RespData]),
     Result = callMain(RespData),
@@ -44,24 +46,11 @@ response(Str) ->
 
 %% ------------------------------------------- TCP server
 %%http://erlang.org/doc/man/gen_tcp.html
-client() ->
-    SomeHostInNet = "localhost", % to make it runnable on one machine
-    {ok, Sock} = gen_tcp:connect(SomeHostInNet, 5678, 
-                                 [binary, {packet, 0}]),
-    ok = gen_tcp:send(Sock, "Some Data"),
-    ok = gen_tcp:close(Sock).
-
-server() ->
-    {ok, LSock} = gen_tcp:listen(5678, [binary, {packet, 0}, 
-                                        {active, false}]),
-    {ok, Sock} = gen_tcp:accept(LSock),
-    {ok, Bin} = do_recv(Sock, []),
-    ok = gen_tcp:close(Sock),
-    Bin.
 
 do_recv(Sock, Bs) ->
     case gen_tcp:recv(Sock, 0) of
         {ok, B} ->
+            io:format("gen_tcp:recv ~2000p halkldklsadklsakd \n", [string:len(B)]),
             {ok, list_to_binary(B)};
         {error, closed} ->
             {ok, list_to_binary(Bs)}

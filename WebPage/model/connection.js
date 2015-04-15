@@ -7,7 +7,7 @@ Connection.request = function (aConfig) {
 	$.ajax({
 		crossDomain: true,
 		dataType: "json",
-		type: "POST",
+		type: "GET",
 		contentType:  "application/json; charset=utf-8",
 		url: 'http://localhost:8086/API',
 		data: JSON.stringify(aConfig.params),
