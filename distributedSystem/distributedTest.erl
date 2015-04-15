@@ -4,36 +4,34 @@
 -module(distributedTest).
 -author("alexa").
 -compile(export_all).
--export([start/1,  ping/2, pong/0]).
 
 start(Ping_Node) ->
     register(pong, spawn(distributedTest, pong, [])),
     spawn(Ping_Node, distributedTest, ping, [3, node()]).
 
-start_pong() ->
-    register(pong, spawn(distributedTest, pong, [])).
+startPidWatch() ->
+    register(pid_watcher, spawn(distributedTest, pidWatch, [self(), []])).
 
-start_ping(Pong_Node) ->
-    spawn(distributedTest, ping, [3, Pong_Node]).
+registerToServer(Pong_Node) ->
+    spawn(distributedTest, registerToServerNode, [Pong_Node]).
 
-ping(0, Pong_Node) ->
-    {pong, Pong_Node} ! finished,
-    io:format("ping finished~n", []);
-
-ping(N, Pong_Node) ->
-    {pong, Pong_Node} ! {ping, self()},
+pidWatch(Parent_Pid, NodeList) ->
+	io:format("Watcher Started ~p ~p ", [Parent_Pid, self()]),
     receive
-        pong ->
-            io:format("Ping received pong~n", [])
-    end,
-    ping(N - 1, Pong_Node).
-
-pong() ->
-    receive
-        finished ->
+        {stop, Parent_Pid} ->
             io:format("Pong finished~n", []);
-        {ping, Ping_PID} ->
-            io:format("Pong received ping~n", []),
-            Ping_PID ! pong,
-            pong()
+        {worker_write, Ping_PID, Ping_NODE} ->
+            io:format("Worker Writed ~p ~p", [Ping_PID, Ping_NODE]),
+            Ping_PID ! ok,
+            pidWatch(Parent_Pid, NodeList ++ [Ping_NODE]);
+        {get_pids, Ping_PID} -> 
+			io:format("Get Pids ~p", [NodeList]),
+        	Ping_PID ! NodeList
+    end.
+
+registerToServerNode(Pong_Node) -> 
+	{pid_watcher, Pong_Node} ! {worker_write, self(), node()},
+    receive
+        ok ->
+            io:format("Worker Writed", [])
     end.
