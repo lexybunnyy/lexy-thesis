@@ -7,35 +7,31 @@
 %%http://localhost:8086/API
 
 -module(simpleServer).
--export([start/1, sendExample/0]).
+-export([start/2, sendExample/0, getTheSameResult/1]).
 
 
 %% ------------------------------------------- Simple Server
 %%http://stackoverflow.com/questions/2206933/how-to-write-a-simple-webserver-in-erlang
-start(Port) ->
+start(Port, WatcherNode) ->
     spawn(fun () -> {ok, Sock} = gen_tcp:listen(Port, [{active, false}]), 
-                    loop(Sock) end).
+                    loop(Sock, WatcherNode) end).
 
-loop(Sock) ->
+loop(Sock, WatcherNode) ->
     {ok, Conn} = gen_tcp:accept(Sock),
-    Handler = spawn(fun () -> handle(Conn) end),
+    Handler = spawn(fun () -> handle(Conn, WatcherNode) end),
     gen_tcp:controlling_process(Conn, Handler),
-    loop(Sock).
+    loop(Sock, WatcherNode).
 
-handle(Conn) ->
+handle(Conn, WatcherNode) ->
     {ok, Result} = do_recv(Conn, []),
-    gen_tcp:send(Conn, response(Result)),
+    gen_tcp:send(Conn, response(Result, WatcherNode)),
     gen_tcp:close(Conn).
 
-response(Str) ->
+response(Str, WatcherNode) ->
     ResponseStruct = erlang:decode_packet(http_bin, Str, []),
-    io:format("ResponseStruct: ~1000p \n", [ResponseStruct]),
     ResponseParams = getDecodeData(ResponseStruct),
-    io:format("ResponseParams: ~1000p \n", [ResponseParams]),
     RespData = convertData(ResponseParams),
-        io:format("response: ~p \n", [RespData]),
-    Result = callMain(RespData),
-        io:format("result: ~p \n", [Result]),
+    Result = callMain(RespData, WatcherNode),
     B = convertToSend(Result),
     iolist_to_binary(
       io_lib:fwrite(
@@ -50,7 +46,6 @@ response(Str) ->
 do_recv(Sock, Bs) ->
     case gen_tcp:recv(Sock, 0) of
         {ok, B} ->
-            io:format("gen_tcp:recv ~2000p halkldklsadklsakd \n", [string:len(B)]),
             {ok, list_to_binary(B)};
         {error, closed} ->
             {ok, list_to_binary(Bs)}
@@ -68,10 +63,10 @@ convertData(ResponseParams) ->
     _ -> error
   end.
 
-callMain(RespJson) -> 
+callMain(RespJson, WatcherNode) -> 
     case RespJson of
         error -> {error, "Invalid Response"};
-        _ -> apply(main, callDistributedCaluclate, [RespJson])
+        _ -> apply(main, callDistributedCaluclate, [RespJson, WatcherNode])
     end.
 
 convertToSend(Object) ->
@@ -80,10 +75,8 @@ convertToSend(Object) ->
             {error, Str} -> {struct, [{"success", "false"}, {"msg", Str}]};
             _ -> apply(struct_handler, convertToMochi, [Object])
         end,
-        io:format("Binary: ~p \n", [MochiStruct]),
     JSON = apply(mochijson, encode, [MochiStruct]),
     Binary = iolist_to_binary(JSON),
-        io:format("Binary: ~p \n", [Binary]),
     Binary.
 
 

@@ -68,7 +68,7 @@ isFullNullList(List) when is_list(List) ->
   {_List, Res} = lists:mapfoldl(
     fun(X, Res) -> {X, Res and isPoliNullElement(X)} end, true, List),
   Res;
-isFullNullList(List) -> false.
+isFullNullList(_List) -> false.
 isPoliNullElement(X) ->
   case is_float(X) of
     true -> X == 0.0;

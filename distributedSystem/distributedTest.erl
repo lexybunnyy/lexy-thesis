@@ -10,7 +10,9 @@ start(Ping_Node) ->
     spawn(Ping_Node, distributedTest, ping, [3, node()]).
 
 startPidWatch() ->
-    register(pid_watcher, spawn(distributedTest, pidWatch, [self(), []])).
+    PidWatch = spawn(distributedTest, pidWatch, [self(), []]),
+    register(pid_watcher, PidWatch),
+    PidWatch.
 
 registerToServer(Pong_Node) ->
     spawn(distributedTest, registerToServerNode, [Pong_Node]).
@@ -26,7 +28,8 @@ pidWatch(Parent_Pid, NodeList) ->
             pidWatch(Parent_Pid, NodeList ++ [Ping_NODE]);
         {get_pids, Ping_PID} -> 
 			io:format("Get Pids ~p", [NodeList]),
-        	Ping_PID ! NodeList
+        	Ping_PID ! {pidlist, self(), NodeList},
+            pidWatch(Parent_Pid, NodeList)
     end.
 
 registerToServerNode(Pong_Node) -> 

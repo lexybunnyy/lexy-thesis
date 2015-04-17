@@ -37,7 +37,7 @@ static ERL_NIF_TERM calculate_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM a
         return enif_make_badarg(env);
     }
     string type = convertTheType(intType);
-    cout << type << isInverse <<endl;
+    cout << type << isInverse << endl;
     poli = interpolateMain(X, Y, type, isInverse);
     return convertList(env, poli);
 }

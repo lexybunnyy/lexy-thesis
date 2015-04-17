@@ -34,13 +34,22 @@ init() ->
 	apply(test, run, [ok]).
 
 initPort() -> 
-	apply(simpleServer, start, [8082]).
+	WatcherNode = apply(distributedTest, startPidWatch, []),
+	io:format("WatcherNode " ++ ": ~p \n", [WatcherNode]),
+	SimpleServer = apply(simpleServer, start, [8082, WatcherNode]),
+	{WatcherNode, SimpleServer}.
 
-callDistributedCaluclate(Data) -> 
+callDistributedCaluclate(Data, WatcherNode) -> 
 	DataSet = apply(struct_handler, getDataSet, [Data]),
 	DataLength = length(DataSet),
-	try apply(node_handler, nodeCall, [DataLength, fork, DataSet]) of 
+	apply(node_handler, distributedFork, [DataLength, DataSet, WatcherNode]).
+
+callDistributedCaluclatep2(Data, WatcherNode) -> 
+	DataSet = apply(struct_handler, getDataSet, [Data]),
+	DataLength = length(DataSet),
+	try apply(node_handler, distributedFork, [DataLength, DataSet, WatcherNode]) of 
 		SuccessPattern -> SuccessPattern
 	catch 
-		_:_ -> {error, "failed"}
+		error:Msg -> 
+			{error, Msg}
 	end.
