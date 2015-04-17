@@ -21,7 +21,7 @@
     <script language="javascript" type="text/javascript" src="model/polinome.js"></script>
     <script language="javascript" type="text/javascript" src="model/plot_types.js"></script>
     <script language="javascript" type="text/javascript" src="model/connection.js"></script>
-    
+
     <script language="javascript" type="text/javascript" src="prepare_page.js"></script>
     <script language="javascript" type="text/javascript" src="init/plot.js"></script>
     <script language="javascript" type="text/javascript" src="init/table.js"></script>
@@ -29,29 +29,22 @@
     <script language="javascript" type="text/javascript" src="init/events.js"></script>
 </head>
 <body>
-	<div id="send">
-		<input type="button" name="sendServer"  value="Send">
-		<input type="text" name="sendServerText" id="sendServerText">
-	</div>
-	<div id="save">
-		<input type="button" name="saveButton"  value="Save">
-		<input type="text" name="saveText" id="saveText">
-	</div>
-	<div id="result">
-		<input type="button" name="resultLoad"  value="resultLoad">
-		<input type="text" name="resultLoadText" id="resultLoadText">
-	</div>
 	<div >
 		<input type="button" name="loadExample1"  value="loadExample1">
 		<input type="button" name="loadExample2"  value="loadExample2">
 		<input type="button" name="loadExample3"  value="loadExample3">
+	</div>
+	<div >
+		<input type="button" name="sendServer"  value="Küldés a szerverre">
+		<input type="button" name="saveButton"  value="Mentés">
+		<input type="button" name="resultLoad"  value="Eredmények Betöltése">
 	</div>
 	<div id="bodyContent">
 		<div id="one_data_settings">
 			<h1>Táblázat</h1>
 			<table id="tableViewTable" class="bordered"><tr>
 			<th id="tableViewOptions">
-				<p><input type="button" name="refresh_button" value="Refresh"></p>
+				<p><input type="button" name="refresh_button" value="New"></p>
 				<p><input type="button" name="addcolumn_button" value="Add Column"></p>
 				<p><input type="button" name="addrow_button" value="Add Row"></p>
 				<p>x : <input type="text" name="input_coord_x" id="input_coord_x" ></p>
@@ -80,15 +73,15 @@
 				<h4>Plot Show Settings</h4>
 				<input type="button" name="refreshPlot"  value="Refresh">
 				<p>	Min X : </p>
-				<input type="text" name="minx" id="minx" >
+				<input type="number" name="minx" id="minx" >
 				<p> Max X : </p>
-				<input type="text" name="maxx" id="maxx">  
+				<input type="number" name="maxx" id="maxx">  
 				<p> Min Y :	</p>
-				<input type="text" name="miny" id="miny" > 
+				<input type="number" name="miny" id="miny" > 
 				<p> Max Y : </p>
-				<input type="text" name="maxy" id="maxy">
+				<input type="number" name="maxy" id="maxy">
 				<p> Maximális Derivált szám: </p>
-				<input type="text" name="maxderivnum" id="maxderivnum">
+				<input type="number" name="maxderivnum" id="maxderivnum">
 				<p> Pontosság: </p>
 				<input type="text" name="precision" id="precision">
 				<p><span id="span_hoverdata"></span></p>
@@ -106,6 +99,20 @@
 			<input type="button" name="addNewMenulistItem"  value="New">
 			<table id="interpoationSetTable"></table>
 		</div>
+	</div>
+	<div id="jsons">
+		<label for="sendServerText">
+			Szerverre küldendő adat:
+   			<input type="text" id="sendServerText" name="sendServerText"/>
+		</label>
+		<label for="saveText">
+			Elmentett adat:
+   			<input type="text" name="saveText" id="saveText"/>
+		</label>
+		<label for="resultLoadText">
+			Számítási Eredmény
+   			<input type="text" name="resultLoadText" id="resultLoadText"/>
+		</label>
 	</div>
 	<div id="footer">
 		Copyright &copy; 2014 Alexandra Cselyuszka

@@ -23,6 +23,8 @@ function interpolationPlot(aConfig) {
 			var key = gen[0] + '_' + gen[1];
 			gSettings[key].value = gen[1] === 'min' ? -2 : 2;
 		});
+        gSettings.precision.value = 0.1;
+        gSettings.derivNum_max.value = 2;
 	}
 
     function generateType(){
@@ -73,7 +75,7 @@ function interpolationPlot(aConfig) {
             var plotFor = {
                 begin: isNaN(begin) ? -3 : (begin - 1),
                 end: isNaN(end) ? 3 : (end + 1),
-                step: isNaN(end) ? 0.1 : (precision)
+                step: isNaN(precision) || precision <= 0 ? 0.1 : (precision)
             };
 
             resultArray.push({

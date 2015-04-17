@@ -1,11 +1,18 @@
 //events.js
 
 $(function() {
-
-    Base.get('refreshPlot').onclick = function() {
-    	save();
-    	load();
-    };
+    saveAndReload = function() {
+		save();
+		load();
+	}
+	
+    Base.get('refreshPlot').onclick = saveAndReload;
+    Base.get('minx').onclick = saveAndReload;
+    Base.get('maxx').onclick = saveAndReload;
+    Base.get('miny').onclick = saveAndReload;
+    Base.get('maxy').onclick = saveAndReload;
+    Base.get('maxderivnum').onclick = saveAndReload;
+    Base.get('precision').onclick = saveAndReload;
 
     Base.get('addPoint').onclick = function() {
         var x = parseFloat(setInput.x.value);
