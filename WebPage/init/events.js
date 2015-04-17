@@ -19,7 +19,7 @@ $(function() {
 		/** Leggenerálja/Elmenti a Listában szereplő összes Interpolációt */
 	function save() {
 		interpMenulist.saveItemSettings();
-        Base.get('sendServerText').value = JSON.stringify(interpMenulist.getDataArray());
+        Base.get('sendServerText').value = JSON.stringify(interpMenulist.getDataArray(true));
         Base.get('saveText').value = JSON.stringify(interpMenulist.getDataObject());
 	}
 
@@ -36,7 +36,6 @@ $(function() {
 			var serverResultJSON = Base.get("resultLoadText").value
 			serverResult = JSON.parse(serverResultJSON);
 		} catch (e) {
-			console.log(e);
 			serverResult = {};
 		}
 		interpMenulist.loadAll(savedText, serverResult);
@@ -48,14 +47,10 @@ $(function() {
 	Base.get('resultLoad').onclick = function(){
 		load();
 	};
-	
-	Base.get('filePicker').onclick = function () {
-		console.log(Base.get('filePicker').value);
-	}
 
 	Base.get('sendServer').onclick = function () {
 		Connection.request({
-			params: interpMenulist.getDataArray(),
+			params: interpMenulist.getDataArray(true),
 			callback: load
 		});
 	}

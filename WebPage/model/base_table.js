@@ -200,8 +200,7 @@ function basicTable (aConfig) {
     /** Egy adott cella érték beállítása*/
     that.setValue = function(i, j, value, form) {
         if (!gTableRows[i]) {
-            console.log(i, j, value, form);
-            return;
+            throw 'setValue Invalid Index: ' + i;
         }
         var tableRow = gTableRows[i].getElementsByTagName("INPUT");
         tableRow[j].value = value;

@@ -1,6 +1,6 @@
 g++ -std=c++11 -o calculator.so -fpic -shared ./../Calculator/erlang.cpp ./../Calculator/logTest.cpp ./../Calculator/calculator.cpp
 
-erl -sname interpMainComputer -s toolbar
+erl -sname interpMainComputer1 -s toolbar
 c('../connectionServer/simpleServer').
 c(calculator).
 c(fork).

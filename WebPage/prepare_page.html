@@ -29,21 +29,23 @@
     <script language="javascript" type="text/javascript" src="init/events.js"></script>
 </head>
 <body>
-	<div id="menu">
-		<ul id="menulist">
-			<li><a href="index.html">Főoldal</a></li>
-			<li><a href="prepare_page.html">Előkészítő felület</a></li>
-			<li><a href="contact_erl.html">Szerver kapcsolat</a></li>
-			<li><a href="result_page.html">Végeredmény</a></li>
-		</ul>
-		<ul id="debug_menulist">
-			<li>Debug Menu: </li>
-			<li><a href="source/flot-0.8.2/examples/index.html">Plot Examples</a></li>
-			<li><a href="test/testPages/plot_test.html">Test Plot</a></li>
-			<li><a href="test/testPages/table.html">Test Table</a></li>
-		 </ul>
+	<div id="send">
+		<input type="button" name="sendServer"  value="Send">
+		<input type="text" name="sendServerText" id="sendServerText">
 	</div>
-
+	<div id="save">
+		<input type="button" name="saveButton"  value="Save">
+		<input type="text" name="saveText" id="saveText">
+	</div>
+	<div id="result">
+		<input type="button" name="resultLoad"  value="resultLoad">
+		<input type="text" name="resultLoadText" id="resultLoadText">
+	</div>
+	<div >
+		<input type="button" name="loadExample1"  value="loadExample1">
+		<input type="button" name="loadExample2"  value="loadExample2">
+		<input type="button" name="loadExample3"  value="loadExample3">
+	</div>
 	<div id="bodyContent">
 		<div id="one_data_settings">
 			<h1>Táblázat</h1>
@@ -77,16 +79,18 @@
 			<th>
 				<h4>Plot Show Settings</h4>
 				<input type="button" name="refreshPlot"  value="Refresh">
-				<p>	min x : </p>
+				<p>	Min X : </p>
 				<input type="text" name="minx" id="minx" >
-				<p> max x : </p>
+				<p> Max X : </p>
 				<input type="text" name="maxx" id="maxx">  
-				<p> min y :	</p>
+				<p> Min Y :	</p>
 				<input type="text" name="miny" id="miny" > 
-				<p> max y : </p>
+				<p> Max Y : </p>
 				<input type="text" name="maxy" id="maxy">
-				<p> max showed derivnum : </p>
+				<p> Maximális Derivált szám: </p>
 				<input type="text" name="maxderivnum" id="maxderivnum">
+				<p> Pontosság: </p>
+				<input type="text" name="precision" id="precision">
 				<p><span id="span_hoverdata"></span></p>
 			</th>
 			<th>
@@ -100,26 +104,8 @@
 		<div id="data_set_menulist">
 			<input type="button" name="saveInMenulist"  value="Save Settings">
 			<input type="button" name="addNewMenulistItem"  value="New">
-			<input type="file" name="filePicker">
 			<table id="interpoationSetTable"></table>
 		</div>
-	</div>
-	<div id="send">
-		<input type="button" name="sendServer"  value="Send">
-		<input type="text" name="sendServerText" id="sendServerText">
-	</div>
-	<div id="save">
-		<input type="button" name="saveButton"  value="Save">
-		<input type="text" name="saveText" id="saveText">
-	</div>
-	<div id="result">
-		<input type="button" name="resultLoad"  value="resultLoad">
-		<input type="text" name="resultLoadText" id="resultLoadText">
-	</div>
-	<div >
-		<input type="button" name="loadExample1"  value="loadExample1">
-		<input type="button" name="loadExample2"  value="loadExample2">
-		<input type="button" name="loadExample3"  value="loadExample3">
 	</div>
 	<div id="footer">
 		Copyright &copy; 2014 Alexandra Cselyuszka

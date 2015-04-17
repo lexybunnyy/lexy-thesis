@@ -16,8 +16,8 @@ $(function() {
 		xaxis_max : Base.get('maxx'),
 		yaxis_min : Base.get('miny'),
 		yaxis_max : Base.get('maxy'),
-        //TODO: pontosság!
 		derivNum_max : Base.get('maxderivnum'),
+		precision : Base.get('precision'),
 		defaultType :  gTypePrepare
 	};
 

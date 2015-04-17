@@ -12,13 +12,11 @@ Connection.request = function (aConfig) {
 		url: 'http://localhost:8086/API',
 		data: JSON.stringify(aConfig.params),
 	}).done(function(result) {
-    	console.log( "success", result, 'dd');
+    	console.log( "success", result);
     	alert("Számítás Befejeződött!");
     	aConfig.callback(result);
 	}).fail(function(info, textstatus) {
 	    console.log( "error", info, textstatus);
 	    alert("Hiba a kapcsolatban!");
-	}).always(function() {
-	    console.log( "end" );
 	});
 }

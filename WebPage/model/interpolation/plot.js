@@ -68,11 +68,12 @@ function interpolationPlot(aConfig) {
         if (polynomial) {
             var begin = parseFloat(gSettings.xaxis_min.value);
             var end = parseFloat(gSettings.xaxis_max.value);
+            var precision = parseFloat(gSettings.precision.value);            
 
             var plotFor = {
                 begin: isNaN(begin) ? -3 : (begin - 1),
                 end: isNaN(end) ? 3 : (end + 1),
-                step: 0.1
+                step: isNaN(end) ? 0.1 : (precision)
             };
 
             resultArray.push({
@@ -135,6 +136,7 @@ function interpolationPlot(aConfig) {
 			result[key] = gSettings[key].value;
 		});
 		result.derivNum_max = gSettings.derivNum_max.value;
+        result.precision = gSettings.precision.value;
 		return result;
 	};
 	
@@ -148,6 +150,7 @@ function interpolationPlot(aConfig) {
 			gSettings[key].value = setterValues[key];
 		});
 		gSettings.derivNum_max.value = setterValues.derivNum_max;
+        gSettings.precision.value = setterValues.precision;
 	};
 	
     return that;

@@ -46,15 +46,15 @@ nodeCall(NumOfPids, LogicModule, DataList) ->
 makeForkPids(N, NodeList) -> 
   makeForkPids(N, N-1, NodeList, NodeList, []).
 
-makeForkPids(N, 0, [HNode|TailNodeList], _NodeList, PidList) ->
+makeForkPids(N, 0, [HNode|_TailNodeList], _NodeList, PidList) ->
   NewPid = spawn(HNode, fork, worker_main, [self(), N, 8000]),
   {PidList ++ [NewPid], NewPid};
 
 makeForkPids(N, X, [HNode], NodeList, PidList) ->
-  NewPid = spawn(fork, worker_main, [self(), N-X, 8000]),
+  NewPid = spawn(HNode, fork, worker_main, [self(), N-X, 8000]),
   makeForkPids(N, X-1, NodeList, NodeList, PidList ++ [NewPid]);
 makeForkPids(N, X, [HNode|TailNodeList], NodeList, PidList) ->
-  NewPid = spawn(fork, worker_main, [self(), N-X, 8000]),
+  NewPid = spawn(HNode, fork, worker_main, [self(), N-X, 8000]),
   makeForkPids(N, X-1, TailNodeList, NodeList, PidList ++ [NewPid]).
 
 %% @doc Eredeti létrehozója a Pideknek

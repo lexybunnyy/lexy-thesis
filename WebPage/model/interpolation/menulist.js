@@ -65,7 +65,16 @@ function interpolationMenulist (aConfig) {
 		that.newItem();
 	};
 
-	function getData(i){
+	function getDataValueOp(sender, key, value) {
+		if (sender && key === 'tableData') {
+			return {
+				points: value.points
+			}
+		}
+		return value;
+	}
+
+	function getData(i, sender){
 		var data = {};
 		data.id = gTable.getValue(i, 0);
 		data.name = gTable.getValue(i, 1);
@@ -73,7 +82,10 @@ function interpolationMenulist (aConfig) {
 		try {
 			var Sender = JSON.parse(JSONStr);
 			Base.forEach(Sender, function(key, value) {
-				data[key] = value;
+				if (sender && key === 'plotSetting') {
+					return;
+				}
+				data[key] = getDataValueOp(sender, key, value);
 			});
 		} catch (e) {
 			data.sender = JSONStr;
@@ -91,9 +103,8 @@ function interpolationMenulist (aConfig) {
 		}
 		var tableData = loadObject.tableData;
 		var gCurrentPoly = tableData ? tableData.polynomial : null;
+		
 		gInterpTable.setData(tableData);
-
-		console.log(loadObject.plotSetting);
 		gInterpPlot.setPlotSettings(loadObject.plotSetting);
 		gInterpPlot.refresh(gInterpTable.getData(), gCurrentPoly);
 	}
@@ -126,7 +137,6 @@ function interpolationMenulist (aConfig) {
 		saveObject.tableData = gInterpTable.getData();
 		saveObject.tableData.polynomial = gCurrentPoly || null;
 		saveObject.plotSetting = gInterpPlot.getPlotSettings();
-		console.log(saveObject.plotSetting);
 		
 		var saveJSON = JSON.stringify(saveObject);
 		gTable.setValue(gActualData, 2, saveJSON);
@@ -143,12 +153,12 @@ function interpolationMenulist (aConfig) {
 		return saveObject;
 	}
 
-	that.getDataArray = function() {
+	that.getDataArray = function(server) {
 		var saveObject = {};
 		saveObject.data_set = [];
         var i;
 		for (i = 1; i < gTable.getNumOfRows(); i++) {
-			saveObject.data_set.push(getData(i));
+			saveObject.data_set.push(getData(i, server));
 		}
 		return saveObject;
 	}
