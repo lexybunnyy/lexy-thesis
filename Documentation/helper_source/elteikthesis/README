@@ -1,0 +1,29 @@
+elteikthesis class, 2010 by Daniel Majoros
+
+This file may be distributed and/or modified under the
+conditions of the LaTeX Project Public License, either
+version 1.2 of this license or (at your option) any later
+version. The latest version of this license is in:
+
+	http://www.latex-project.org/lppl.txt
+
+and version 1.2 or later is part of all distributions of
+LaTeX version 1999/12/01 or later.
+
+Install:
+ - run 'latex elteikthesis.ins' for the cls file
+ - run 'latex elteikthesis.dtx' to get the documentation
+
+Thesis class for the ELTE university's Informatics wing.
+English summary is present in the documentation, but since
+the university is in Hungary, detailed documentation is given in
+hungarian only.
+
+Not an official version, not approved by ELTE.
+
+Latex osztaly diplomamunka es szakdolgozat szamara az ELTE
+Informatikai kar diakjai szamara.
+
+Formai kovetelmenyeket valositja meg, ugy mint
+margo, sorkoz...
+Belso cimoldal egyszeru generalasat teszi lehetove.

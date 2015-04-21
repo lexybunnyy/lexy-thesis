@@ -2,6 +2,12 @@
 *.out
 *.so
 *.o
+*.log
+*.dvi
+*.aux
+*.toc
+szakdoli.sublime-project
+szakdoli.sublime-workspace
 WebPage/.idea/workspace.xml
 **/.idea/**
 DistributedInterpolation.iml

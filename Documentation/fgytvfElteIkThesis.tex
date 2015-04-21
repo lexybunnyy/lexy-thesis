@@ -1,5 +1,7 @@
 \documentclass{elteikthesis}
 
+
+\usepackage{t1enc}
 \usepackage{ucs}
 \usepackage[utf8x]{inputenc}
 \usepackage[T1]{fontenc}
@@ -13,18 +15,18 @@
 \definecolor{mygreen}{rgb}{0,0.8,0.6}
 \definecolor{myorange}{rgb}{1.0,0.4,0}
 
-\lstset{
-basicstyle=\footnotesize\sffamily\color{black},
-commentstyle=\color{mygray},
-frame=single,
-numbers=left,
-numbersep=5pt,
-numberstyle=\tiny\color{mygray},
-keywordstyle=\color{mygreen},
-showspaces=false,
-showstringspaces=false,
-stringstyle=\color{myorange},
-tabsize=2
+\lstset {
+	basicstyle=\footnotesize\sffamily\color{black},
+	commentstyle=\color{mygray},
+	frame=single,
+	%%numbers=left,
+	%%numbersep=5pt,
+	%%numberstyle=\tiny\color{mygray},
+	keywordstyle=\color{mygreen},
+	showspaces=false,
+	showstringspaces=false,
+	stringstyle=\color{myorange},
+	tabsize=2
 }
 
 \title{Interpoláció osztott rendszereken}
@@ -46,8 +48,32 @@ tabsize=2
 \mainmatter
 
 \chapter{Bevezetés} 
-a témaválasztás indoklását és a megoldandó feladat rövid, közérthető leírását
-tartalmazza.
+
+%%a témaválasztás indoklását és a megoldandó feladat rövid, közérthető leírását
+%%tartalmazza.
+
+Ez a szoftver interpolációkat számít osztott környezetben.
+
+Adott ponthalmazokból kívánunk egy közelítő polinómot becsülni, mellyel a többi pont várható elhelyezkedését is megadhatjuk. Ezeket különböző Interpolációs technikával meg tudjuk adni, ki tudjuk számolni. Viszont honnan tudjuk melyik a legjobb közelítő érték? Több Interpolációs technika létezik, melyekből könnyen meg tudunk adni akár több polinómot is egy adott ponthalmazhoz. De ezek a számítások előfordulhat hogy lassan futnak, főleg ha több Inteprolációt kívánunk egyszerre számolni. 
+Ebben az esetben optimálisabb több gépen számolni a különböző ponthalmazokat.
+
+Egy grafikonon látható pontokat közelítünk meg egy polinómmal.
+Fel tudunk venni saját halmazokat, pontokat, melyekre kívácsiak vagyunk. Vagy csak úgy megjelölni különböző pontokat, és megbecsülni hányad fokú lesz az eredmény polinóm. Elég látványos képet ad amikor az ember megkap egy 10ed- vagy 20ad fokú polinómot, melyet már kézzel számolni nem lenne olyan egyszerű, de akár ellenőrizni is az általánuk kalkulált eredményt.
+
+Egy Web oldalon szereplő grafikon kirajzolásának mintáját, egy egyszerű elosztott számítást és szerver megvalósítást, és egy egyszerű Inteproláció számítást megvalósító részletekből össze rakott programot tekinthetünk meg, mely végül az alábbi feladatokat valósította meg.
+
+A program egy meghatározott adatforrásból számít, amely tartalmazza nagy mennyiségű interpolálni kívánt függvény ismert értékeit. A számításokat több gépen végezzük elosztott módon.  
+
+Az kiindulási adatokat egy grafikus felület segítségével lehet megadni, illetve szerkeszteni grafikon, illetve táblázat segítségével. A felhasználó grafikonon kattintva fel tudja venni az adott pontot, és a táblázatot is tudja szerkeszteni.
+
+A felhasználó, ha befejezte az adathalmazok szerkesztését, elindíthatja az interpolációt. Ekkor a szerverre felküldi az adatokat, ahol történik az elosztott, vagy párhuzamosított számítás. Eredményt vissza kapjuk a szervertől.
+A felhasználó kiválaszthatja az egyik pont halmazt és ekkor már az eredménnyel együtt megtekintheti azt.
+Az eredményt egyszerű felírt formában és a grafikonon megjelenítve is megtekintheti. 
+
+A felhasználók több Inteproláció közül is választhatnak: Lagrange-féle, Newtone-féle, Hermite-féle interpolációs technikák.
+Valamint Interz interpolációt is választhatnak a Lagrange vagy a Newton interpoláció esetén.
+
+A számításhoz használt maximális gépek száma paraméterként megadható, de a tényleges számítást csak annyi gépen tujduk maximálisan végezni ahány gép felcsatlakozott a számításhoz. 
 
 \chapter{Felhasználói dokumentáció}
 A felhasználó megnyitja a weboldalt, megtekintheti a táblázatokat és a grafikonokat. Minden adatot szerkeszthet és új adathalmazt hozhat létre.
