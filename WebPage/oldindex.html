@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Flot Examples</title>
+	<LINK REL=STYLESHEET TYPE="text/css" HREF="viewForm/client_base.css">
+	<link href="viewForm/plot_design.css" rel="stylesheet" type="text/css">
+	<style>
+
+	h3 {
+		margin-top: 30px;
+		margin-bottom: 5px;
+	}
+
+	</style>
+
+	<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../../excanvas.min.js"></script><![endif]-->
+	<script language="javascript" type="text/javascript" src="source/flot-0.8.2/jquery.js"></script>
+	<script language="javascript" type="text/javascript" src="source/flot-0.8.2/jquery.flot.js"></script>
+	<script language="javascript" type="text/javascript" src="source/flot-0.8.2/jquery.flot.navigate.js"></script>
+    <script language="javascript" type="text/javascript" src="model/base.js"></script>
+    <script language="javascript" type="text/javascript" src="model/web_page_debug.js"></script>
+    <script language="javascript" type="text/javascript" src="model/base_table.js"></script>
+	
+	<script language="javascript" type="text/javascript" src="test/example_datas.js"></script>
+    <script language="javascript" type="text/javascript" src="model/interpolation_table.js"></script>
+    <script language="javascript" type="text/javascript" src="model/polinome.js"></script>
+    <script language="javascript" type="text/javascript" src="model/plot_types.js"></script>
+    <script language="javascript" type="text/javascript" src="test/plot_test.js"></script>
+	
+	<script type="text/javascript">
+        $(function () {
+			$("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
+        });
+    </script>
+</head>
+<body>
+	<div id="menu">
+		<ul id="menulist">
+			<li><a href="index.html">Főoldal</a></li>
+			<li><a href="prepare_page.html">Előkészítő felület</a></li>
+			<li><a href="contact_erl.html">Szerver kapcsolat</a></li>
+			<li><a href="result_page.html">Végeredmény</a></li>
+		</ul>
+		<ul id="debug_menulist">
+			<li>Debug Menu: </li>
+			<li><a href="source/flot-0.8.2/examples/index.html">Plot Examples</a></li>
+			<li><a href="test/testPages/plot_test.html">Test Plot</a></li>
+			<li><a href="test/testPages/table.html">Test Table</a></li>
+		 </ul>
+	</div>
+	<div id="bodyContent">
+		<h2>Főoldal</h2>
+		<a href="https://drive.google.com/folderview?id=0B_7KLE2OHH88a1hoX3FLNlF6TG8&usp=sharing">
+			Dokumentációk megtekintése
+		</a>
+		<h3>A szakdolgozat menete:</h3>
+		<ul id="plan_menulist">
+            <li>
+				<p>Interpolációs Grafikon</p>
+			</li>
+			<ul>
+				<li><p>&#10004; Pontok megjelenítése</p></li>
+				<li><p>&#10004; Polinom megjelenítése</p></li>
+				<li><p>&#10004; Dinamikusság (mit jelenítünk meg)</p></li>
+				<li><p>&#10004; Interaktív: Klikk hatások, és frissítés</p></li>
+				<li><p>&#10004; Speciális adatípus konvertálása (pontok)</p></li>
+				<li><p>&#10006; Speciális adatípus konvertálása (pontok és polinomok)</p></li>
+			</ul>
+            <li>
+				<p>Interpolációs Táblázat</p>
+			</li>
+			<ul>
+				<li><p>&#10004; Pontok megjelenítése</p></li>
+				<li><p>&#10004; Sorok hozzá adása</p></li>
+				<li><p>&#10004; Oszlopok hozzá adása</p></li>
+				<li><p>&#10004; Adattípus konvertálása táblázatból</p></li>
+				<li><p>&#10004; Adattípus konvertálása táblázatba</p></li>
+			</ul>
+            <li>
+				<p>Interpolációs Adathalmaz (Grafikon + Táblázat)</p>
+			</li>
+			<ul>
+				<li><p>&#10006; Táblázat és Grafikon megjelenítése egy adott halmazból</p></li>
+				<li><p>&#10006; Új Oszlop/Sor felvétele</p></li>
+				<li><p>&#10006; Grafikon frissítése</p></li>
+				<li><p>&#10006; Új pont felvétele (2 input )</p></li>
+				<li><p>&#10006; Derivált szám kiválasztás : gCurrDerivNum</p></li>
+			</ul>
+            <li>
+				<p>Menü Táblázat</p>
+			</li>
+			<ul>
+				<li><p>&#10006; Adatok megjelenítése 2oszlop: név és JSON-ben az adatok</p></li>
+				<li><p>&#10006; Egy kiválasztása, az alapján betöltés</p></li>
+				<li><p>&#10006; Mentés hatására JSON frissítése</p></li>
+			</ul>
+            <li>
+				<p>Menü Táblázat</p>
+			</li>
+			<ul>
+				<li><p>&#10006; Adatok megjelenítése 2oszlop: név és JSON-ben az adatok</p></li>
+				<li><p>&#10006; Egy kiválasztása, az alapján betöltés</p></li>
+				<li><p>&#10006; Mentés hatására JSON frissítése</p></li>
+			</ul>
+            <li>
+				<p>Interpoláció</p>
+			</li>
+			<ul>
+				<li><p>&#10006; Számítás típusok átnézése, szabályok felírása</p></li>
+				<ul>
+					<li><p>&#10006; Lagrange-féle</p></li>
+					<li><p>&#10006; Newtone-féle</p></li>
+					<li><p>&#10006; Hermite-féle interpolációs polinom számítás</p></li>
+					<li><p>&#10006; Inverz interpolációs technikák</p></li>
+				</ul>
+				<li><p>&#10006; Adatok alapján felületbe implementálás</p></li>
+				<li><p>&#10006; Adatok alapján számítás implementálás</p></li>
+			</ul>
+			<li>
+				<p>Erlang-JS Kommunikáció</p>
+			</li>
+			<ul>
+				<li><p>&#10006; Kommunikáció Oda-Vissza kikutatása</p></li>
+				<li><p>&#10006; Üzenet küldés kezelése mind két oldalon</p></li>
+				<li><p>&#10006; Adat átkonvertálása </p></li>
+			</ul>
+			<li>
+				<p>Erlang Számítás</p>
+			</li>
+			<ul>
+				<li><p>&#10006; Számítás implementálása </p></li>
+				<li><p>&#10004; Fork szimuláció </p></li>
+				<li><p>&#10006; Számítás beépítése fork-ba </p></li>
+			</ul>
+			<li>
+				<p>Erlang Node/Calculate kezelés</p>
+			</li>
+			<ul>
+				<li><p>&#10006; Gépek felvétele </p></li>
+				<li><p>&#10006; Gépek leadása </p></li>
+				<li><p>&#10006; Gépek kommunikálása </p></li>
+				<li><p>&#10006; Elosztás kikutatása </p></li>
+				<li><p>&#10006; Számítás időmérése </p></li>
+				<li><p>&#10006; Adatok leküldése </p></li>
+			</ul>
+			<li>
+				<p>Egyéb</p>
+			</li>
+			<ul>
+				<li><p>&#10006; Debug Opciós elrejtések (Menü Táblázat és Debug String JSON)</p></li>
+				<li><p>&#10006; Fájlba való kimentés/beolvasás (.csv fájl és json/ vagy valami lehetséges küldő formátum)</p></li>
+				<li><p>&#10006; TODOTODOTODO</p></li>
+			</ul>
+        </ul>
+		
+	<h2>Témabejelentő: </h2>
+		<p>
+<br>Egy olyan szoftver megvalósítása amely interpolációkat számít osztott környezetben. 
+<br>
+<br>A program egy meghatározott adatforrásból számít, amely tartalmazza nagy mennyiségű interpolálni kívánt függvény ismert értékeit. A számításokat több gépen végezzük elosztott módon.
+<br>
+<br>Az kiindulási adatokat egy grafikus felület segítségével lehet megadni, illetve szerkeszteni grafikon, illetve táblázat segítségével.
+<br>
+<br>A felhasználó, ha befejezte az adathalmazok szerkesztését, elindíthatja az interpolációt. Ennek hatására, a program kiszámolja az adott polinomokat. Az eredmény megtekinthető táblázatos formában (minden függvényhez egy-egy sort rendelve). 
+<br>A felhasználó kiválaszthatja a táblázat egy sorát, és  grafikonon is megtekintheti az adott függvényhez tartozó eredményt.
+<br>
+<br>A felhasználó választhat több interpoláció típus közül (Lagrange-féle, Newtone-féle, Hermite-féle interpolációs polinom számítás, valamint inverz interpolációs technikák)  is. 
+<br>
+<br>A számításhoz felhasznált gépek száma paraméterként megadható ( a környezet függvényében előre definiált értékek közül kiválasztva). A különböző futási eredmények (az alkalmazott interpolációs technikák, illetve a gépek számának függvényében) lekérdezhetők és grafikonon is megjeleníthetők.  
+		</p>
+	</div>
+	<div id="footer">
+		Copyright &copy; 2014 Alexandra Cselyuszka
+	</div>
+	<!--
+	<div id="menu">
+		<ul id="menulist">
+			<li id="menulitem1"><a href="index.html">Főoldal</a></li>
+			<li id="menulitem1"><a href="prepare_page.html">Előkészítő felület</a></li>
+			<li id="menulitem1"><a href="contact_erl.html">Szerver kapcsolat</a></li>
+			<li id="menulitem1"><a href="result_page.html">Végeredmény</a></li>
+		</ul>
+	</div>
+	<div id="content">
+		<h3>Distributed Interpolation: </h3>
+		
+		<ul>
+            <li><a href="source/flot-0.8.2/examples/index.html">Plot Examples</a></li>
+            <li><a href="test/testplot.html">Test Plot</a></li>
+			<li><a href="test/table.html">table</a></li>
+        </ul>
+
+
+	</div>
+
+	<div id="footer">
+		Copyright &copy; 2014 Alexandra Cselyuszka
+	</div>
+	-->
+</body>
+</html>
