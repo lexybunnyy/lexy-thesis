@@ -1,5 +1,5 @@
+% from texdoc minted
 \documentclass{elteikthesis}
-
 
 \usepackage{t1enc}
 \usepackage{ucs}
@@ -11,6 +11,7 @@
 \usepackage{listings}
 \usepackage{color}
 \usepackage{verbatim}
+\usepackage{minted}
 
 
 \definecolor{mygray}{rgb}{0.4,0.4,0.4}
@@ -53,14 +54,14 @@
 \chapter{Bevezetés} 
 
 \textit{
-"A gyakorlatban soksor felmerül olyan probléma, hogy egy nagyon költségesen kiszámítható függvénnyel kellene egy megadott intervallumon dolgoznunk. Ekkor például azt tehetjük, hogy néhány pontban kiszámítjuk a függvény értékét, majd keresünk olyan egyszerűbben számítható függvényt, amelyik illeszkedik az adott pontokra." 	}
+"A gyakorlatban sokszor felmerül olyan probléma, hogy egy nagyon költségesen kiszámítható függvénnyel kellene egy megadott intervallumon dolgoznunk. Ekkor például azt tehetjük, hogy néhány pontban kiszámítjuk a függvény értékét, majd keresünk olyan egyszerűbben számítható függvényt, amelyik illeszkedik az adott pontokra." 	}
 \cite{numanalbev}
 \newline
 \newline
 A szakdolgozatom célja ezekre a problémákra megoldást adni elosztott környezetben. 
 \section{Feladat elemzése}
-Adott ponthalmazokból kívánunk egy közelítő polinómot becsülni. Ezeket különböző interpolációs technikával meg tudjuk adni, ki tudjuk számolni. Több interpolációs technika létezik, melyekből könnyen meg tudunk adni akár több polinómot is egy adott ponthalmazhoz.\newline
-Ezekkel a számításokkal előfordulhat, hogy lassan futnak, főleg ha több inteprolációt kívánunk egyszerre számolni.
+Adott ponthalmazokból kívánunk egy közelítő polinomot becsülni. Ezeket különböző interpolációs technikával meg tudjuk adni, ki tudjuk számolni. Több interpolációs technika létezik, melyekből könnyen meg tudunk adni akár több polinomot is egy adott ponthalmazhoz.\newline
+Ezekkel a számításokkal előfordulhat, hogy lassan futnak, főleg ha több interpolációt kívánunk egyszerre számolni.
 Ebben az esetben optimálisabb több gépen számolni a különböző ponthalmazokat.
 \newline\newline
 Ebben a feladatban egy speciális megvalósítása lesz ennek a számításnak. \newline
@@ -93,11 +94,10 @@ meghatározott célközönséghez szólnak, könnyen és gyorsan kell, hogy elig
 felhasználót a program használatában!
 
 \end{comment}
-
 \section{Bevezetés}
 %% A feladat rövid ismertetése (mire való a szoftver)
 %% Célközönség (kik, mikor, mire használhatják a programot)
-\section{Telepítési utmutató}
+\section{Telepítési útmutató}
 \subsection{Rendszer követelmények}
 %% A rendszer használatához szükséges minimális, illetve optimális HW/SW környezet
 \subsection{Segédprogramok telepítése}
