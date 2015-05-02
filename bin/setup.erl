@@ -3,8 +3,8 @@
 %%! -smp enable -sname factorial -mnesia debug verbose
 
 main(_) -> 
-    compile:file('../distributedSystem/main'),
-    main:compile(),
+    compile:file(run),
+    run:compile(),
     Result = apply(test, run, [ok]),
     case Result of
         ok ->  io:format("Telepites ok\n");
