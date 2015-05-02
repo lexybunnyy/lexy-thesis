@@ -6,7 +6,7 @@ c(calculator).
 c(fork).
 c(struct_handler).
 c(node_handler).
-c(distributedTest).
+c(pidWatch).
 c(test).
 c(main).
 main:initPort().
@@ -14,8 +14,8 @@ node_handler:getNodelist(pid(0,143,0)).
 test:simulateDistributedCalculate(pid(0,143,0)).
 
 erl -sname interpWorker1
-c(distributedTest).
-distributedTest:registerToServer(interpMainComputer@lexymint).
+c(pidWatch).
+pidWatch:registerToServer(interpMainComputer@lexymint).
 
 
 erl -s toolbar
@@ -30,8 +30,8 @@ node_handler:getNodelist(pid(0,143,0)).
 test:simulateDistributedCalculate(pid(0,143,0)).
 
 erl -sname interpMainComputer1
-c(distributedTest).
-distributedTest:startPidWatch().
+c(pidWatch).
+pidWatch:startPidWatch().
 
 pid(0,39,0) ! {get_pids, self()}.
 pid(0,62,0) ! {stop, self()}.
@@ -39,4 +39,4 @@ pid(0,62,0) ! {stop, self()}.
 
 
 
-distributedTest:start(interpMainComputer1@lexymint).
+pidWatch:start(interpMainComputer1@lexymint).
