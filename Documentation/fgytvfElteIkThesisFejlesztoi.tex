@@ -29,7 +29,6 @@ A weboldalon össze állított adatokat küldjük fel a szerverre, a szerver a m
 	Amikor a felhasználó pontokat, megjelenítést frissít a legtöbb esetben az oldal már a háttérben menti az adatokat a listába. Amikor egy másik interpolációt választunk ki, akkor az betöltődik a táblázatba, és a grafikonba. A módosításoknál az értékei az ő oszlopában fognak törlődni.
 	Ha a felhasználó végzett egy gombra nyomással a program legenerálja a szükséges objektumot. \newline
 	A felület sok gombot tartalmaz, melyek hatására frissíthetőek az adatok. Amikor frissítünk egy részt, általában mentődnek az értékek egy inputba JSON formában.\newline
-	A felület manuális teszteléssel lett kipróbálva, automatizált tesztesetek nem lesznek.
   	\subsubsection{Grafikon kirajzoló - Flot}
 
 	\begin{figure}[h]
@@ -431,31 +430,6 @@ Ha létrehozta a processzeket lista elemein végig megy, és azokat szétküldi 
 	\item[calculator:calculate(\_X, \_Y, \_Type, \_Inverz)]
 	\hfill \\ C++-ban implementált és onnan betöltött függvény
 	\end{description}
-\subsection{Tesztelési terv}
-	\begin{description}
-		\item[test:fork] \hfill \\
-			Teszt futtatása a fork-nak
-
-		\item[test:runCheck, run] \hfill \\
-			Futtatást kezelő függvények 
-
-		\item[test:simulateDistributedCalculate] \hfill \\
-
-		\item[test:simplifyPolinomialTest] \hfill \\
-
-		\item[test:getResultTest] \hfill \\
-
-		\item[test:convertMochiElements] \hfill \\
-
-		\item[test:getParseJSONParams] \hfill \\
-
-		\item[test:convertStruct] \hfill \\
-		\item[test:simulateFirstParseAndRun] \hfill \\
-		\item[test:getFirstElementOfDataSet] \hfill \\
-		Vissza adja a minta adatok első elemét
-		\item[test:getJSONString] \hfill \\
-		Egy minta adathalmaz ami jöhet a felületről
-\end{description}	
 
 %% ----------------------------------------------{Kalkulátor}
 \section{Kalkulátor}
@@ -524,8 +498,13 @@ A megkapott adatok alapján számol, ha kell létre hozza a kezdő mátrixot, ki
 		\item[nif\_funcs] \hfill \\
 			Felsorolja milyen függvényeket importálunk az Erlang-ba
 	\end{description}
-	
-\subsection{Tesztelési terv}
+
+\section{Tesztelési terv}
+\subsection{Weboldal és rendszerteszt}
+	A felület manuális teszteléssel lett kipróbálva, automatizált tesztesetek nem lesznek.
+	TODO: tesztelni a számítást a gombokat mindent és teszteseteket írogatni ide ezekből, 
+	ha egy teszt hibás azt is fel kellene itt tűntetni.
+\subsection{Kalkulátor}
 	A tesztelést folyamatosan végeztem a minta adatok alapján. A függvények implementálása közben ezekre a minta adatokra meghívtam, majd ezekkel számoltam. A teszteléshez a logTest.cpp fájlban található függvényeket alkalmaztam. 
 	\begin{description}
 		\item[bool testAll()] \hfill \\ 
@@ -553,3 +532,28 @@ A megkapott adatok alapján számol, ha kell létre hozza a kezdő mátrixot, ki
 		testMatrixInterpolation Segédfüggvénye
 		feltölti az $x^{2}$ pontjaival 
 	\end{description}
+\subsection{Elosztás tesztelési terv}
+	\begin{description}
+		\item[test:fork] \hfill \\
+			Teszt futtatása a fork-nak
+
+		\item[test:runCheck, run] \hfill \\
+			Futtatást kezelő függvények 
+
+		\item[test:simulateDistributedCalculate] \hfill \\
+
+		\item[test:simplifyPolinomialTest] \hfill \\
+
+		\item[test:getResultTest] \hfill \\
+
+		\item[test:convertMochiElements] \hfill \\
+
+		\item[test:getParseJSONParams] \hfill \\
+
+		\item[test:convertStruct] \hfill \\
+		\item[test:simulateFirstParseAndRun] \hfill \\
+		\item[test:getFirstElementOfDataSet] \hfill \\
+		Vissza adja a minta adatok első elemét
+		\item[test:getJSONString] \hfill \\
+		Egy minta adathalmaz ami jöhet a felületről
+	\end{description}	
