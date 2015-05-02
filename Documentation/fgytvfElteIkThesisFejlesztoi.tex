@@ -13,7 +13,7 @@ modulfelbontás),
 A program működésileg 2 részre bontható: weboldalra(kliens) és a szerverre.
 A weboldalon össze állított adatokat küldjük fel a szerverre, a szerver a megkapott adatok alapján számol. \newline
 \subsection{Weboldal}
-	A kliens megvalósításához az alábbi technológiák merültek fel : C++/Qt, C\#, JS/HTML. Végül JavaScript-ben lett megvalósítva, első sorban a grafikon kirajzoló Flot miatt, de a szerver kommunikáció egyszerűsége is döntő ok volt amellett, hogy egy weboldal bármely gépen egyszerűen megnyitható, kezelhető.\newline
+	A kliens megvalósításához az alábbi technológiák merültek fel : C++/Qt, C\#, JS/HTML. Végül JavaScript-ben lett megvalósítva, első sorban a grafikon kirajzoló (Flot) miatt, de a szerver kommunikáció egyszerűsége is döntő ok volt amellett, hogy egy weboldal bármely gépen egyszerűen megnyitható, kezelhető.\newline
 	Egy oldalból áll melyen a felhasználó szerkesztheti az adatokat. Azért nem lettek a részek külön oldalakon megvalósítva, mert az egyik oldalról az adatok átvitele egy másik oldalra nem annyira egyszerű, viszont nincs is olyan komplex az oldal, hogy szükséges legyen több aloldalra szétbontani. 
 	Az oldal megjelenés felépítése megtekinthető \ref{fig:weblap_vazlat}-es képen.
 	\begin{figure}[h]
@@ -38,12 +38,12 @@ A weboldalon össze állított adatokat küldjük fel a szerverre, a szerver a m
 	\caption{Grafikon kirajzoló\label{fig:plot}}
 
 	\end{figure}
-		A Grafikon megjelenítéséhez a flot-ot használom. Ez egy jQuery-s könyvtár, melyben egyszerűen és látványosan lehet grafikonokat kirajzolni. A forrás a "WebPage/source/flot-8.0.2" mappában érhető el.
-		HTML fájlban egy egyszerű div-ként jelenik meg, melyet aztán a JavaScript tölt meg tartalommal.
+		A Grafikon megjelenítéséhez a Flot-ot használom. Ez egy jQuery-s könyvtár, melyben egyszerűen és látványosan lehet grafikonokat kirajzolni. A forrás a "WebPage/source/flot-8.0.2" mappában érhető el.
+		HTML fájlban egy egyszerű "DIV"-ként jelenik meg, melyet aztán a JavaScript tölt meg tartalommal.
 				\begin{minted}{html}
 	<div id=\"resultplot\" class=\"demo-placeholder\"></div>
 			\end{minted}
-		A JavaScript-ben hivatkozhatunk erre a div-re, majd az adatok és a típusok segítségével alábbi módon hivatkozhatjuk meg: 
+		A JavaScript-ben hivatkozhatunk erre a "DIV"-re, majd az adatok és a típusok segítségével alábbi módon hivatkozhatjuk meg: 
 		\begin{minted}{javascript}
 	    var placeholder = $("#resultplot");
 	    var plot = $.plot(placeholder, flot_data, type);
@@ -55,7 +55,7 @@ A weboldalon össze állított adatokat küldjük fel a szerverre, a szerver a m
 	 		 \item[type] \hfill \\ 
 	 			Megjelenítendő grafikon típusa
 	 			\newline
-	 			A flot sok lehetőséget nyújt a típusok kiválasztására, és ezekre való példákból megalkottam a saját típusomat mely a következőket tartalmazza egy Object\{\}-ben:
+	 			A Flot sok lehetőséget nyújt a típusok kiválasztására, és ezekre való példákból megalkottam a saját típusomat mely a következőket tartalmazza egy objektumban:
 		 		
 		 		\begin{verbatim}
 		 			series: { line: { show: true } } 
@@ -66,17 +66,17 @@ A weboldalon össze állított adatokat küldjük fel a szerverre, a szerver a m
 					xaxis: { zoomRange: [0.1, 1], panRange: [-1000, 1000] }
 					yaxis: { zoomRange: [0.1, 100], panRange: [-1000, 1000] }
 		 		\end{verbatim} 
-		 		X és Y kordinátákon nagyítás és mozgatási beállítások interaktívvá állítása
+		 		X és Y koordinátákon nagyítás és mozgatási beállítások interaktívvá állítása
 			 	\begin{verbatim}
 			 		grid: { hoverable: true, clickable: true }
 			 	\end{verbatim} 
-			 	Ezeket a tulajdonságokat használjuk arra hogy felvegyünk új pontokat.
+			 	Ezeket a tulajdonságokat használjuk arra hogy felvegyünk új pontokat.\newline
 			 	Emellett ha ráviszem az egeret az egyik pontra, megmutatja a pont koordinátáját, és értékeit, és hogy melyik ponthalmazon van.
 			 	\begin{verbatim}
 			 		zoom: { interactive: true}, pan: { interactive: true }
 			 	\end{verbatim} 
 			 	Nagyítás és kattintással mozgatás engedélyezése. \newline
-				Ennek a beépítésével is foglalkoztam, de a kattintás sajnos nem egyeztethető könnyen össze a pont figyeléssel, valamint a beépítés után lassú lett, és akadozott a felület, így végül az interaktivítását külső komponensekkel(inputokkal) oldottam meg.
+				Ennek a beépítésével is foglalkoztam, de a kattintás sajnos nem egyeztethető könnyen össze a pont figyeléssel, valamint a beépítés után lassú lett, és akadozott a felület, így végül az interaktivitását külső komponensekkel(inputokkal) oldottam meg.
 
 	 		\item[flot\_data] \hfill \\ 
 	 		A tényleges adathalmazokat tartalmazó tömb, melyben az egyes adatokról egyéni információkat is tartalmazza.\newline
@@ -88,9 +88,9 @@ A weboldalon össze állított adatokat küldjük fel a szerverre, a szerver a m
 				\item[label] \hfill \\ 
 				Adathalmaz elnevezése, ezt láthatjuk amikor az egérrel a pont felé visszük az egeret, valamint a színek-elnevezések össze párosításánál is segít.
 				\item[points] \hfill \\ 
-				Ha pontokat szeretnénk megjeleníteni, akkor ezt a kapcsolót kell alkalmazni.
+				Ha pontokat kívánunk megjeleníteni, akkor ezt a kapcsolót kell alkalmazni.
 				\item[lines] \hfill \\ 
-				Ha a pontokból alkotott vonalat szeretnénk látni, akkor ezt a kapcsolót kell alkalmazni. Ezt használjuk a polinom megjelenítéséhez.
+				Ha a pontokból alkotott vonalat kívánunk látni, akkor ezt a kapcsolót kell alkalmazni. Ezt használjuk a polinom megjelenítéséhez.
 			\end{description}
 	 		\begin{minted}{javascript}
 		var example_datas = [{
@@ -107,7 +107,7 @@ A weboldalon össze állított adatokat küldjük fel a szerverre, a szerver a m
 
 \subsection{Elosztott rendszer}
 	Az elosztott rendszer megvalósításához az alábbi technológiák merültek fel: C++/PVM, Erlang.
-	Miután a JavaScript mellett döntöttem a grafikus felületen, ezután optimálisabbnak tűnt egy hasonlóan gyengén típusos nyelvnek a használata. Az erlang elég jól támogatja párhuzamosítást és a szerver kommunikációt is, és bár az algoritmusok implementálása nehézkesebb lett volna, de C++-ban megvalósított függvények beépítése miatt ez a probléma megoldódott.
+	Miután a JavaScript mellett döntöttem a grafikus felületen, ezután optimálisabbnak tűnt egy hasonlóan gyengén típusos nyelvnek a használata. Az Erlang elég jól támogatja párhuzamosítást és a szerver kommunikációt is, és bár az algoritmusok implementálása nehézkesebb lett volna, de C++-ban megvalósított függvények beépítése miatt ez a probléma megoldódott.
 
 	\subsubsection{Http szerver}
 	A http szerver gyakolratilag 2 példából lett megvalósítva:
@@ -121,10 +121,12 @@ A weboldalon össze állított adatokat küldjük fel a szerverre, a szerver a m
 
 \subsection{Számítás}
 	A számítás megvalósításánál felmerült hogy Erlang-ban legyen, de mivel a számítást ciklusokkal érdemes megvalósítani, ezért egyszerűbb volt egy nem funkcionális nyelvben implementálni azokat.
-	A C++-os függvényeket nem volt bonyolult felhasználni Erlang-os modulként. 
+	A C++-os függvényeket fel lehetett használni az Erlang modulokban.
+	\newline
+
 
 \subsection{Kommunikáció}
-	Amikor a szervert létrehozzuk akkor inicializálunk két proceszt. Az egyik a kliens felől várakozik kérésre, a másik a nodeok felől. Amikor egy node fel kíván csatlakozni küld egy kérést a regisztációra. Ha sikeres volt akkor a szerver ezt jelzi neki, és felkerül a listára. \newline
+	Amikor a szervert létrehozzuk akkor inicializálunk két processzt. Az egyik a kliens felől várakozik kérésre, a másik a node-ok felől. Amikor egy node fel kíván csatlakozni küld egy kérést. Ha sikeres volt akkor a szerver ezt jelzi neki, és felkerül a listára. \newline
 	A weboldalon egy gomb hatására megy egy kérés a szerver felé. A szerver jó esetben fogadja a kérést. Ha nem sikerült kapcsolatba lépnie a szerverrel, akkor jelzi a felhasználónak hogy a kapcsolódás során hiba lépett fel. \newline
 	Ha fogadta a kérést, akkor megpróbálja feldolgozni az adatokat. Ha sikeresen feldolgozta az adatokat, abban az esetben elindul a szétosztás. \newline
 	A szétosztás során a felcsatlakozott gépeken létre jönnek a processzek, majd kapnak egy adathalmazt mellyel számolniuk kell. Ha végeztek, az eredményt vissza küldik a szülő processznek. A szülő processz, ha megkapott minden értéket, azt vissza küldi a weboldalnak.
@@ -135,6 +137,11 @@ A weboldalon össze állított adatokat küldjük fel a szerverre, a szerver a m
 	\centering
 	\caption{Kommunikáció\label{fig:kommunikacio1}}
 	\end{figure}
+
+\section{Fájlszerkezet}
+	A fájlszerkezetnek a tervezésénél nem voltak a belső részek komolyabban megtervezve, dinamikusan változtak. 3 mappa volt a tervezett: elosztott rendszer és weboldal mappája. A többi mappa mind a külsők, és a belsők a fejlesztés során lettek bele tervezve, amikor a fájlok mennyisége, vagy az új technológia szeparálása megkívánta azt. 
+	TODO: külső mappákról írás melyikben mi van megvalósítva
+	Belső mappákról csak az általános "/source"-t említem meg, mert egyébként a belső mappaszerkezetet a részeknél lesz külön kifejtve
 
 %% ----------------------------------------------{Weboldal}
 \section{Weboldal megvalósítása}
@@ -178,7 +185,7 @@ A weboldalon össze állított adatokat küldjük fel a szerverre, a szerver a m
 		 		Polinom kirajzolását segítő függvények \newline
 		 		makePolinome található benne és egyéb segédfüggvények
 		 	\item[web\_page\_debug.js : ] \hfill \\ 
-		 		A Weboldalon történő logolást segítő objektum \newline
+		 		A Weboldalon történő kiíratást segítő objektum \newline
 		 		Jelenleg sehol nem használjuk már, de a megvalósítás során fontos szerepe volt a hibajavításban
 		\end{description}
 		\item[model/interpolation] \hfill \\
@@ -197,7 +204,7 @@ A weboldalon össze állított adatokat küldjük fel a szerverre, a szerver a m
 	\end{description}
 \subsection{Fontosabb objektumok és függvények}
 	\hfill
-	Az objetumokat legtöbb esetben egy függvény generálja, melyben \"that.\"-al jelöltek azok, melyeket a visszatérés után felhasználunk az eseménykezelésekhez.
+	Az objektumokat legtöbb esetben egy függvény generálja, melyben \"that.\"-al jelöltek azok, melyeket a visszatérés után felhasználunk az eseménykezelésekhez.
 	\begin{description}
 		\item[makePolinome(inPolinome, plotFor)] \hfill \\ 
 			Polinom pontjainak legenerálására szolgáló függvény, a grafikon kirajzolónak megfelelő típusban
@@ -213,7 +220,7 @@ A weboldalon össze állított adatokat küldjük fel a szerverre, a szerver a m
 			\end{description}
 		\item[basicTable (aConfig)]
 			\hfill \\ 
-			Egy alap tábla objektum. Ennek segítségével lehet létrehozni az interpolációs táblázatot és a menülistát(interpoláció választó)
+			Egy alap tábla objektum. Ennek segítségével lehet létrehozni az interpolációs táblázatot és a menü listát(interpoláció választó)
 			\begin{description}
 			\item[that.addNewCellToRow(rowIndex, textValue, inputAttributes)] 
 				\hfill \\  Ad egy új cellát a sorhoz
@@ -262,7 +269,7 @@ A weboldalon össze állított adatokat küldjük fel a szerverre, a szerver a m
 			\item[that.getDataArray(server)] 
 			\hfill \\ Vissza adja az adathalmazt, tömb formában. Ebben a formában küldjük fel a szervernek.
 			\item[that.getDataObject()] 
-			\hfill \\ Vissza adja az adathalmazt, egy objektum formájában. Az Objektum értékeinek kulcsa, az interpolációk id-ja.
+			\hfill \\ Vissza adja az adathalmazt, egy objektum formájában. Az Objektum értékeinek kulcsa, az interpolációk egyedi azonosítója (id-ja).
 			\item[that.saveItemSettings()] 
 			\hfill \\ Elmenti az adatokat az aktuálisan kijelölt sorba.
 			\item[that.loadItemSettings(index)]
@@ -317,7 +324,7 @@ A weboldalon össze állított adatokat küldjük fel a szerverre, a szerver a m
 \section{Elosztott rendszer  megvalósítása}
 Elosztott rendszer Erlang-ban lett megvalósítva. Az elosztást interpolációnként végezzük, vagyis annyi node-ot hozunk létre amennyi interpolációt kívánunk egyszerre kiszámítani. \newline
 A szerver figyel egy portot hogy érkezett-e rá adat. Ha érkezett adat az adott portra, azt kibontja, és elvégzi a szükséges műveleteket. A JSON-t kibontja, és feldolgozza. Kinyer belőle egy listát mely az interpolálni kívánt pontokat és tulajdonságokat tartalmazza. \newline
-Tudjuk pontosan hány eleme van a listának, és annyi processzt hozunk létre. Ha vannak felcsatlakozva Node-ok akkor a processzt az adott node-on is meg tudja hívni.
+Tudjuk pontosan hány eleme van a listának, és annyi processzt hozunk létre. Ha vannak felcsatlakozva node-ok akkor a processzt az adott node-on is meg tudja hívni.
 Ha létrehozta a processzeket lista elemein végig megy, és azokat szétküldi a processzeknek, majd megvárja míg az összes végig ér, és vissza térve megkapja az eredményt.
 \subsection{Web-szerver kommunikáció}
 	A webszerver kommunikációhoz a fájlok a simpleServer.erl fájlban találhatóak meg. Az ebben találhat függvényeket a main-ben hívjuk meg. Amikor inicializáljuk a szervert.
@@ -345,7 +352,7 @@ Ha létrehozta a processzeket lista elemein végig megy, és azokat szétküldi 
 	Elsősorban a megkapott speciális adathalmaz kibontására használtak az itt lévő függvények, de egyéb segédfüggvények is megtalálhatóak ebben a fájlban, amelyek a konvertálással kapcsolatosak.
 
 	\subsubsection{\underline{
-		MochiJSON kibontásához használt segédfüggvények:
+		Mochi-json kibontásához használt segédfüggvények:
 	}}
 	\begin{description}
 		\item[struct\_handler:getElementByKeyList(KeyList, DataSetElement)] \hfill \\ 
@@ -378,8 +385,8 @@ Ha létrehozta a processzeket lista elemein végig megy, és azokat szétküldi 
 	\begin{description}
 	
 		\item[struct\_handler:convertToMochi(Object)] \hfill \\ 
-		A Mochi struktúra annyira nem egyértelmű elemekből áll. Speciálisan kell felépíteni az eredményt. Ez a függvény megkap egy Erlang listát és átkonvertálja MochiJSON-nek megfelelő struktúrává, majd
-		
+		A mochi-json Erlang struktúra annyira nem egyértelmű elemekből áll. Speciálisan kell felépíteni az eredményt. Ez a függvény megkap egy Erlang listát és átkonvertálja mochi-json-nak megfelelő struktúrává, majd átkonvertálja egy json string-gé.
+
 		\item[struct\_handler:simplifyPolinomial(Result, Array) ] \hfill \\ 
 		Egyszerűsíti a polinomot amelyet eredményül kapott.
 	
@@ -392,21 +399,22 @@ Ha létrehozta a processzeket lista elemein végig megy, és azokat szétküldi 
 	\hfill \\ Ezzel a kéréssel lehet felcsatlakozni a szerverre. A kérést elküldi és ha sikeres volt a feliratkozás, akkor ok-al tér vissza.
 	\end{description}
 \subsection{Elosztás megvalósítása}
-	Miután meghívódik a 
+	Az elosztást tartalmazó fájlokat a /distributedSystem mappában találjuk meg. 
 	\begin{description}
 		\item[node\_handler:distributedFork(NumOfPids, DataList, WatcherNode)]
 		\hfill \\
-		Létrehozza a Számításhoz szükséges Node Struktúrát.
+		Létrehozza a számításhoz szükséges Node Struktúrát.
 		LogicModule-ban szereplő senderstart, recivestart, worker\_main 
 		\item[node\_handler:getNodelist]
 		\hfill \\
 		Lekéri a node-figyelőtől a felcsatlakozott node-okat.
 		\item[node\_handler:makeForkPids]
 		\hfill \\
-		Létrehozza a Számításhoz szükséges új processzeket.
+		Létrehozza a számításhoz szükséges új processzeket.
 
 		\item[fork:senderArray]
-		\hfill \\
+		\hfill \\ 
+
 		\item[fork:receiver]
 		\hfill \\
 		\item[fork:worker\_main]
@@ -418,14 +426,15 @@ Ha létrehozta a processzeket lista elemein végig megy, és azokat szétküldi 
 \subsection{Számítás hívása}
 	\begin{description}
 	\item[calculator:calculateByData(DataSetElement)]
-	\hfill \\ A bejövő paraméterből kinyeri a pontokat és a típust, majd meghívja a számító függvényt.
+	\hfill \\ 
+	A bejövő paraméterből kinyeri a pontokat és a típust, majd meghívja a számító függvényt.
 	\item[calculator:calculate(\_X, \_Y, \_Type, \_Inverz)]
 	\hfill \\ C++-ban implementált és onnan betöltött függvény
 	\end{description}
 \subsection{Tesztelési terv}
 	\begin{description}
 		\item[test:fork] \hfill \\
-		Teszt futtatása a fork-nak
+			Teszt futtatása a fork-nak
 
 		\item[test:runCheck, run] \hfill \\
 			Futtatást kezelő függvények 
@@ -450,7 +459,7 @@ Ha létrehozta a processzeket lista elemein végig megy, és azokat szétküldi 
 
 %% ----------------------------------------------{Kalkulátor}
 \section{Kalkulátor}
-A Kalkulátor részben számítódik ki egy-egy interpolációnak az ereménye.
+A Kalkulátor részben számítódik ki egy-egy interpolációnak az eredménye.
 A megkapott adatok alapján számol, ha kell létre hozza a kezdő mátrixot, kiszámolja az eredmény mátrixot, majd annak segítségével kiszámolja a polinomot. \newline
 
 \subsection{Felépítés}
@@ -488,14 +497,14 @@ A megkapott adatok alapján számol, ha kell létre hozza a kezdő mátrixot, ki
 		\item[DArray polynomialMultiply(DArray P, DArray Q)] \hfill \\ 
 			polinom szorzás
 		\item[DArray getPointsFromMatrix(DMatrix Y)] \hfill \\ 
-			Pontokat(0. derivált) vissza adja a Mátrixból
+			Pontokat(0. derivált) vissza adja a mátrixból
 		\item[DMatrix getMatrixFromPoints(DArray Y)] \hfill \\ 
 			Mátrixot ad vissza a pontokból
 		\item[DArray getDiagFromMatrix (DMatrix \&M)] 
 		\hfill \\
 			Diagonális lekérése a mátrixból
 		\item[void getInterpolationMatrix(DArray X, DMatrix Y, DArray \&resX, DMatrix \&resM)] \hfill \\
-			 X és Y ponthalmazból vissza adja a Mátrixot 
+			 X és Y ponthalmazból vissza adja a mátrixot 
 	\end{description}
 \subsection{Elosztott rendszerrel való kommunikáció}
 	Az elosztott rendszerben hívódó számítást Erlang - erl\_nif"-el sikerült megoldanom. 
@@ -503,16 +512,17 @@ A megkapott adatok alapján számol, ha kell létre hozza a kezdő mátrixot, ki
 	\begin{description}
 		\item[calculate\_nif] \hfill \\
 		Ennek a függvénynek a segítségével valósul meg a kettő közötti kommunikáció
-		\item[convertMatrix] \hfill \\
-		Lista Lista konvertálása Vector Vectorrá
 		\item[convertVector] \hfill \\
-		Erlang Lista típisuának Vectorrá konvertálása
+		Erlang lista C++ vektorrá konvertálása
+		\item[convertMatrix] \hfill \\
+		Erlang lista lista konvertálása C++ vektor vektorrá
 		\item[convertList] \hfill \\
-		Erlang Listává konvertálás egy C++ Vector típusból
+		Erlang listává konvertálás egy C++ vektorból
 		\item[convertTheType] \hfill \\
-			típus számot konvertálja stringgé: newton,hermite,lagrange
+			típus számot konvertálja string-gé: 
+			"newton,hermite,lagrange"
 		\item[nif\_funcs] \hfill \\
-			Felsorolja milyen függvényeket importálaunk az Erlangba
+			Felsorolja milyen függvényeket importálunk az Erlang-ba
 	\end{description}
 	
 \subsection{Tesztelési terv}
@@ -521,28 +531,25 @@ A megkapott adatok alapján számol, ha kell létre hozza a kezdő mátrixot, ki
 		\item[bool testAll()] \hfill \\ 
 			Minden teszt lefuttatása, ha nincs hiba futnak
 		\item[void testInterpolation(bool logPoly = false)] \hfill \\ 
-		Interpoláció tesztek lefuttatása
+			Interpoláció tesztek lefuttatása
 		\item[bool testMainInterpolation(bool logPoly = false)] \hfill \\ 
-		fő függvény teszje
+			Fő függvény tesztje
 		\item[bool testNewton(bool logPoly = false)] \hfill \\ 
-		Newton számítás tesztje
+			Newton számítás tesztje
 		\item[bool testLagrange(bool logPoly = false)] \hfill \\ 
-		Lagrange Interpoláció tesztje
+			Lagrange Interpoláció tesztje
 		\item[void testPolynomial()] \hfill \\ 
-		 Interpolációs Mátrix tesztje
+			Interpolációs Mátrix tesztje
 		\item[void testMatrixInterpolation()] \hfill \\ 
-		Manuális Interpolációs teszt
+			Manuális Interpolációs teszt
 		\item[void testManualInterpolation()] \hfill \\ 
-		Manuális Interpolációs teszt
+			Manuális Interpolációs teszt
 
 		\item[testManualPolynomial()] \hfill \\ 
-		Manuális Polinom tesztelő 
+			Manuális Polinom tesztelő 
 		\item[void genXSquaredPoints(DArray \&X, DMatrix \&Y)] \hfill \\ 
-		generál egy minta X,Y ponthalmazt az $x^{2}$ 
-		pontjaiból
+			generál egy minta X,Y ponthalmazt az $x^{2}$ 
+			pontjaiból
 		testMatrixInterpolation Segédfüggvénye
 		feltölti az $x^{2}$ pontjaival 
-	\end{description}
-
-	\begin{description}
 	\end{description}

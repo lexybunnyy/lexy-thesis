@@ -68,18 +68,18 @@ Ebben a feladatban egy speciális megvalósítása lesz ennek a számításnak. 
 A grafikus része egy weboldal, melyen szerkeszthetjük a ponthalmazokat. A számítás részét egy szerver végzi amely figyeli a felcsatlakozó gépeket. Amikor kap egy számítandó adathalmazt, akkor több gép segítségével kiszámítja az eredményt. Ha minden részfeladat végzett, akkor vissza küldi a weboldalra, ahol az eredmények megtekinthetőek grafikus formában.
 \newline\newline
 \section{Feladat megvalósítása}
-A \textbf{grafikus felület}  egy weboldal, mely javascript-ben és HTML-ben van megvalósítva.
- A felületen egy listát tekinthetünk meg, ahova több ponthalmazt is felvehetünk. \newline  Mentés hatásásra az értékek a háttérben eltárolódnak. A ponthalmazok közül választhatunk egyet, amely betölődik felületre.\newline A szerkesztő felület egy táblázatból és egy grafikonból áll, emellett még a különböző speciális számításra vonatkozó tulajdonságok (interpoláció típusa) valamint a grafikonon való megjelenítéshez tartozó tulajdonságok (polinóm pontosság, megtekintendő intervallum) is szerkeszthetőek. \newline Ha befejeztük a halmazok szerkesztését elküldhetjük a számítani kívánt értékeket a szerver felé.
+A \textbf{grafikus felület}  egy weboldal, mely JavaScript-ben és HTML-ben van megvalósítva.
+ A felületen egy listát tekinthetünk meg, ahova több ponthalmazt is felvehetünk. \newline  Mentés hatására az értékek a háttérben eltárolódnak. A ponthalmazok közül választhatunk egyet, amely betöltődik felületre.\newline A szerkesztő felület egy táblázatból és egy grafikonból áll, emellett még a különböző speciális számításra vonatkozó tulajdonságok (interpoláció típusa) valamint a grafikonon való megjelenítéshez tartozó tulajdonságok (polinom pontosság, megtekintendő intervallum) is szerkeszthetőek. \newline Ha befejeztük a halmazok szerkesztését elküldhetjük a számítani kívánt értékeket a szerver felé.
 \newline\newline
 A \textbf{szerver} feladata hogy figyelje a felületről érkező adatokat. Ha az adathalmaz megérkezett, akkor a szerver kibontja az adatokat egy JSON-ból, és elindítja az elosztást. \newline
 Az elosztáshoz a szerveren el kell indítani egy figyelő folyamatot amelyre lehetősége van egy külső gépnek felcsatlakozni. Amikor a szerveren indul egy számolás a felcsatlakozott gépeket lekérdezi, majd a feladatokat szétosztja.\newline
-A szerver megvalósítása és a gépekre való szétosztás Erlang-ban lett megvalósítva. A JSON feldolgozásához Mochi-JSON lett alkalmazva. A feldolgozás után az adathalmazon végig megyünk és azok alapján felparaméterezzük, és meghívjuk a számítást végző függvényt.\newline
-A számításhoz használt maximális gépek száma paraméterként megadható, de a tényleges számítást csak annyi gépen tujduk maximálisan végezni ahány gép felcsatlakozott a számításhoz.
+A szerver megvalósítása és a gépekre való szétosztás Erlang-ban lett megvalósítva. A JSON feldolgozásához mochi-json lett alkalmazva. A feldolgozás után az adathalmazon végig megyünk és azok alapján felparaméterezzük, és meghívjuk a számítást végző függvényt.\newline
+A számításhoz használt maximális gépek száma paraméterként megadható, de a tényleges számítást csak annyi gépen tudjuk maximálisan végezni ahány gép felcsatlakozott a számításhoz.
 \newline\newline
-A \textbf{számítás} megvalósítása C++ nyelven történt. A paraméterek alapján a Lagrange-féle, Newtone-féle, Hermite-féle interpolációs technikák közül eldönti melyik esetet használja.\newline 
+A \textbf{számítás} megvalósítása C++ nyelven történt. A paraméterek alapján a Lagrange -féle, Newton -féle, Hermite -féle interpolációs technikák közül eldönti melyik esetet használja.\newline 
 Valamint inverz interpolációt is választhatnak a Lagrange vagy a Newton interpoláció esetén. \newline
-A programban implementálásra került egy egyszerű polinóm szorzás és össze adás, valamint az inteprolációkhoz szükséges függvények. Lagrange számítás a polinóm műveletek és a képlet felhasználásával valósult meg. Newton és Hermite esetén a kapott adatokból először a kezdő mátrixot kell legenerálni, majd kiszámítani. \newline
-Abban az esetben ha Newton vagy Lagrange polinómot számolunk nem vesszük figyelembe a derivált pontokat, viszont figyelmbe vesszük ha inverz számítást kívánunk végezni. 
+A programban implementálásra került egy egyszerű polinom szorzás és összeadás, valamint az interpolációkhoz szükséges függvények. Lagrange számítás a polinom műveletek és a képlet felhasználásával valósult meg. Newton és Hermite esetén a kapott adatokból először a kezdő mátrixot kell legenerálni, majd kiszámítani. \newline
+Abban az esetben ha Newton vagy Lagrange polinomot számolunk nem vesszük figyelembe a derivált pontokat, viszont figyelembe vesszük ha inverz számítást kívánunk végezni. 
 
 
 \chapter{Felhasználói dokumentáció}
