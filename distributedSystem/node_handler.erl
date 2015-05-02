@@ -21,7 +21,8 @@
 %% függvények létrejönnek, és számolnak
 %% @spec (NumOfPids::integer(), LogicModule::atom(), DataList::List) -> List
 distributedFork(NumOfPids, DataList, WatcherNode) -> 
-  NodeList = getNodelist(WatcherNode) ++ [node()],
+  %%NodeList = getNodelist(WatcherNode) ++ [node()],
+  NodeList = [node()],
   {PidList, EndPid} = makeForkPids(NumOfPids, NodeList),
   apply(fork, senderArray, [senderstart, PidList, NumOfPids, DataList]),
   apply(fork, receiver, [recivestart, PidList, EndPid]).

@@ -1,5 +1,11 @@
 g++ -std=c++11 -o calculator.so -fpic -shared ./../Calculator/erlang.cpp ./../Calculator/logTest.cpp ./../Calculator/calculator.cpp
 
+/init
+erl -sname interpMainComputer1 -s toolbar
+c(run).
+run:compile().
+run:load().
+
 erl -sname interpMainComputer1 -s toolbar
 c('../connectionServer/simpleServer').
 c(calculator).
@@ -9,9 +15,11 @@ c(node_handler).
 c(pidWatch).
 c(test).
 c(main).
+c('./source/mochijson').
 main:initPort().
-node_handler:getNodelist(pid(0,143,0)).
-test:simulateDistributedCalculate(pid(0,143,0)).
+node_handler:getNodelist(pid(0,
+test:simulateFirstParseAndRun().
+test:simulateDistributedCalculate(pid(0,
 
 erl -sname interpWorker1
 c(pidWatch).

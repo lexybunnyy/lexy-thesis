@@ -79,7 +79,7 @@ function interpolationPlot(aConfig) {
             };
 
             resultArray.push({
-                label: 'Eredmény polinóm',
+                label: 'Eredmény polinm',
                 data: makePolinome(polynomial, plotFor),
                 lines: { show: true }
             });

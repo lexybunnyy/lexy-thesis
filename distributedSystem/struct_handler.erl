@@ -39,7 +39,10 @@ convertAnElement({Key, Array}) ->
 convertAnElement(Obj) -> 
   {"error", {array, [convetString(Obj)]}}.
 
-convetString(Term) -> lists:flatten(io_lib:format("~p", [Term])).
+convetString(Term) ->
+  io:format("hello" ++ ": ~p \n", [Term]),
+  Format = io_lib:format("~p", [Term]),
+  lists:flatten(Format).
 
 structArrayParser([], Array) ->
   Array;

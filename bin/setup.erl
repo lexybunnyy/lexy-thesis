@@ -1,21 +1,14 @@
 #!/usr/bin/env escript
 %% -*- erlang -*-
 %%! -smp enable -sname factorial -mnesia debug verbose
-main([String]) ->
-    try
-        N = list_to_integer(String),
-        F = fac(N),
-        io:format("factorial ~w = ~w\n", [N,F])
-    catch
-        _:_ ->
-            usage()
-    end;
-main(_) ->
-    usage().
 
-usage() ->
-    io:format("usage: factorial integer\n"),
-    halt(1).
+main(_) -> 
+    compile:file('../distributedSystem/main'),
+    main:compile(),
+    Result = apply(test, run, [ok]),
+    case Result of
+        ok ->  io:format("Telepites ok\n");
+        Error -> io:format("Telepites sikertelen: ~p \n", [Error])
+    end.
 
-fac(0) -> 1;
-fac(N) -> N * fac(N-1).
+%% c("../distributedSystem/main").
