@@ -13,10 +13,17 @@ fork(NumOfPids) ->
     apply(node_handler, makeNodeStructure, [NumOfPids, fork]).
 
 %% cannot call on_load main
+simulateDistributedCalculate() -> 
+	JsonSting = getJSONString(),
+	Data = apply(struct_handler, getDataByJson, [JsonSting]),
+	Result = apply(main, callDistributedCaluclate, [Data]),
+	simulateDistributedCalculateHelper(Result).
 simulateDistributedCalculate(WatcherNode) -> 
 	JsonSting = getJSONString(),
 	Data = apply(struct_handler, getDataByJson, [JsonSting]),
 	Result = apply(main, callDistributedCaluclate, [Data, WatcherNode]),
+	simulateDistributedCalculateHelper(Result).
+simulateDistributedCalculateHelper(Result) -> 
 	case Result of 
 		[R1, R2, _R3] -> 
 			[

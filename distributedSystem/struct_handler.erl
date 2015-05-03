@@ -40,7 +40,7 @@ convertAnElement(Obj) ->
   {"error", {array, [convetString(Obj)]}}.
 
 convetString(Term) ->
-  io:format("hello" ++ ": ~p \n", [Term]),
+  %%io:format("convetString" ++ ": ~p \n", [Term]),
   Format = io_lib:format("~p", [Term]),
   lists:flatten(Format).
 

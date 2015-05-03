@@ -3,8 +3,28 @@
 -compile(export_all).
 
 init() ->
-	compile(),
-	load().
+    {WatcherNode, SimpleServer} = main:initPort(),
+    Test = test(WatcherNode),
+    case Test of 
+        ok -> {WatcherNode, SimpleServer};
+        _ -> {error, Test, WatcherNode, SimpleServer}
+    end.
+
+test(WatcherNode) -> 
+    ResultCheck = test:runCheck(),
+    Distributed = test:simulateDistributedCalculate(WatcherNode),
+    case test:trueList(ResultCheck ++ Distributed) of 
+        true -> ok;
+        _ -> ResultCheck ++ Distributed
+    end.
+
+test() -> 
+    ResultCheck = test:runCheck(),
+    Distributed = test:simulateDistributedCalculate(),
+    case test:trueList(ResultCheck ++ Distributed) of 
+        true -> ok;
+        _ -> ResultCheck ++ Distributed
+    end.
 
 load() ->
     code:load_file('test'),

@@ -20,9 +20,13 @@
 %% LogicModule-ban szereplő senderstart, recivestart, worker_main 
 %% függvények létrejönnek, és számolnak
 %% @spec (NumOfPids::integer(), LogicModule::atom(), DataList::List) -> List
-distributedFork(NumOfPids, DataList, WatcherNode) -> 
-  %%NodeList = getNodelist(WatcherNode) ++ [node()],
+distributedFork(NumOfPids, DataList) -> 
   NodeList = [node()],
+  distributedForkHelper(NumOfPids, DataList, NodeList).
+distributedFork(NumOfPids, DataList, WatcherNode) -> 
+  NodeList = getNodelist(WatcherNode) ++ [node()],
+  distributedForkHelper(NumOfPids, DataList, NodeList).
+distributedForkHelper(NumOfPids, DataList, NodeList) ->
   {PidList, EndPid} = makeForkPids(NumOfPids, NodeList),
   apply(fork, senderArray, [senderstart, PidList, NumOfPids, DataList]),
   apply(fork, receiver, [recivestart, PidList, EndPid]).

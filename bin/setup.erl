@@ -10,5 +10,3 @@ main(_) ->
         ok ->  io:format("Telepites ok\n");
         Error -> io:format("Telepites sikertelen: ~p \n", [Error])
     end.
-
-%% c("../distributedSystem/main").
