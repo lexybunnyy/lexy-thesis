@@ -110,7 +110,7 @@ A weboldalon össze állított adatokat küldjük fel a szerverre, a szerver a m
 
 	\subsubsection{Http szerver}
 	A http szerver gyakolratilag 2 példából lett megvalósítva:
-	"simpleServer leírása TODO"
+	"httpServer leírása TODO"
 	\subsubsection{Node figyelő}
 	"pingPong TODO: pidWatcher mit csinál"
 	\subsubsection{Struktúra kezelő}
@@ -326,55 +326,55 @@ A szerver figyel egy portot hogy érkezett-e rá adat. Ha érkezett adat az adot
 Tudjuk pontosan hány eleme van a listának, és annyi processzt hozunk létre. Ha vannak felcsatlakozva node-ok akkor a processzt az adott node-on is meg tudja hívni.
 Ha létrehozta a processzeket lista elemein végig megy, és azokat szétküldi a processzeknek, majd megvárja míg az összes végig ér, és vissza térve megkapja az eredményt.
 \subsection{Web-szerver kommunikáció}
-	A webszerver kommunikációhoz a fájlok a simpleServer.erl fájlban találhatóak meg. Az ebben találhat függvényeket a main-ben hívjuk meg. Amikor inicializáljuk a szervert.
+	A webszerver kommunikációhoz a fájlok a httpServer.erl fájlban találhatóak meg. Az ebben találhat függvényeket a main-ben hívjuk meg. Amikor inicializáljuk a szervert.
 	\begin{description}
-	\item[simpleServer:start(Port, WatcherNode)] 
+	\item[httpServer:start(Port, WatcherNode)] 
 		\hfill \\
 		Elindítja a szervert, az adott porton. \newline
 		Ezt a függvényt a main-ben hívjuk, meg ahol már megkapja a node-figyelő pid-jét és az alapértelmezett port-ot 
-	\item[simpleServer:response(Str, WatcherNode)] \hfill \\ 
+	\item[httpServer:response(Str, WatcherNode)] \hfill \\ 
 		Miután érkezik egy kérés a szervernek ebben a függvényben kezeljük le. Innen indul ki minden folyamat ami a számítást végzi. \newline 
 		Az alábbi sorrendben hívódnak meg a függvények: \newline
 		getDecodeData, convertData, callMain, convertToSend
-	\item[simpleServer:getDecodeData(\_)] \hfill \\ 
+	\item[httpServer:getDecodeData(\_)] \hfill \\ 
 		Vissza tér a szervernek küldött paraméterrel
-	\item[simpleServer:convertData(ResponseParams)] \hfill \\ 
+	\item[httpServer:convertData(ResponseParams)] \hfill \\ 
 		Létrehozza a kapott adatból az Erlang struktúrát
-	\item[simpleServer:callMain(RespJson, WatcherNode)] \hfill \\ 
+	\item[httpServer:callMain(RespJson, WatcherNode)] \hfill \\ 
 		Amikor az adatokat feldolgoztuk és minden rendben ment, elindítjuk a main függvényét, ezen függvény segítségével.
-	\item[simpleServer:convertToSend(Object)] \hfill \\ 
+	\item[httpServer:convertToSend(Object)] \hfill \\ 
 		Amikor a számítás véget ért, létrehozzunk a visszaküldéshez szükséges adatstruktúrát, majd elküldjük a szervernek.
 	\end{description}
 \subsection{Web-szerver Adat feldolgozás}
 	Az adatot JSON-ben kapja a szerver. Az adathalmaz kibontásához MonchiJSON lett alkalmazva. 
-	A segédfüggvények és konvertálók a "distributedSystem/struch\_handler.erl" fájlban lettek megvalósítva.\newline
+	A segédfüggvények és konvertálók a "Utility/structHandler.erl" fájlban lettek megvalósítva.\newline
 	Elsősorban a megkapott speciális adathalmaz kibontására használtak az itt lévő függvények, de egyéb segédfüggvények is megtalálhatóak ebben a fájlban, amelyek a konvertálással kapcsolatosak.
 
 	\subsubsection{\underline{
 		Mochi-json kibontásához használt segédfüggvények:
 	}}
 	\begin{description}
-		\item[struct\_handler:getElementByKeyList(KeyList, DataSetElement)] \hfill \\ 
+		\item[structHandler:getElementByKeyList(KeyList, DataSetElement)] \hfill \\ 
 		Vissza tér egy értékkel, amely az adott kulcson van, ha egy elemű a kulcs lista. Több elem esetén a kulcsokban lévő értékeket nézi, és vissza adja a legbelső kulcson lévő elemet.
 
-		\item[struct\_handler:getElementByKey()] \hfill \\ 
+		\item[structHandler:getElementByKey()] \hfill \\ 
 		Vissza tér egy objektumban az adott kulcson lévő értékkel
 	\end{description}
 	\subsubsection{\underline{Adat Struktúra az interpoláció meghívásához}}
 	\begin{description}
 
-		\item[struct\_handler:getDataByJson(JsonSting)] \hfill \\
+		\item[structHandler:getDataByJson(JsonSting)] \hfill \\
 		A mochi-json dekódoló meghívása, vissza tér egy Erlang struktúrával.
 		
-		\item[struct\_handler:getDataSet(Data)]\hfill \\ 
+		\item[structHandler:getDataSet(Data)]\hfill \\ 
 		Vissza tér az adatok halmazával. Ebből a halmazon, vagyis listán kell végig menni, és szétosztani az elemeit. 
 		
-		\item[struct\_handler:getPoints] \hfill \\
+		\item[structHandler:getPoints] \hfill \\
 		Pontok vissza nyerése egy speciális módon, melyet a "calulator" fel tud használni
 
 		\input{./../code1.tex}
 
-		\item[struct\_handler:<Számítási paraméterek>] \hfill \\ 
+		\item[structHandler:<Számítási paraméterek>] \hfill \\ 
 		getInverse(DataSetElement) - inverz-e \newline
 		getType(DataSetElement) mi a típusa? \newline
 		getId(DataSetElement) egyedi azonosítója \newline
@@ -383,10 +383,10 @@ Ha létrehozta a processzeket lista elemein végig megy, és azokat szétküldi 
 	\subsubsection{\underline{Az eredmény vissza nyeréséhez az alábbi segédfüggvényeket kellett használni:}}
 	\begin{description}
 	
-		\item[struct\_handler:convertToMochi(Object)] \hfill \\ 
+		\item[structHandler:convertToMochi(Object)] \hfill \\ 
 		A mochi-json Erlang struktúra annyira nem egyértelmű elemekből áll. Speciálisan kell felépíteni az eredményt. Ez a függvény megkap egy Erlang listát és átkonvertálja mochi-json-nak megfelelő struktúrává, majd átkonvertálja egy json string-gé.
 
-		\item[struct\_handler:simplifyPolinomial(Result, Array) ] \hfill \\ 
+		\item[structHandler:simplifyPolinomial(Result, Array) ] \hfill \\ 
 		Egyszerűsíti a polinomot amelyet eredményül kapott.
 	
 	\end{description}
@@ -504,6 +504,26 @@ A megkapott adatok alapján számol, ha kell létre hozza a kezdő mátrixot, ki
 	A felület manuális teszteléssel lett kipróbálva, automatizált tesztesetek nem lesznek.
 	TODO: tesztelni a számítást a gombokat mindent és teszteseteket írogatni ide ezekből, 
 	ha egy teszt hibás azt is fel kellene itt tűntetni.
+	\begin{center}
+  \begin{tabular}{| p{4cm} | p{1.5cm} | p{8cm} |}
+    \hline
+    Hiba & Javítva & Info
+    \\ \hline
+    	Szerver hiba bizonyos mennyiségű adatküldése felett 
+      &
+    	nem
+      &  
+    	Előidézés: 9-nél több egyszerű adat felküldése, minta nagy adatból 4db felett.
+    	A szerver egybe küldi az értékeket de, valamiért a httpServer modul már nem kapja meg a végét. Nem küldi 2 részletben, ezt kizártuk.
+    \\ \hline
+    	El tudjuk küldeni az oldalról 
+      &
+
+      &
+
+    \\ \hline
+  \end{tabular}
+\end{center}
 \subsection{Kalkulátor}
 	A tesztelést folyamatosan végeztem a minta adatok alapján. A függvények implementálása közben ezekre a minta adatokra meghívtam, majd ezekkel számoltam. A teszteléshez a logTest.cpp fájlban található függvényeket alkalmaztam. 
 	\begin{description}

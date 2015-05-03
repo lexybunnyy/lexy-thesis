@@ -16,7 +16,7 @@ run:initServer().
 erl -s toolbar -sname interpCaluclator1
 c(run).
 run:load().
-run:test(),
+run:test().
 run:initNode(interpMainComputer@lexymint).
 
 %%----------------------------- old
