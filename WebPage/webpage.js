@@ -27,5 +27,5 @@ $(function() {
 		 debugInput: Base.get('debug_text')
     });
    
-	$("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
+	//$("#float_footer").prepend("Flot " + $.plot.version);
 });
