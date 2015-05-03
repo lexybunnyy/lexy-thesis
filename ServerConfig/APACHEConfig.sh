@@ -13,7 +13,7 @@ sudo a2enmod proxy proxy_http
 ##-- fájl 
 ## cd /etc/apache2/sites-available/
 ## sudo cp 000-default.conf szakdoli.conf
-sudo cp /home/oem/git/project/connectionServer/szakdoli.conf /etc/apache2/sites-available/szakdoli.conf
+sudo cp /home/oem/git/project/ServerConfig/szakdoli.conf /etc/apache2/sites-available/szakdoli.conf
 ## sudo subl szakdoli.conf
 
 ##-- inicializálás és restart
@@ -24,7 +24,7 @@ sudo /etc/init.d/apache2 restart
 ## szakdoli.conf: 
 ## DocumentRoot /home/oem/git/project/WebPage/
 ## ProxyPass /API http://192.168.1.103:8082
-## %%erl simpleServer:start(8082).
+## %%erl httpServer:start(8082).
 ## %%http://192.168.1.103:8086/prepare_page.html
 ## %%http://192.168.1.103:8086/API
 

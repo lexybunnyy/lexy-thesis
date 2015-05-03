@@ -1,6 +1,6 @@
 /* erlang.cpp: 
 use: 
-g++ -o ./../distributedSystem/calculator.so -fpic -shared test.cpp erlang.cpp
+g++ -o ./../DistributedSystem/calculator.so -fpic -shared test.cpp erlang.cpp
 
 $ g++ -std=c++11 -o calculator.so -fpic -shared ./../Calculator/erlang.cpp ./../Calculator/logTest.cpp ./../Calculator/calculator.cpp 
 c(calculator).

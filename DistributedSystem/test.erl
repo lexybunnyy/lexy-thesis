@@ -8,19 +8,19 @@
 %% @spec (NumOfPids::integer()) -> List
 fork(TestList) when is_list(TestList) ->
     NumOfPids = length(TestList),
-    apply(node_handler, makeNodeStructure, [NumOfPids, fork, TestList]);
+    apply(nodeHandler, makeNodeStructure, [NumOfPids, fork, TestList]);
 fork(NumOfPids) ->
-    apply(node_handler, makeNodeStructure, [NumOfPids, fork]).
+    apply(nodeHandler, makeNodeStructure, [NumOfPids, fork]).
 
 %% cannot call on_load main
 simulateDistributedCalculate() -> 
 	JsonSting = getJSONString(),
-	Data = apply(struct_handler, getDataByJson, [JsonSting]),
+	Data = apply(structHandler, getDataByJson, [JsonSting]),
 	Result = apply(main, callDistributedCaluclate, [Data]),
 	simulateDistributedCalculateHelper(Result).
 simulateDistributedCalculate(WatcherNode) -> 
 	JsonSting = getJSONString(),
-	Data = apply(struct_handler, getDataByJson, [JsonSting]),
+	Data = apply(structHandler, getDataByJson, [JsonSting]),
 	Result = apply(main, callDistributedCaluclate, [Data, WatcherNode]),
 	simulateDistributedCalculateHelper(Result).
 simulateDistributedCalculateHelper(Result) -> 
@@ -53,7 +53,7 @@ runCheck() ->
 
 simplifyPolinomialTest() -> 
 	In = [0.0,0.0,1.0,0.0,0.0,0.0,0.0],
-	Result = apply(struct_handler, simplifyPolinomial, [In, []]),
+	Result = apply(structHandler, simplifyPolinomial, [In, []]),
 	Expected = [0.0,0.0,1.0],
 	case Result == Expected of 
 		true -> true;
@@ -78,26 +78,26 @@ getResultTest() ->
 		{"errorIn", {array,["{array,\"Hello You have a biggy big error in your head\"}"]} }
 	]},
 	[
-		getResultTestHelper([In1], Expected1, struct_handler, convertToMochi),
-		getResultTestHelper([In2], Expected2, struct_handler, convertToMochi)
+		getResultTestHelper([In1], Expected1, structHandler, convertToMochi),
+		getResultTestHelper([In2], Expected2, structHandler, convertToMochi)
 	].
 
 convertMochiElements() -> 
   DataSetElement = getFirstElementOfDataSet(),
-  TableData = apply(struct_handler, getTableData, [DataSetElement]),
-  7 == apply(struct_handler, getElementByKey, ["num_of_points", TableData]).
+  TableData = apply(structHandler, getTableData, [DataSetElement]),
+  7 == apply(structHandler, getElementByKey, ["num_of_points", TableData]).
 
 getParseJSONParams() -> 
 	JsonSting = getJSONString(),
-	Data = apply(struct_handler, getDataByJson, [JsonSting]),
-	DataSet = apply(struct_handler, getDataSet, [Data]),
+	Data = apply(structHandler, getDataByJson, [JsonSting]),
+	DataSet = apply(structHandler, getDataSet, [Data]),
 	DataLength = length(DataSet),
 	DataSetElement = getFirstElementOfDataSet(DataSet),
-	Points = apply(struct_handler, getPoints, [DataSetElement]),
-  	Type = apply(struct_handler, getType, [DataSetElement]),
-  	Inverse = apply(struct_handler, getInverse, [DataSetElement]),
-  	X = apply(struct_handler, getElementByKey, [x, Points]),
-  	Y = apply(struct_handler, getElementByKey, [y, Points]),
+	Points = apply(structHandler, getPoints, [DataSetElement]),
+  	Type = apply(structHandler, getType, [DataSetElement]),
+  	Inverse = apply(structHandler, getInverse, [DataSetElement]),
+  	X = apply(structHandler, getElementByKey, [x, Points]),
+  	Y = apply(structHandler, getElementByKey, [y, Points]),
   	[
   		getResultTestHelper(DataLength, 3),
   		getResultTestHelper(X, [0,1,2,3,4,5,6]),
@@ -114,10 +114,10 @@ convertStruct() ->
 	OutSruct2 = [{x,[1]},{y,[[1,2,2,0]]}],
 	OutArray = [{x,[0,1]},{y,[[0,0,2,0],[1,2,2,0]]}],
 	[
-		getResultTestHelper(InStruct1, OutSruct1, struct_handler, getNewPointStruct),
-		getResultTestHelper(InStruct2, OutSruct2, struct_handler, getNewPointStruct),
-		getResultTestHelper([OutSruct1, OutSruct2], OutArray, struct_handler, appendNewPointStruct),
-		getResultTestHelper(InArray, OutArray, struct_handler, convertPoints)
+		getResultTestHelper(InStruct1, OutSruct1, structHandler, getNewPointStruct),
+		getResultTestHelper(InStruct2, OutSruct2, structHandler, getNewPointStruct),
+		getResultTestHelper([OutSruct1, OutSruct2], OutArray, structHandler, appendNewPointStruct),
+		getResultTestHelper(InArray, OutArray, structHandler, convertPoints)
 	].
 
 simulateFirstParseAndRun() -> 
@@ -129,8 +129,8 @@ simulateFirstParseAndRun() ->
 %% Vissza adja a minta adatok első elemét
 getFirstElementOfDataSet() ->
   JsonSting = getJSONString(),
-  Data = apply(struct_handler, getDataByJson, [JsonSting]),
-  DataSet = apply(struct_handler, getDataSet, [Data]),
+  Data = apply(structHandler, getDataByJson, [JsonSting]),
+  DataSet = apply(structHandler, getDataSet, [Data]),
   _DataLength = length(DataSet),
   getFirstElementOfDataSet(DataSet).
 getFirstElementOfDataSet([Head]) -> Head;

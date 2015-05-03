@@ -7,7 +7,7 @@
 %%% Created : 25. nov. 2014 18:39
 %%%-------------------------------------------------------------------
 %% c(structHandler).
--module(struct_handler).
+-module(structHandler).
 -author("alexa").
 
 %% API

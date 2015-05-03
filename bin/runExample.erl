@@ -1,10 +1,19 @@
 %% ----------------------------- bin
-erl -sname interpMainComputer
+cd /home/oem/git/project/bin/
+./setup.sh
+erl 
+c(run).
+run:compile().
+run:load().
+run:test().
+run:deleteCompiledFiles().
+
+erl -s toolbar -sname interpMainComputer
 c(run).
 run:load().
 run:initServer().
 
-erl -sname interpCaluclator1
+erl -s toolbar -sname interpCaluclator1
 c(run).
 run:load().
 run:initNode(interpMainComputer@lexymint).
@@ -13,22 +22,17 @@ run:initNode(interpMainComputer@lexymint).
 g++ -std=c++11 -o calculator.so -fpic -shared ./../Calculator/erlang.cpp ./../Calculator/logTest.cpp ./../Calculator/calculator.cpp
 
 erl -sname interpMainComputer1 -s toolbar
-c(run).
-run:compile().
-run:load().
-
-erl -sname interpMainComputer1 -s toolbar
-c('../connectionServer/simpleServer').
+c('../ServerConfig/httpServer').
 c(calculator).
 c(fork).
-c(struct_handler).
-c(node_handler).
+c(structHandler).
+c(nodeHandler).
 c(pidWatch).
 c(test).
 c(main).
 c('./source/mochijson').
 main:initPort().
-node_handler:getNodelist(pid(0,
+nodeHandler:getNodelist(pid(0,
 test:simulateFirstParseAndRun().
 test:simulateDistributedCalculate(pid(0,
 
@@ -38,14 +42,14 @@ pidWatch:registerToServer(interpMainComputer@lexymint).
 
 
 erl -s toolbar
-c(simpleServer).
-simpleServer:start(8082).
+c(httpServer).
+httpServer:start(8082).
 http://192.168.1.103:8086/prepare_page.html
 http://192.168.1.103:8086/API
 http://localhost:8086/prepare_page.html
 http://localhost:8086/API
 
-node_handler:getNodelist(pid(0,143,0)).
+nodeHandler:getNodelist(pid(0,143,0)).
 test:simulateDistributedCalculate(pid(0,143,0)).
 
 erl -sname interpMainComputer1

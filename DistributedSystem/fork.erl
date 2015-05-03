@@ -82,7 +82,7 @@ receiveData(RecPid) ->
   end.
 
 calculate(Data) ->
-  Id = apply(struct_handler, getId, [Data]),
+  Id = apply(structHandler, getId, [Data]),
   try apply(calculator, calculateByData, [Data]) of 
     Result -> {Id, Result}
   catch 

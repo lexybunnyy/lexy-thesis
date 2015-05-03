@@ -9,7 +9,7 @@
 %%% Example: exapmle_terminal.erl
 %%%
 %%%-------------------------------------------------------------------
--module(node_handler).
+-module(nodeHandler).
 -author("alexa").
 
 %% API

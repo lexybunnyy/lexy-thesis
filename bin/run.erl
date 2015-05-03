@@ -4,7 +4,7 @@
 
 
 initNode(Server) -> 
-    distributedTest:registerToServer(Server).
+    nodeWatcher:registerToServer(Server).
 
 initServer() ->
     {WatcherNode, SimpleServer} = main:initPort(),
@@ -34,22 +34,34 @@ load() ->
     code:load_file('test'),
     code:load_file('calculator'),
     code:load_file('fork'),
-    code:load_file('struct_handler'),
+    code:load_file('structHandler'),
     code:load_file('mochijson'),
-    code:load_file('node_handler'),
-    code:load_file('simpleServer'),
-    code:load_file('distributedTest'),
+    code:load_file('nodeHandler'),
+    code:load_file('httpServer'),
+    code:load_file('nodeWatcher'),
     code:load_file('main'),
     ok.
 
 compile() -> 
-    compile:file('../distributedSystem/source/mochijson'),
-    compile:file('../distributedSystem/calculator'),
-    compile:file('../distributedSystem/fork'),
-    compile:file('../distributedSystem/struct_handler'),
-    compile:file('../distributedSystem/node_handler'),
-    compile:file('../distributedSystem/test'),
-    compile:file('../connectionServer/simpleServer'),
-    compile:file('../distributedSystem/distributedTest'),
-    compile:file('../distributedSystem/main'),
+    compile:file('../Utility/source/mochijson'),
+    compile:file('../Utility/structHandler'),
+    compile:file('../Calculator/calculator'),
+    compile:file('../DistributedSystem/fork'),
+    compile:file('../DistributedSystem/nodeHandler'),
+    compile:file('../DistributedSystem/test'),
+    compile:file('../ServerConfig/httpServer'),
+    compile:file('../ServerConfig/nodeWatcher'),
+    compile:file('../DistributedSystem/main'),
+    ok.
+
+deleteCompiledFiles() ->
+    file:delete('test.beam'),
+    file:delete('calculator.beam'),
+    file:delete('fork.beam'),
+    file:delete('structHandler.beam'),
+    file:delete('mochijson.beam'),
+    file:delete('nodeHandler.beam'),
+    file:delete('httpServer.beam'),
+    file:delete('nodeWatcher.beam'),
+    file:delete('main.beam'),
     ok.

@@ -1,12 +1,12 @@
 %%erl
-%%c(simpleServer)
-%%simpleServer:start(8082).
+%%c(httpServer)
+%%httpServer:start(8082).
 %%http://192.168.1.103:8086/prepare_page.html
 %%http://192.168.1.103:8086/API
 %%http://localhost:8086/prepare_page.html
 %%http://localhost:8086/API
 
--module(simpleServer).
+-module(httpServer).
 -export([start/2, sendExample/0, getTheSameResult/1]).
 
 
@@ -73,7 +73,7 @@ convertToSend(Object) ->
     MochiStruct = 
         case Object of 
             {error, Str} -> {struct, [{"success", "false"}, {"msg", Str}]};
-            _ -> apply(struct_handler, convertToMochi, [Object])
+            _ -> apply(structHandler, convertToMochi, [Object])
         end,
     JSON = apply(mochijson, encode, [MochiStruct]),
     Binary = iolist_to_binary(JSON),

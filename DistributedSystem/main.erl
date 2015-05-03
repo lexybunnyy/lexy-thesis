@@ -20,39 +20,27 @@
 -compile(export_all).
 
 initPort() -> 
-	WatcherNode = apply(distributedTest, startPidWatch, []),
+	WatcherNode = apply(nodeWatcher, startPidWatch, []),
 	io:format("WatcherNode " ++ ": ~p \n", [WatcherNode]),
-	SimpleServer = apply(simpleServer, start, [8082, WatcherNode]),
+	SimpleServer = apply(httpServer, start, [8082, WatcherNode]),
 	{WatcherNode, SimpleServer}.
 
 callDistributedCaluclate(Data) -> 
-	DataSet = apply(struct_handler, getDataSet, [Data]),
+	DataSet = apply(structHandler, getDataSet, [Data]),
 	DataLength = length(DataSet),
-	apply(node_handler, distributedFork, [DataLength, DataSet]).
+	apply(nodeHandler, distributedFork, [DataLength, DataSet]).
 
 callDistributedCaluclate(Data, WatcherNode) -> 
-	DataSet = apply(struct_handler, getDataSet, [Data]),
+	DataSet = apply(structHandler, getDataSet, [Data]),
 	DataLength = length(DataSet),
-	apply(node_handler, distributedFork, [DataLength, DataSet, WatcherNode]).
+	apply(nodeHandler, distributedFork, [DataLength, DataSet, WatcherNode]).
 
-callDistributedCaluclatep2(Data, WatcherNode) -> 
-	DataSet = apply(struct_handler, getDataSet, [Data]),
+callDistributedCaluclate2(Data, WatcherNode) -> 
+	DataSet = apply(structHandler, getDataSet, [Data]),
 	DataLength = length(DataSet),
-	try apply(node_handler, distributedFork, [DataLength, DataSet, WatcherNode]) of 
+	try apply(nodeHandler, distributedFork, [DataLength, DataSet, WatcherNode]) of 
 		SuccessPattern -> SuccessPattern
 	catch 
 		error:Msg -> 
 			{error, Msg}
 	end.
-
-init() ->
-	file:delete('calculator.beam'),
-	file:delete('test.beam'),
-	compile:file('calculator'),
-	compile:file('fork'),
-	compile:file('struct_handler'),
-	compile:file('source/mochijson'),
-	compile:file('node_handler'),
-	compile:file('test'),
-	compile:file('../connectionServer/simpleServer'),
-	apply(test, run, [ok]).

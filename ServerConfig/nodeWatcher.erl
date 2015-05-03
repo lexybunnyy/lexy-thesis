@@ -1,21 +1,21 @@
 %%http://www.erlang.org/doc/getting_started/conc_prog.html
 %%Distributed Test Function
 
--module(distributedTest).
+-module(nodeWatcher).
 -author("alexa").
 -compile(export_all).
 
 start(Ping_Node) ->
-    register(pong, spawn(distributedTest, pong, [])),
-    spawn(Ping_Node, distributedTest, ping, [3, node()]).
+    register(pong, spawn(nodeWatcher, pong, [])),
+    spawn(Ping_Node, nodeWatcher, ping, [3, node()]).
 
 startPidWatch() ->
-    PidWatch = spawn(distributedTest, pidWatch, [self(), []]),
+    PidWatch = spawn(nodeWatcher, pidWatch, [self(), []]),
     register(pid_watcher, PidWatch),
     PidWatch.
 
 registerToServer(Pong_Node) ->
-    spawn(distributedTest, registerToServerNode, [Pong_Node]).
+    spawn(nodeWatcher, registerToServerNode, [Pong_Node]).
 
 pidWatch(Parent_Pid, NodeList) ->
 	io:format("Watcher Started ~p ~p ", [Parent_Pid, self()]),
