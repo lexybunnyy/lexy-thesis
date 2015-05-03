@@ -137,7 +137,7 @@ A weboldalon össze állított adatokat küldjük fel a szerverre, a szerver a m
 	\caption{Kommunikáció\label{fig:kommunikacio1}}
 	\end{figure}
 
-\section{Fájlszerkezet}
+\section{Megvalósított fájlszerkezet}
 	A fájlszerkezetnek a tervezésénél nem voltak a belső részek komolyabban megtervezve, dinamikusan változtak. 3 mappa volt a tervezett: elosztott rendszer és weboldal mappája. A többi mappa mind a külsők, és a belsők a fejlesztés során lettek bele tervezve, amikor a fájlok mennyisége, vagy az új technológia szeparálása megkívánta azt. 
 	TODO: külső mappákról írás melyikben mi van megvalósítva
 	Belső mappákról csak az általános "/source"-t említem meg, mert egyébként a belső mappaszerkezetet a részeknél lesz külön kifejtve
@@ -326,7 +326,7 @@ A szerver figyel egy portot hogy érkezett-e rá adat. Ha érkezett adat az adot
 Tudjuk pontosan hány eleme van a listának, és annyi processzt hozunk létre. Ha vannak felcsatlakozva node-ok akkor a processzt az adott node-on is meg tudja hívni.
 Ha létrehozta a processzeket lista elemein végig megy, és azokat szétküldi a processzeknek, majd megvárja míg az összes végig ér, és vissza térve megkapja az eredményt.
 \subsection{Web-szerver kommunikáció}
-	A webszerver kommunikációhoz a fájlok a httpServer.erl fájlban találhatóak meg. Az ebben találhat függvényeket a main-ben hívjuk meg. Amikor inicializáljuk a szervert.
+	A webszerver kommunikációhoz a fájlok a httpServer.erl fájlban találhatóak meg. Az ebben található függvényeket a main-ben hívjuk meg amikor inicializáljuk a szervert.
 	\begin{description}
 	\item[httpServer:start(Port, WatcherNode)] 
 		\hfill \\
@@ -345,7 +345,7 @@ Ha létrehozta a processzeket lista elemein végig megy, és azokat szétküldi 
 	\item[httpServer:convertToSend(Object)] \hfill \\ 
 		Amikor a számítás véget ért, létrehozzunk a visszaküldéshez szükséges adatstruktúrát, majd elküldjük a szervernek.
 	\end{description}
-\subsection{Web-szerver Adat feldolgozás}
+\subsection{Adat feldolgozás}
 	Az adatot JSON-ben kapja a szerver. Az adathalmaz kibontásához MonchiJSON lett alkalmazva. 
 	A segédfüggvények és konvertálók a "Utility/structHandler.erl" fájlban lettek megvalósítva.\newline
 	Elsősorban a megkapott speciális adathalmaz kibontására használtak az itt lévő függvények, de egyéb segédfüggvények is megtalálhatóak ebben a fájlban, amelyek a konvertálással kapcsolatosak.
@@ -398,39 +398,32 @@ Ha létrehozta a processzeket lista elemein végig megy, és azokat szétküldi 
 	\hfill \\ Ezzel a kéréssel lehet felcsatlakozni a szerverre. A kérést elküldi és ha sikeres volt a feliratkozás, akkor ok-al tér vissza.
 	\end{description}
 \subsection{Elosztás megvalósítása}
-	Az elosztást tartalmazó fájlokat a /distributedSystem mappában találjuk meg. 
+	Az elosztást tartalmazó fájlokat a /DistributedSystem mappában találjuk meg. nodeHandler.erl fájlban találhatóak a processz létrehozással kapcsolatos függvények. fork.erl fájlban a processz kommunikáció logikája van megvalósítva.
 	\begin{description}
-		\item[node\_handler:distributedFork(NumOfPids, DataList, WatcherNode)]
+		\item[nodeHandler:distributedFork(NumOfPids, DataList, WatcherNode)]
 		\hfill \\
 		Létrehozza a számításhoz szükséges Node Struktúrát.
 		LogicModule-ban szereplő senderstart, recivestart, worker\_main 
-		\item[node\_handler:getNodelist]
+		\item[nodeHandler:getNodelist]
 		\hfill \\
 		Lekéri a node-figyelőtől a felcsatlakozott node-okat.
-		\item[node\_handler:makeForkPids]
+		\item[nodeHandler:makeForkPids]
 		\hfill \\
 		Létrehozza a számításhoz szükséges új processzeket.
 
 		\item[fork:senderArray]
 		\hfill \\ 
-
+			Végig megy egy adott tömbön és az elemeit szétküldi a processzeknek. 
 		\item[fork:receiver]
 		\hfill \\
+			Válaszok érkezésére vár a processzektől. Ha minden válasz megérkezett, akkor vissza tér.
 		\item[fork:worker\_main]
 		\hfill \\
+			A gyerek processzek függvénye. Várja a szülőtől az adatot, számol vele és vissza küldi.
 		\item[fork:calculate]
-		\hfill \\ Meghívja a számítást
+		\hfill \\ 
+			A fork-ból a számítást hívó függvény. Eredménnyel vissza tér, majd azt olyan formára hozza, amit vár a szülő. 
 	\end{description}
-%% függvények létrejönnek, és számolnak
-\subsection{Számítás hívása}
-	\begin{description}
-	\item[calculator:calculateByData(DataSetElement)]
-	\hfill \\ 
-	A bejövő paraméterből kinyeri a pontokat és a típust, majd meghívja a számító függvényt.
-	\item[calculator:calculate(\_X, \_Y, \_Type, \_Inverz)]
-	\hfill \\ C++-ban implementált és onnan betöltött függvény
-	\end{description}
-
 %% ----------------------------------------------{Kalkulátor}
 \section{Kalkulátor}
 A Kalkulátor részben számítódik ki egy-egy interpolációnak az eredménye.
@@ -456,7 +449,8 @@ A megkapott adatok alapján számol, ha kell létre hozza a kezdő mátrixot, ki
 			\begin{description}
 			  \item[DArray \&x :] Az x pontok listája 
 			  \item[DMatrix \&Y :] Az x pontokhoz tartozó y pontok halmaza
-			  \item[string type :] Interpoláció típusa: Lagrange, Newton, Hermite
+			  \item[string type :] 
+			  	Interpoláció típusa: Lagrange, Newton, Hermite
 			  \item[bool inverse :] Inverz interpoláció kell-e
 			\end{description}
 		\item[void interpolateMatrix(DArray \&x, 	DMatrix \&M)] \hfill \\ 
@@ -465,7 +459,8 @@ A megkapott adatok alapján számol, ha kell létre hozza a kezdő mátrixot, ki
 			Lagrange polinom számítás segédfüggvénye
 		\item[DArray getLagrangePolinomyal(DArray X, DArray Y)] \hfill \\ 
 			Lagrange polinom számítás
-		\item[DArray omega(int j, DArray X)] \hfill \\ 	   Newton polinom számítás segédfüggvénye
+		\item[DArray omega(int j, DArray X)] \hfill \\ 
+			Newton polinom számítás segédfüggvénye
 		\item[DArray polynomialAddition(DArray P, DArray Q)] \hfill \\ 
 			polinom összeadás
 		\item[DArray polynomialMultiply(DArray P, DArray Q)] \hfill \\ 
@@ -484,48 +479,38 @@ A megkapott adatok alapján számol, ha kell létre hozza a kezdő mátrixot, ki
 	Az elosztott rendszerben hívódó számítást Erlang - erl\_nif"-el sikerült megoldanom. 
 	Az ezzel kapcsolatos dolgokat az Calculator/erlang.cpp tartalmazza.
 	\begin{description}
-		\item[calculate\_nif] \hfill \\
+		\item[static ERL\_NIF\_TERM calculate\_nif] \hfill \\
 		Ennek a függvénynek a segítségével valósul meg a kettő közötti kommunikáció
-		\item[convertVector] \hfill \\
+		\item[static int convertVector] \hfill \\
 		Erlang lista C++ vektorrá konvertálása
-		\item[convertMatrix] \hfill \\
+		\item[static int convertMatrix] \hfill \\
 		Erlang lista lista konvertálása C++ vektor vektorrá
-		\item[convertList] \hfill \\
+		\item[static ERL\_NIF\_TERM convertList] \hfill \\
 		Erlang listává konvertálás egy C++ vektorból
 		\item[convertTheType] \hfill \\
 			típus számot konvertálja string-gé: 
-			"newton,hermite,lagrange"
-		\item[nif\_funcs] \hfill \\
+			"newton", "hermite", "lagrange"
+		\item[static ErlNifFunc nif\_funcs] \hfill \\
 			Felsorolja milyen függvényeket importálunk az Erlang-ba
 	\end{description}
+	Calculator/calculator.erl fájl tartalmazza az alábbi függvényeket: 
+	\begin{description}
+		\item[calculator:init()] \hfill \\
+			"erlang:load\_nif" segítségével betölti a lefordított c++ fájlt.
+		\item[calculator:calculate(\_X, \_Y, \_Type, \_Inverz)] \hfill \\
+			Erre a függvényre lesz ráfordítva a C++-os függvény.
+		\item[calculator:calculateByData(DataSetElement)] \hfill \\
+		A bejövő paraméterből kinyeri a pontokat és a típust, majd meghívja a számító függvényt.
+	\end{description}
+
 
 \section{Tesztelési terv}
-\subsection{Weboldal és rendszerteszt}
 	A felület manuális teszteléssel lett kipróbálva, automatizált tesztesetek nem lesznek.
-	TODO: tesztelni a számítást a gombokat mindent és teszteseteket írogatni ide ezekből, 
-	ha egy teszt hibás azt is fel kellene itt tűntetni.
-	\begin{center}
-  \begin{tabular}{| p{4cm} | p{1.5cm} | p{8cm} |}
-    \hline
-    Hiba & Javítva & Info
-    \\ \hline
-    	Szerver hiba bizonyos mennyiségű adatküldése felett 
-      &
-    	nem
-      &  
-    	Előidézés: 9-nél több egyszerű adat felküldése, minta nagy adatból 4db felett.
-    	A szerver egybe küldi az értékeket de, valamiért a httpServer modul már nem kapja meg a végét. Nem küldi 2 részletben, ezt kizártuk.
-    \\ \hline
-    	El tudjuk küldeni az oldalról 
-      &
-
-      &
-
-    \\ \hline
-  \end{tabular}
-\end{center}
-\subsection{Kalkulátor}
-	A tesztelést folyamatosan végeztem a minta adatok alapján. A függvények implementálása közben ezekre a minta adatokra meghívtam, majd ezekkel számoltam. A teszteléshez a logTest.cpp fájlban található függvényeket alkalmaztam. 
+\subsection{Kalkulátor tesztjei}
+	Ebben a részben a cpp-ben írt tesztesetekről lesz szó. \newline
+	A tesztelést folyamatosan végeztem a minta adatok alapján. A függvények implementálása közben ezekre a minta adatokra meghívtam, majd ezekkel számoltam. A teszteléshez a logTest.cpp fájlban található függvényeket alkalmaztam. \newline
+	A fájlban a javítást segítő kiirató függvények, integrációs teszt esetek, valamint manuális, felület nélküli számítást végző tesztesetek vannak. \newline
+	Ezeket a teszteket nagyrészt kiváltották a szerveren futó tesztek, így fejlesztésük abba maradt, előfordulhat hogy a tesztek elavultak.
 	\begin{description}
 		\item[bool testAll()] \hfill \\ 
 			Minden teszt lefuttatása, ha nincs hiba futnak
@@ -576,4 +561,40 @@ A megkapott adatok alapján számol, ha kell létre hozza a kezdő mátrixot, ki
 		Vissza adja a minta adatok első elemét
 		\item[test:getJSONString] \hfill \\
 		Egy minta adathalmaz ami jöhet a felületről
-	\end{description}	
+	\end{description}
+
+\subsection{Manuális tesztelés}
+	TODO: tesztelni a számítást a gombokat mindent és teszteseteket írogatni ide ezekből, 
+	ha egy teszt hibás azt is fel kellene itt tűntetni.
+	\begin{center}
+  	\begin{tabular}{| p{4cm} | p{1.5cm} | p{8cm} |}
+    \hline
+    Hiba & Javítva & Info
+    \\ \hline
+    	Szerver hiba bizonyos mennyiségű adatküldése felett 
+      &
+    	nem
+      &  
+    	Előidézés: 9-nél több egyszerű adat felküldése, minta nagy adatból 4db felett.
+    	A szerver egybe küldi az értékeket de, valamiért a httpServer modul már nem kapja meg a végét. Nem küldi 2 részletben, ezt kizártuk.
+    \\ \hline
+    	Hermite inverz nincs implementálva, és mégis beállítható a felületen.  
+      &
+      	nem
+      &
+		El tudjuk küldeni az oldalról úgy az adatokat hogy Hermite interpolációnál is állítható az inverz, közben a szerver nem inverz interpolációt fog számolni.
+    \\ \hline
+        Ha kilép egy node, akkor elszáll a számítás 
+      &
+      	nem
+      &
+		Ötletek: node-ok kivételére is kellene opció,vagy kezelni kellene az elszálló node-okat.
+    \\ \hline
+        Node Lista lekérdezésnél valamikor végtelen ciklusba fut a lekérdezés. 
+      &
+      	nem
+      &
+		Hiba: túl sokszor küldjük el ugyanazt az üzenetet, és kapunk vissza rossz választ, kéne bele egy időkorlát is, a várakozásra. 
+    \\ \hline
+  	\end{tabular}
+	\end{center}

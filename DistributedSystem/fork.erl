@@ -16,7 +16,7 @@
 %%-----------------------------------------------------boss process
 senderArray(senderstart, [], _N) ->
   error;
-senderArray(senderstart,[One], _N) ->
+senderArray(senderstart, [One], _N) ->
   One ! {forkdata,1,1};
 senderArray(senderstart, PidList, N) ->
   senderArray(PidList ,N, N-1);
