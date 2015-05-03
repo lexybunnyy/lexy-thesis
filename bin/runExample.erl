@@ -1,6 +1,17 @@
+%% ----------------------------- bin
+erl -sname interpMainComputer
+c(run).
+run:load().
+run:initServer().
+
+erl -sname interpCaluclator1
+c(run).
+run:load().
+run:initNode(interpMainComputer@lexymint).
+
+%%----------------------------- old
 g++ -std=c++11 -o calculator.so -fpic -shared ./../Calculator/erlang.cpp ./../Calculator/logTest.cpp ./../Calculator/calculator.cpp
 
-/init
 erl -sname interpMainComputer1 -s toolbar
 c(run).
 run:compile().
@@ -44,7 +55,18 @@ pidWatch:startPidWatch().
 pid(0,39,0) ! {get_pids, self()}.
 pid(0,62,0) ! {stop, self()}.
 
+pidWatch:start(interpMainComputer1@lexymint).
 
+erl -sname interpMainComputer
+c(pidWatch).
+pidWatch:startPidWatch().
+
+pid(0,39,0) ! {get_pids, self()}.
+pid(0,62,0) ! {stop, self()}.
+
+erl -sname interpWorker1
+c(pidWatch).
+pidWatch:registerToServer(interpMainComputer1@lexymint).
 
 
 pidWatch:start(interpMainComputer1@lexymint).

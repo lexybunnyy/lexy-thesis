@@ -36,5 +36,7 @@ registerToServerNode(Pong_Node) ->
 	{pid_watcher, Pong_Node} ! {worker_write, self(), node()},
     receive
         ok ->
-            io:format("Worker Writed", [])
+            io:format("Worker Writed", []);
+        _Other -> 
+            io:format("Error ~p ", [_Other])
     end.

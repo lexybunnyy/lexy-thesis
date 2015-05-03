@@ -2,7 +2,11 @@
 -author("alexa").
 -compile(export_all).
 
-init() ->
+
+initNode(Server) -> 
+    distributedTest:registerToServer(Server).
+
+initServer() ->
     {WatcherNode, SimpleServer} = main:initPort(),
     Test = test(WatcherNode),
     case Test of 
