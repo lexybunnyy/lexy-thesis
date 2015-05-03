@@ -48,10 +48,10 @@ compile() ->
     compile:file('../Calculator/calculator'),
     compile:file('../DistributedSystem/fork'),
     compile:file('../DistributedSystem/nodeHandler'),
-    compile:file('../DistributedSystem/test'),
     compile:file('../ServerConfig/httpServer'),
     compile:file('../ServerConfig/nodeWatcher'),
-    compile:file('../DistributedSystem/main'),
+    compile:file('../ServerConfig/main'),
+    compile:file('../ServerConfig/test'),
     ok.
 
 deleteCompiledFiles() ->

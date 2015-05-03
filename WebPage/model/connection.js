@@ -9,7 +9,7 @@ Connection.request = function (aConfig) {
 		dataType: "json",
 		type: "GET",
 		contentType:  "application/json; charset=utf-8",
-		url: 'http://localhost:8086/API',
+		url: '/API',
 		data: JSON.stringify(aConfig.params),
 	}).done(function(result) {
     	console.log( "success", result);
