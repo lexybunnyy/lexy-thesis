@@ -122,8 +122,8 @@ A weboldalon össze állított adatokat küldjük fel a szerverre, a szerver a m
 	A számítás megvalósításánál felmerült hogy Erlang-ban legyen, de mivel a számítást ciklusokkal érdemes megvalósítani, ezért egyszerűbb volt egy nem funkcionális nyelvben implementálni azokat.
 	A C++-os függvényeket fel lehetett használni az Erlang modulokban.
 	\newline
-
-
+	\subsubsection{Erlang modul C++-ban}
+	"erl\_nif"
 \subsection{Kommunikáció}
 	Amikor a szervert létrehozzuk akkor inicializálunk két processzt. Az egyik a kliens felől várakozik kérésre, a másik a node-ok felől. Amikor egy node fel kíván csatlakozni küld egy kérést. Ha sikeres volt akkor a szerver ezt jelzi neki, és felkerül a listára. \newline
 	A weboldalon egy gomb hatására megy egy kérés a szerver felé. A szerver jó esetben fogadja a kérést. Ha nem sikerült kapcsolatba lépnie a szerverrel, akkor jelzi a felhasználónak hogy a kapcsolódás során hiba lépett fel. \newline
@@ -472,7 +472,9 @@ A megkapott adatok alapján számol, ha kell létre hozza a kezdő mátrixot, ki
 		\item[DArray getDiagFromMatrix (DMatrix \&M)] 
 		\hfill \\
 			Diagonális lekérése a mátrixból
-		\item[void getInterpolationMatrix(DArray X, DMatrix Y, DArray \&resX, DMatrix \&resM)] \hfill \\
+		\item[void getInterpolationMatrix]
+		\hfill \\  \textbf{(DArray X, DMatrix Y, DArray \&resX, DMatrix \&resM)}
+		\hfill \\
 			 X és Y ponthalmazból vissza adja a mátrixot 
 	\end{description}
 \subsection{Elosztott rendszerrel való kommunikáció}
@@ -506,7 +508,7 @@ A megkapott adatok alapján számol, ha kell létre hozza a kezdő mátrixot, ki
 
 \section{Tesztelési terv}
 	A felület manuális teszteléssel lett kipróbálva, automatizált tesztesetek nem lesznek.
-\subsection{Kalkulátor tesztjei}
+\subsection{Kalkulátor tesztelés}
 	Ebben a részben a cpp-ben írt tesztesetekről lesz szó. \newline
 	A tesztelést folyamatosan végeztem a minta adatok alapján. A függvények implementálása közben ezekre a minta adatokra meghívtam, majd ezekkel számoltam. A teszteléshez a logTest.cpp fájlban található függvényeket alkalmaztam. \newline
 	A fájlban a javítást segítő kiirató függvények, integrációs teszt esetek, valamint manuális, felület nélküli számítást végző tesztesetek vannak. \newline
@@ -537,35 +539,49 @@ A megkapott adatok alapján számol, ha kell létre hozza a kezdő mátrixot, ki
 		testMatrixInterpolation Segédfüggvénye
 		feltölti az $x^{2}$ pontjaival 
 	\end{description}
-\subsection{Elosztás tesztelési terv}
-	\begin{description}
+\subsection{Komponens és integrációs tesztelés}
+	Főként az elosztást és a párhuzamosítást, valamint a szerveren lévő adatfeldolgozást teszteltem ilyen formában. Ezekkel a tesztesetekkel ellenőriztem a szerver és a számítás helyességét, és a szerver futást, miközben fejlesztettem.\newline
+	Ezeket a teszteket érdemes lefuttatni, amikor a szervert konfiguráljuk. A szerveren lévő komponensek és azok egymással való kommunikációja fut le ilyenkor. Ha a teszten átmennek, akkor nagy vaolószínüséggel a szerveren már nem lehet probléma.\newline
+	Viszont ha egy modul rosszul van leforgatva, vagy nincs betöltve, a tesztek hibát jeleznek. Ha a szerveren vagy gépen nem sikerült a tesztek lefutása, nem lehetséges a számítás elvégzése. Ennek oka valamelyik modul rosszul való betöltése, vagy az Erlang, GCC verziója nem megfelelő a számításokhoz.\newline
+	Az átfogó tesztelés a ServerConfig/test.erl fájlban található. 
+		\begin{description}
 		\item[test:fork] \hfill \\
-			Teszt futtatása a fork-nak
+			Teszt futtatása a fork-nak ez a teszteset az párhuzamosítás miatt volt fontos. Viszont egy másik teszt átvette  ahelyét. 
+			\newline
+			Ha mégis szükség lenne az általános párhuzamosítás tesztelésére, ezt kellene továbbfejleszteni.
 
 		\item[test:runCheck, run] \hfill \\
-			Futtatást kezelő függvények 
-
+			Futtatást kezelő függvények
+			Lefuttatják azokat a teszteket amiket a ServerConfig/main.erl-ből már el lehet indítani. 
+			A main-ben található függvény tesztelésére a  test:simulateDistributedCalculate függvényt használjuk, amit a bin/run.erl-ben lévő tesztesetek 
 		\item[test:simulateDistributedCalculate] \hfill \\
-
+			Egy olyan minta adatból, melyet a szerver is küldhet, elvégzi a számítást és ellenőrzi az eredményt. \newline
+			Ha megadjuk neki a node-figyelő pid-jét akkor elosztott számítást is teszteli, és a node-figyelővel való kommunikációt. 
 		\item[test:simplifyPolinomialTest] \hfill \\
-
-		\item[test:getResultTest] \hfill \\
-
+			Ellenőrzi a struktúra kezelőben megvalósított polinom egyszerűsítést.  
 		\item[test:convertMochiElements] \hfill \\
-
+			structHandler: getTableData és getElementByKey tesztelésére írt függvény.
+		\item[test:getResultTest] \hfill \\
+			Eredmény konvertálásának tesztje. Szimulál egy processzektől vissza kapható eredményt, majd ezt átalakítja a küldéshez megfelelő formátummá.
 		\item[test:getParseJSONParams] \hfill \\
-
+			Json string-ből a számításhoz szükséges minden paraméter kinyerésének tesztelése (structHandler teszt).
 		\item[test:convertStruct] \hfill \\
+			structHandler függvényeinek tesztje: 
+			getNewPointStruct, appendNewPointStruct, convertPoints
 		\item[test:simulateFirstParseAndRun] \hfill \\
+			Kibontja az első elemet a mintából, és számítás után ellenőrzi az eredmény helyességét. \newline
+			Ez a teszt a számítást és az adat konvertálást teszteli, a párhuzamosítást/elosztást nem.
 		\item[test:getFirstElementOfDataSet] \hfill \\
-		Vissza adja a minta adatok első elemét
+			Vissza adja a minta adatok első elemét.
 		\item[test:getJSONString] \hfill \\
-		Egy minta adathalmaz ami jöhet a felületről
+			Egy minta adathalmazt ad vissza (json string) ami jöhet a felületről.
+		\item[test:getResultTestHelper] \hfill \\
+			Számítási eredményekből és az elvárt eredményből a tesztelés eredményt állítja elő. 
 	\end{description}
 
 \subsection{Manuális tesztelés}
-	TODO: tesztelni a számítást a gombokat mindent és teszteseteket írogatni ide ezekből, 
-	ha egy teszt hibás azt is fel kellene itt tűntetni.
+	Elsősorban a felület átfogó tesztelését végeztem ilyen módon, de a szerverrel való kommunikációnál és az elosztásnál is előkerültek ilyen módon hibák. \newline
+	Az alábbi táblázatban felsoroltam a hibákat, melyek feltűntek a tesztelés során. 
 	\begin{center}
   	\begin{tabular}{| p{4cm} | p{1.5cm} | p{8cm} |}
     \hline
@@ -595,6 +611,25 @@ A megkapott adatok alapján számol, ha kell létre hozza a kezdő mátrixot, ki
       	nem
       &
 		Hiba: túl sokszor küldjük el ugyanazt az üzenetet, és kapunk vissza rossz választ, kéne bele egy időkorlát is, a várakozásra. 
+	\\ \hline
+        Nem jó pontosság esetén nem jelenik meg a polinom
+      &
+      	igen
+      &
+		Előidézés: beírsz betüket a pontossághoz 
+    \\ \hline
+        Egy interpoláció adatbetöltési hibák
+      &
+      	nem
+      &
+      	Egy interpoláció tulajdonságainak betöltésénél nem állítja be az interpoláció típust és azt hogy inverz-e.
+      	Nem jelenítjük meg a polinomokat sem bármilyen egyéb formában.
+    \\ \hline
+        Eredmény betöltésnél előfordul hogy a pontosság undefined 
+      &
+      	nem
+      &
+		Előidézés: ? Minta adatban fordul csak elő, de ha onnan  is betöltődhet akkor máshonnan is, amikor betölti az adatokat le kellene ezt kezelni.
     \\ \hline
   	\end{tabular}
 	\end{center}
