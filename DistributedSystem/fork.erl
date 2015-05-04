@@ -88,3 +88,6 @@ calculate(Data) ->
   catch 
     _:_ -> {error, "failed"}
   end.
+
+calculateTest(Data) ->
+  Data + 1.

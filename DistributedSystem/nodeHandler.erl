@@ -64,6 +64,9 @@ makeForkPids(N, X, [HNode|TailNodeList], NodeList, PidList) ->
 
 %% @doc Eredeti létrehozója a Pideknek
 make_pids(LogicModule, N) -> make_pids(LogicModule, N, N-1, []).
+
+make_pids(LogicModule, N, test) -> make_pids(LogicModule, N, N-1, [], test).
+
 make_pids(LogicModule, N, 0, PidList) ->
   NewPid = spawn(LogicModule, worker_main, [self(), N, 8000]),
   {PidList ++ [NewPid], NewPid};
@@ -71,25 +74,37 @@ make_pids(Func, N, X, PidList) ->
   NewPid = spawn(Func, worker_main, [self(), N-X, 8000]),
   make_pids(Func, N, X-1, PidList ++ [NewPid]).
 
+make_pids(LogicModule, N, 0, PidList, test) ->
+  NewPid = spawn(LogicModule, worker_main, [self(), N, 8000, fork, calculateTest]),
+  {PidList ++ [NewPid], NewPid};
+make_pids(Func, N, X, PidList, test) ->
+  NewPid = spawn(Func, worker_main, [self(), N-X, 8000, fork, calculateTest]),
+  make_pids(Func, N, X-1, PidList ++ [NewPid]).
 
+%%worker_main(Ppid, Number, Timeout, )
 %% ------------------------------------- minta függvények, tesztekhez
-makeNodeStructure(NumOfPids, LogicModule) ->
-	{PidList, EndPid} = make_pids(LogicModule, NumOfPids),
+makeNodeStructure(NumOfPids, LogicModule, test) ->
+	{PidList, EndPid} = make_pids(LogicModule, NumOfPids, test),
 	io:format("The process started: ~p (End: ~p)\n",[PidList, EndPid]),
 
 	apply(LogicModule, senderArray, [senderstart, PidList, NumOfPids]),
 	Result = apply(LogicModule, receiver, [recivestart, PidList, EndPid]),
 
-	io:format("The result: ~p \n", [Result]).
+	io:format("The result: ~p \n", [Result]);
 	%%del_pids(PidList).
 makeNodeStructure(NumOfPids, LogicModule, DataList) ->
-	{PidList, EndPid} = make_pids(LogicModule, NumOfPids),
-	io:format("The process started: ~p (End: ~p)\n",[PidList, EndPid]),
+  {PidList, EndPid} = make_pids(LogicModule, NumOfPids),
+  io:format("The process started: ~p (End: ~p)\n",[PidList, EndPid]),
 
-	apply(LogicModule, senderArray, [senderstart, PidList, NumOfPids, DataList]),
-	Result = apply(LogicModule, receiver, [recivestart, PidList, EndPid]),
+  apply(LogicModule, senderArray, [senderstart, PidList, NumOfPids, DataList]),
+  Result = apply(LogicModule, receiver, [recivestart, PidList, EndPid]),
 
-	io:format("The result: ~p \n", [Result]).
+  io:format("The result: ~p \n", [Result]).
+
+makeNodeStructure(NumOfPids, LogicModule, DataList, test) -> 
+  {PidList, EndPid} = make_pids(LogicModule, NumOfPids, test),
+  apply(LogicModule, senderArray, [senderstart, PidList, NumOfPids, DataList]),
+  apply(LogicModule, receiver, [recivestart, PidList, EndPid]).
 
 del_pids([]) -> err;
 del_pids([H]) ->

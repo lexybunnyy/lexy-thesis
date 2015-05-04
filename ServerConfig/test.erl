@@ -8,7 +8,7 @@
 %% @spec (NumOfPids::integer()) -> List
 fork(TestList) when is_list(TestList) ->
     NumOfPids = length(TestList),
-    apply(nodeHandler, makeNodeStructure, [NumOfPids, fork, TestList]);
+    apply(nodeHandler, makeNodeStructure, [NumOfPids, fork, TestList, test]);
 fork(NumOfPids) ->
     apply(nodeHandler, makeNodeStructure, [NumOfPids, fork]).
 
