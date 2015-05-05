@@ -1,0 +1,127 @@
+	A felület manuális teszteléssel lett kipróbálva, automatizált tesztesetek nem lesznek.
+\subsection{Kalkulátor tesztelés}
+	Ebben a részben a cpp-ben írt tesztesetekről lesz szó. \newline
+	A tesztelést folyamatosan végeztem a minta adatok alapján. A függvények implementálása közben ezekre a minta adatokra meghívtam, majd ezekkel számoltam. A teszteléshez a logTest.cpp fájlban található függvényeket alkalmaztam. \newline
+	A fájlban a javítást segítő kiírató függvények, integrációs teszt esetek, valamint manuális, felület nélküli számítást végző tesztesetek vannak. \newline
+	Ezeket a teszteket nagyrészt kiváltották a szerveren futó tesztek, így fejlesztésük abba maradt, előfordulhat hogy a tesztek elavultak.
+	\begin{description}
+		\item[bool testAll()] \hfill \\ 
+			Minden teszt lefuttatása. Ha minden teszt jól futott le akkor "true" értékkel tér vissza.
+		\item[void testInterpolation(bool logPoly = false)] \hfill \\ 
+			Interpolációs teszteket futtat.
+			Mindegyik teszt egy egyszerű interpolációt vesz alapul, és a számítás eredményét ellenőrzi.
+		\item[bool testMainInterpolation(bool logPoly = false)] \hfill \\ 
+			Fő függvény tesztje. Elsősorban a feltétel átmeneteket teszteli, és azt hogy valóban számol-e ezen keresztül interpolációt.
+		\item[bool testNewton(bool logPoly = false)] \hfill \\ 
+			Newton számítás tesztje.
+		\item[bool testLagrange(bool logPoly = false)] \hfill \\ 
+			Lagrange interpoláció tesztje.
+		\item[void testPolynomial()] \hfill \\ 
+			Interpolációs mátrix tesztje.
+		\item[void testMatrixInterpolation()] \hfill \\ 
+			Manuális mátrix számítás függvénye.
+		\item[void testManualInterpolation()] \hfill \\ 
+			Manuális interpoláció számítás függvénye.
+
+		\item[testManualPolynomial()] \hfill \\ 
+			Manuális polinom összeadás és szorzás függvénye. 
+		\item[void genXSquaredPoints(DArray \&X, DMatrix \&Y)] \hfill \\ 
+			generál egy minta X,Y ponthalmazt az $x^{2}$ 
+			pontjaiból.
+		testMatrixInterpolation Segédfüggvénye
+		feltölti az $x^{2}$ pontjaival.
+	\end{description}
+\subsection{Komponens és integrációs tesztelés}
+	Főként az elosztást és a párhuzamosítást, valamint a szerveren lévő adatfeldolgozást teszteltem ilyen formában. Ezekkel a tesztesetekkel ellenőriztem a szerver és a számítás helyességét, és a szerver futást, miközben fejlesztettem.\newline
+	Ezeket a teszteket érdemes lefuttatni, amikor a szervert konfiguráljuk. A szerveren lévő komponensek és azok egymással való kommunikációja fut le ilyenkor. Ha a teszten átmennek, akkor nagy valószínűséggel a szerveren már nem lehet probléma.\newline
+	Viszont ha egy modul rosszul van leforgatva, vagy nincs betöltve, a tesztek hibát jeleznek. Ha a szerveren vagy gépen nem sikerült a tesztek lefutása, nem lehetséges a számítás elvégzése. Ennek oka valamelyik modul rosszul való betöltése, vagy az Erlang, GCC verziója nem megfelelő a számításokhoz.\newline
+	Az átfogó tesztelés a ServerConfig/test.erl fájlban található. 
+		\begin{description}
+		\item[test:fork] \hfill \\
+			Teszt futtatása a fork-nak ez a teszteset az párhuzamosítás miatt volt fontos. Viszont egy másik teszt átvette a helyét.
+			\newline
+			Ha mégis szükség lenne az általános párhuzamosítás tesztelésére, ezt kellene továbbfejleszteni.
+
+		\item[test:runCheck, run] \hfill \\
+			Futtatást kezelő függvények
+			Lefuttatják azokat a teszteket amiket a ServerConfig/main.erl-ből már el lehet indítani. 
+			A main-ben található függvény tesztelésére a  test:simulateDistributedCalculate függvényt használjuk, amit a bin/run.erl-ben lévő tesztesetek 
+		\item[test:simulateDistributedCalculate] \hfill \\
+			Egy olyan minta adatból, melyet a szerver is küldhet, elvégzi a számítást és ellenőrzi az eredményt. \newline
+			Ha megadjuk neki a node-figyelő pid-jét akkor elosztott számítást is teszteli, és a node-figyelővel való kommunikációt. 
+		\item[test:simplifyPolinomialTest] \hfill \\
+			Ellenőrzi a struktúra kezelőben megvalósított polinom egyszerűsítést.  
+		\item[test:convertMochiElements] \hfill \\
+			structHandler: getTableData és getElementByKey tesztelésére írt függvény.
+		\item[test:getResultTest] \hfill \\
+			Eredmény konvertálásának tesztje. Szimulál egy processzektől visszakapható eredményt, majd ezt átalakítja a küldéshez megfelelő formátummá.
+		\item[test:getParseJSONParams] \hfill \\
+			Json string-ből a számításhoz szükséges minden paraméter kinyerésének tesztelése (structHandler teszt).
+		\item[test:convertStruct] \hfill \\
+			structHandler függvényeinek tesztje: 
+			getNewPointStruct, appendNewPointStruct, convertPoints
+		\item[test:simulateFirstParseAndRun] \hfill \\
+			Kibontja az első elemet a mintából, és számítás után ellenőrzi az eredmény helyességét. \newline
+			Ez a teszt a számítást és az adat konvertálást teszteli, a párhuzamosítást/elosztást nem.
+		\item[test:getFirstElementOfDataSet] \hfill \\
+			Visszaadja a minta adatok első elemét.
+		\item[test:getJSONString] \hfill \\
+			Egy minta adathalmazt ad vissza (json string) ami jöhet a felületről.
+		\item[test:getResultTestHelper] \hfill \\
+			Számítási eredményekből és az elvárt eredményből a tesztelés eredményt állítja elő. 
+	\end{description}
+
+\subsection{Manuális tesztelés}
+	Elsősorban a felület átfogó tesztelését végeztem ilyen módon, de a szerverrel való kommunikációnál és az elosztásnál is előkerültek ilyen módon hibák. \newline
+	Az alábbi táblázatban felsoroltam a hibákat, melyek feltűntek a tesztelés során. 
+	\begin{center}
+  	\begin{tabular}{| p{4cm} | p{1.5cm} | p{8cm} |}
+    \hline
+    Hiba & Javítva & Info
+    \\ \hline
+    	Szerver hiba bizonyos mennyiségű adatküldése felett 
+      &
+    	nem
+      &  
+    	Előidézés: 9-nél több egyszerű adat felküldése, minta nagy adatból 4db felett.
+    	A szerver egybe küldi az értékeket, a httpServer modul már nem kapja meg a végét. Nem küldi 2 részletben, ezt kizártuk.
+    \\ \hline
+    	Hermite inverz nincs implementálva, és mégis beállítható a felületen.  
+      &
+      	nem
+      &
+		El tudjuk küldeni az oldalról úgy az adatokat hogy Hermite interpolációnál is állítható az inverz, közben a szerver nem inverz interpolációt fog számolni.
+    \\ \hline
+        Ha kilép egy node, akkor elszáll a számítás 
+      &
+      	nem
+      &
+		Ötletek: node-ok kivételére is kellene opció,vagy kezelni kellene az elszálló node-okat.
+    \\ \hline
+        Node Lista lekérdezésnél valamikor végtelen ciklusba fut a lekérdezés. 
+      &
+      	nem
+      &
+		Hiba: túl sokszor küldjük el ugyanazt az üzenetet, és kapunk vissza rossz választ, kéne bele egy időkorlát is, a várakozásra. 
+	\\ \hline
+        Nem jó pontosság esetén nem jelenik meg a polinom
+      &
+      	igen
+      &
+		Előidézés: beírsz betűket a pontossághoz 
+    \\ \hline
+        Egy interpoláció adatbetöltési hibák
+      &
+      	nem
+      &
+      	Egy interpoláció tulajdonságainak betöltésénél nem állítja be az interpoláció típust és azt hogy inverz-e.
+      	Nem jelenítjük meg a polinomokat sem bármilyen egyéb formában.
+    \\ \hline
+        Eredmény betöltésnél előfordul hogy a pontosság undefined 
+      &
+      	nem
+      &
+		Előidézés: ? Minta adatban fordul csak elő, de ha onnan  is betöltődhet akkor máshonnan is, amikor betölti az adatokat le kellene ezt kezelni.
+    \\ \hline
+  	\end{tabular}
+	\end{center}
