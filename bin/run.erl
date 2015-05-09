@@ -36,6 +36,7 @@ load() ->
     code:load_file('fork'),
     code:load_file('structHandler'),
     code:load_file('mochijson'),
+    code:load_file('mochinum'),
     code:load_file('nodeHandler'),
     code:load_file('httpServer'),
     code:load_file('nodeWatcher'),
@@ -43,7 +44,8 @@ load() ->
     ok.
 
 compile() -> 
-    compile:file('../Utility/source/mochijson'),
+    compile:file('../Utility/source/mochiweb/src/mochijson'),
+    compile:file('../Utility/source/mochiweb/src/mochinum'),
     compile:file('../Utility/structHandler'),
     compile:file('../Calculator/calculator'),
     compile:file('../DistributedSystem/fork'),
