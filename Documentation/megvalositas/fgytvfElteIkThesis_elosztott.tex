@@ -4,6 +4,14 @@ Tudjuk pontosan hány eleme van a listának, és annyi processzt hozunk létre. 
 Ha létrehozta a processzeket lista elemein végig megy, és azokat szétküldi a processzeknek, majd megvárja míg az összes végig ér, és visszatérve megkapja az eredményt.
 \subsection{Web-szerver kommunikáció}
 	A webszerver kommunikációhoz a fájlok a httpServer.erl fájlban találhatóak meg. Az ebben található függvényeket a main-ben hívjuk meg amikor inicializáljuk a szervert.
+
+	%%\ref{fig:call_graph_serverconfig}
+	\begin{figure}[h]
+		\includegraphics[width=13cm]{pics/call_graph_serverconfig}
+		\centering
+		\caption{Szerver hívási folyamata\label{fig:call_graph_serverconfig}}
+	\end{figure}
+
 	\begin{description}
 	\item[httpServer:start(Port, WatcherNode)] 
 		\hfill \\
@@ -76,6 +84,21 @@ Ha létrehozta a processzeket lista elemein végig megy, és azokat szétküldi 
 	\end{description}
 \subsection{Elosztás megvalósítása}
 	Az elosztást tartalmazó fájlokat a /DistributedSystem mappában találjuk meg. nodeHandler.erl fájlban találhatóak a processz létrehozással kapcsolatos függvények. fork.erl fájlban a processz kommunikáció logikája van megvalósítva.
+
+	%%\ref{fig:call_graph_distributed1}
+	\begin{figure}[h]
+		\includegraphics[width=10cm]{pics/call_graph_distributed1}
+		\centering
+		\caption{Elosztás folyamat hívásai\label{fig:call_graph_distributed1}}
+	\end{figure}
+
+	%%\ref{fig:call_graph_distributed1}
+	\begin{figure}[h]
+		\includegraphics[width=12cm]{pics/call_graph_distributed2}
+		\centering
+		\caption{Gyerek folyamat hívásai\label{fig:call_graph_distributed2}}
+	\end{figure}
+	
 	\begin{description}
 		\item[nodeHandler:distributedFork(NumOfPids, DataList, WatcherNode)]
 		\hfill \\

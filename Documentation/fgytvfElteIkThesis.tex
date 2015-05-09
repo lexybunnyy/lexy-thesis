@@ -53,44 +53,44 @@
 	
 \chapter{Bevezetés} 
 
-\textit{
-"A gyakorlatban sokszor felmerül olyan probléma, hogy egy nagyon költségesen kiszámítható függvénnyel kellene egy megadott intervallumon dolgoznunk. Ekkor például azt tehetjük, hogy néhány pontban kiszámítjuk a függvény értékét, majd keresünk olyan egyszerűbben számítható függvényt, amelyik illeszkedik az adott pontokra." }\cite{numanalbev}
-\newline
-\newline
-A szakdolgozatom célja ezekre a problémákra megoldást adni elosztott környezetben. 
-\section{Feladat elemzése}
-Adott ponthalmazokból kívánunk egy közelítő polinomot becsülni. Ezeket különböző interpolációs technikával meg tudjuk adni, ki tudjuk számolni. Több interpolációs technika létezik, melyekből könnyen meg tudunk adni akár több polinomot is egy adott ponthalmazhoz.\newline
-Ezekkel a számításokkal előfordulhat, hogy lassan futnak, főleg ha több interpolációt kívánunk egyszerre számolni.
-Ebben az esetben optimálisabb több gépen számolni a különböző ponthalmazokat.
-\newline\newline
-Ebben a feladatban egy speciális megvalósítása lesz ennek a számításnak. 
-\newline
-A megvalósítás grafikus része egy weboldal, melyen szerkeszthetjük a ponthalmazokat. A számítás részét egy szerver végzi amely figyeli a felcsatlakozó gépeket. Amikor kap egy számítandó adathalmazt, akkor több gép segítségével kiszámítja az eredményt. Ha minden részfeladat végzett, akkor visszaküldi a weboldalra, ahol az eredmények megtekinthetőek grafikus formában.
-\newline\newline
-\section{Feladat megvalósítása}
-A \textbf{grafikus felület}  egy weboldal, mely JavaScript-ben és HTML-ben készült.
- A felületen egy listát tekinthetünk meg, ahova több ponthalmazt is felvehetünk. \newline  Mentés hatására az értékek a háttérben eltárolódnak. A ponthalmazok közül választhatunk egyet, amely betöltődik a felületre.\newline A szerkesztő felület egy táblázatból és egy grafikonból áll, emellett még a különböző speciális számításra vonatkozó tulajdonságok (interpoláció típusa) valamint a grafikonon való megjelenítéshez tartozó tulajdonságok (polinom pontosság, megtekintendő intervallum) is szerkeszthetőek. \newline Ha befejeztük a halmazok szerkesztését elküldhetjük a számítani kívánt értékeket a szerver felé.
- \newline\newline
-A \textbf{szerver} feladata hogy figyelje a felületről érkező adatokat. Ha az adathalmaz megérkezett, akkor a szerver kibontja az adatokat egy JSON-ból, és elindítja az elosztást. \newline
-Az elosztáshoz a szerveren el kell indítani egy figyelő folyamatot amelyre lehetősége van egy külső gépnek felcsatlakozni. Amikor a szerveren indul egy számolás a felcsatlakozott gépeket lekérdezi, majd a feladatokat szétosztja.\newline
-A szerver megvalósítása és a gépekre való szétosztás Erlang-ban lett megvalósítva. A JSON feldolgozásához mochi-json lett alkalmazva. A feldolgozás után az adathalmazon végig megyünk és azok alapján felparaméterezzük, és meghívjuk a számítást végző függvényt.\newline
-A számításhoz használt maximális gépek száma paraméterként megadható, de a tényleges számítást csak annyi gépen tudjuk maximálisan végezni ahány gép felcsatlakozott a számításhoz.
-\newline\newline
-A \textbf{számítás} megvalósítása C++ nyelven történt. A paraméterek alapján a Lagrange -féle, Newton -féle, Hermite -féle interpolációs technikák közül eldönti melyik esetet használja.\newline
-A programban kellett implemetálni egy egyszerű polinom szorzás és összeadást, valamint az interpolációkhoz szükséges függvényeket. A Lagrange számítás a polinom műveletek és a képlet felhasználásával ciklusokkal valósul meg. Newton és Hermite esetén a kapott adatokból először a kezdő mátrixot kell legenerálni, majd kiszámítani. \newline
-Abban az esetben ha Newton vagy Lagrange polinomot számolunk nem vesszük figyelembe a derivált pontokat, viszont figyelembe vesszük ha inverz számítást kívánunk végezni. 
+	\textit{
+	"A gyakorlatban sokszor felmerül olyan probléma, hogy egy nagyon költségesen kiszámítható függvénnyel kellene egy megadott intervallumon dolgoznunk. Ekkor például azt tehetjük, hogy néhány pontban kiszámítjuk a függvény értékét, majd keresünk olyan egyszerűbben számítható függvényt, amelyik illeszkedik az adott pontokra." }\cite{numanalbev}
+	\newline
+	\newline
+	A szakdolgozatom célja ezekre a problémákra megoldást adni elosztott környezetben. 
+	\section{Feladat elemzése}
+	Adott ponthalmazokból kívánunk egy közelítő polinomot becsülni. Ezeket különböző interpolációs technikával meg tudjuk adni, ki tudjuk számolni. Több interpolációs technika létezik, melyekből könnyen meg tudunk adni akár több polinomot is egy adott ponthalmazhoz.\newline
+	Ezekkel a számításokkal előfordulhat, hogy lassan futnak, főleg ha több interpolációt kívánunk egyszerre számolni.
+	Ebben az esetben optimálisabb több gépen számolni a különböző ponthalmazokat.
+	\newline\newline
+	Ebben a feladatban egy speciális megvalósítása lesz ennek a számításnak. 
+	\newline
+	A megvalósítás grafikus része egy weboldal, melyen szerkeszthetjük a ponthalmazokat. A számítás részét egy szerver végzi amely figyeli a felcsatlakozó gépeket. Amikor kap egy számítandó adathalmazt, akkor több gép segítségével kiszámítja az eredményt. Ha minden részfeladat végzett, akkor visszaküldi a weboldalra, ahol az eredmények megtekinthetőek grafikus formában.
+	\newline\newline
+	\section{Feladat megvalósítása}
+	A \textbf{grafikus felület}  egy weboldal, mely JavaScript-ben és HTML-ben készült.
+	 A felületen egy listát tekinthetünk meg, ahova több ponthalmazt is felvehetünk. \newline  Mentés hatására az értékek a háttérben eltárolódnak. A ponthalmazok közül választhatunk egyet, amely betöltődik a felületre.\newline A szerkesztő felület egy táblázatból és egy grafikonból áll, emellett még a különböző speciális számításra vonatkozó tulajdonságok (interpoláció típusa) valamint a grafikonon való megjelenítéshez tartozó tulajdonságok (polinom pontosság, megtekintendő intervallum) is szerkeszthetőek. \newline Ha befejeztük a halmazok szerkesztését elküldhetjük a számítani kívánt értékeket a szerver felé.
+	 \newline\newline
+	A \textbf{szerver} feladata hogy figyelje a felületről érkező adatokat. Ha az adathalmaz megérkezett, akkor a szerver kibontja az adatokat egy JSON-ból, és elindítja az elosztást. \newline
+	Az elosztáshoz a szerveren el kell indítani egy figyelő folyamatot amelyre lehetősége van egy külső gépnek felcsatlakozni. Amikor a szerveren indul egy számolás a felcsatlakozott gépeket lekérdezi, majd a feladatokat szétosztja.\newline
+	A szerver megvalósítása és a gépekre való szétosztás Erlang-ban lett megvalósítva. A JSON feldolgozásához mochi-json lett alkalmazva. A feldolgozás után az adathalmazon végig megyünk és azok alapján felparaméterezzük, és meghívjuk a számítást végző függvényt.\newline
+	A számításhoz használt maximális gépek száma paraméterként megadható, de a tényleges számítást csak annyi gépen tudjuk maximálisan végezni ahány gép felcsatlakozott a számításhoz.
+	\newline\newline
+	A \textbf{számítás} megvalósítása C++ nyelven történt. A paraméterek alapján a Lagrange -féle, Newton -féle, Hermite -féle interpolációs technikák közül eldönti melyik esetet használja.\newline
+	A programban kellett implemetálni egy egyszerű polinom szorzás és összeadást, valamint az interpolációkhoz szükséges függvényeket. A Lagrange számítás a polinom műveletek és a képlet felhasználásával ciklusokkal valósul meg. Newton és Hermite esetén a kapott adatokból először a kezdő mátrixot kell legenerálni, majd kiszámítani. \newline
+	Abban az esetben ha Newton vagy Lagrange polinomot számolunk nem vesszük figyelembe a derivált pontokat, viszont figyelembe vesszük ha inverz számítást kívánunk végezni. 
 
 
 \chapter{Felhasználói dokumentáció}
-\begin{comment}
-A Felhasználói dokumentáció tartalmazza
-- a megoldott probléma rövid megfogalmazását,
-- a felhasznált módszerek rövid leírását,
-- a program használatához szükséges összes információt
+	\begin{comment}
+	A Felhasználói dokumentáció tartalmazza
+	- a megoldott probléma rövid megfogalmazását,
+	- a felhasznált módszerek rövid leírását,
+	- a program használatához szükséges összes információt
 
-Magába foglalja a telepítési- (vagy üzemeltetési-) és a végfelhasználói leírást. Ezek
-meghatározott célközönséghez szólnak, könnyen és gyorsan kell, hogy eligazítsák a
-felhasználót a program használatában!
+	Magába foglalja a telepítési- (vagy üzemeltetési-) és a végfelhasználói leírást. Ezek
+	meghatározott célközönséghez szólnak, könnyen és gyorsan kell, hogy eligazítsák a
+	felhasználót a program használatában!
 
 \end{comment}
 \section{Bevezetés}
@@ -122,14 +122,20 @@ felhasználót a program használatában!
 \chapter{Fejlesztői dokumentáció}
 \input{./../fgytvfElteIkThesisFejlesztoi.tex}
 
+%% \cite{erl_nif}
 \begin{thebibliography}{9}
 \bibitem{numanalbev}
 Gergó Lajos: Numerikus Módszerek, ELTE EÖTVÖS KIADÓ, 2010, [329], ISBN 978 963 312 034 7
-\bibitem{} {http://www.erlang.org/doc/man/erl\_nif.html} 2015
+\bibitem{erl_nif} {http://www.erlang.org/doc/man/erl\_nif.html} 2015
 \bibitem{} {https://www.sharelatex.com/learn/Sections\_and\_chapters} 
 2015
 \bibitem{} {https://github.com/mochi/mochiweb/blob/master/src/mochijson.erl} 2015
 \bibitem{} {http://tex.stackexchange.com/questions/137055/lstlisting-syntax-highlighting-for-c-like-in-editor} 2015
+
 \end{thebibliography}
 
 \end{document}
+
+
+%%kódokhoz: \texttt{}
+%%linkekhez: 
