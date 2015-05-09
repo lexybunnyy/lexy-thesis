@@ -6,13 +6,13 @@
 	\caption{Grafikon kirajzoló\label{fig:plot}}
 	\end{figure}
 	
-	A Grafikon megjelenítéséhez a Flot-ot használom. Ez egy jQuery-s könyvtár, melyben egyszerűen és látványosan lehet grafikonokat kirajzolni. A forrás a "WebPage/source/flot-8.0.2" mappában érhető el.
+	A Grafikon megjelenítéséhez a Flot 8.0.2-es verzióját használom. Ez egy jQuery-s könyvtár, melyben egyszerűen és látványosan lehet grafikonokat kirajzolni. A forrás a \textit{WebPage/source/flot-8.0.2} mappában érhető el.
 	\subsubsection{Felhasználás}
-	HTML fájlban egy egyszerű "DIV"-ként jelenik meg, melyet aztán a JavaScript tölt meg tartalommal.
+	HTML fájlban egy egyszerű DIV-ként jelenik meg, melyet aztán a JavaScript tölt meg tartalommal.
 	\begin{verbatim}
 	<div id=\"resultplot\" class=\"demo-placeholder\"></div>
 	\end{verbatim}
-	A JavaScript-ben hivatkozhatunk erre a "DIV"-re, majd az adatok és a típusok segítségével alábbi módon hivatkozhatjuk meg: 
+	A JavaScript-ben hivatkozhatunk erre a \texttt{DIV}-re, majd az adatok és a típusok segítségével alábbi módon hivatkozhatjuk meg: 
 	\begin{verbatim}
 	var placeholder = $("#resultplot");
 	var plot = $.plot(placeholder, flot_data, type);
@@ -92,7 +92,7 @@
 	    PidWatch.
 	\end{verbatim}
 
-	A másik gépről ezután lehet küldeni egy "ping"-et, melyet megkap a node-figyelő.
+	A másik gépről ezután lehet küldeni egy \textit{"ping"}-et, melyet megkap a node-figyelő.
 	\begin{verbatim}
 	registerToServer(Pong_Node) ->
 	    spawn(nodeWatcher, registerToServerNode, [Pong_Node]).

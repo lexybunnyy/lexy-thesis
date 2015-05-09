@@ -1,0 +1,68 @@
+\begin{comment}
+	A Felhasználói dokumentáció tartalmazza
+	- a megoldott probléma rövid megfogalmazását,
+	- a felhasznált módszerek rövid leírását,
+	- a program használatához szükséges összes információt
+
+	Magába foglalja a telepítési- (vagy üzemeltetési-) és a végfelhasználói leírást. Ezek
+	meghatározott célközönséghez szólnak, könnyen és gyorsan kell, hogy eligazítsák a
+	felhasználót a program használatában!
+
+\end{comment}
+
+\section{Bevezetés}
+%% A feladat rövid ismertetése (mire való a szoftver)
+%% Célközönség (kik, mikor, mire használhatják a programot)
+\section{Telepítési útmutató}
+\subsection{Rendszer követelmények}
+%% A rendszer használatához szükséges minimális, illetve optimális HW/SW környezet
+	A szoftver Linux Mint 17.1 'Rebecca' Cinnamon 64-bit operációs rendszeren lett tesztelve. 
+	\begin{description}
+		\item[Operációs rendszer:] debian alapú rendszer (debian, ubuntu, mint)
+		\item[Apache:] 2.4.7 (Ubuntu)
+		\item[Erlang:] 5.10.4 (SMP,ASYNC\_THREADS) (BEAM) emulator 
+		\item[g++:] 4.8.2 (Ubuntu)
+		\item[Mozilla Firefox:] 37.0.2
+	\end{description}
+	\begin{verbatim}
+	sudo apt-get install gcc-4.8
+	sudo apt-get install g++-4.8
+	sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 20
+	sudo apt-get install erlang
+	sudo apt-get install apache2
+	sudo apt-get install libapache2-mod-proxy-html
+	sudo apt-get install libxml2-dev
+	\end{verbatim}
+
+%% Első üzembe helyezés leírása – ha van ilyen –, a program indítása (kivéve, ha nem egy
+%%önálló alkalmazásról, hanem egy meglévő rendszer új komponenséről van szó). Itt
+%%ellenőrizzük, hogy a telepítési útmutató megfelel-e a valóságos telepítési folyamatnak.
+\subsection{Szerver és segédgépek üzembe helyezése}
+	\begin{verbatim}
+		git clone git+ssh://oem@192.168.1.153/~/git/project
+		sudo cp ./../ServerConfig/szakdoli.conf /etc/apache2/sites-available/szakdoli.conf
+
+		sudo vim /etc/apache2/sites-available/szakdoli.conf
+		DocumentRoot /media/usbhdd/data/lexy/project/WebPage/
+        <Directory /media/usbhdd/data/lexy/project/WebPage/>
+            Options FollowSymLinks
+
+        sudo a2enmod proxy proxy_http
+        sudo a2ensite szakdoli.conf
+		sudo /etc/init.d/apache2 restart
+	\end{verbatim}
+
+\subsection{Használati útmutató}
+\subsubsection{Weboldal}
+\subsubsection{Szerver}
+%% Általános felhasználói tájékoztató (például a szokásostól eltérő képernyő-, billentyű-,
+%%illetve egérkezelés leírása, teendők hibaüzenetek esetén stb.).
+%% A rendszer funkcióinak ismertetése. A feladat jellegéből fakadóan célszerű lehet ezt
+%%folyamatszerűen, képernyőképekkel alátámasztva bemutatni. A funkciókat ajánlatos a
+%%felhasználói szintek szerint csoportosítani. Itt vegyük figyelembe, hogy a leírás a
+%%fejlesztői dokumentációban meghatározott részfeladathoz illeszkedik-e, az ott
+%% meghatározott funkciókat/használati eseteket írja-e le?
+%% A rendszer futás közbeni üzenetei (hibaüzenetek, figyelmeztető üzenetek, felszólító üze-
+%%netek stb.) és azok magyarázata – az esetleges üzemeltetési teendőkkel együtt. Itt vegyük
+%%figyelembe, hogy tartalmaz-e biztonsági, illetve hibaelhárítási előírásokat?
+%% Egyéb, a szoftver használatához szükséges információk.

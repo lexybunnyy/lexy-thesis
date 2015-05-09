@@ -123,5 +123,22 @@
       &
 		Előidézés: ? Minta adatban fordul csak elő, de ha onnan  is betöltődhet akkor máshonnan is, amikor betölti az adatokat le kellene ezt kezelni.
     \\ \hline
+      	Apache/2.2.22 verziónál a szerver nem működik. 
+      &
+      	igen
+      &
+		[Sat May 09 17:20:18 2015] [crit] [client 192.168.1.153] configuration error:  couldn't perform authentication. AuthType not set!: /\newline
+		Server version: Apache/2.2.22 (Debian)
+		Server built:   Jan 10 2015 15:33:51\newline 
+		Megoldás: a régebbi verzió nem tudja kezelni a Require all granted kulcsszót.
+    \\ \hline
+    	Erlang run:teszt hiba a szerveren. 
+      &
+      	nem
+      &
+		exception error: no case clause matching <<127,248,0,0,0,0,0,0>>
+     	in function  io_lib_format:mantissa_exponent/1 (io_lib_format.erl, line 374)
+    \\ \hline
+
   	\end{tabular}
 	\end{center}
