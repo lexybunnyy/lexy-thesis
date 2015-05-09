@@ -23,8 +23,11 @@ test(WatcherNode) ->
     end.
 
 test() -> 
+    io:format("test started\n"),
     ResultCheck = test:runCheck(),
+    io:format("\nrunCheck ended\n"),
     Distributed = test:simulateDistributedCalculate(),
+    io:format("\nsimulateDistributedCalculate\n"),
     case test:trueList(ResultCheck ++ Distributed) of 
         true -> ok;
         _ -> ResultCheck ++ Distributed
