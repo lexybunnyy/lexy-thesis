@@ -74,18 +74,40 @@
 	\end{description}
 
 \subsection{Http szerver}
-	A http szerver gyakorlatilag 2 példából lett megvalósítva:
-	"httpServer leírása TODO"
+	A szerver kommunikációt Erlang oldalon 2 megtalált minta fájlból állítottam elő. Az egyikben egy egyszerű szerver kommunikációt mutattak be Erlang-ban\cite{simpleserver}. \newline
+	A másik pedig az Erlang dokumentációjában megtalálható minta kommunikáció tcp protokollal\cite{tcpserver}.
 
 \subsection{Ping-pong Node figyelő}
-	"pingPong TODO: pidWatcher mit csinál"
+	http://www.erlang.org/doc/getting\_started/conc\_prog.html
+	Az Erlang oldalán található dokumentációban, mely az elosztás és a node kommunikációt mutatja be, sok minta kódot tartalmaz, melyekből könnyen elő tudtam állítani a saját kódomat.\newline
+	Ez alapján a párhuzamosítottan számoló programomat könnyen át tudtam alakítani elosztott módon számítóvá. \newline 
+	Emelett kellett valami lehetőség arra hogy a gépek fel tudjanak csatlakozni a szerverre. Lehetőség lett volna arra is hogy a figyelő helyett csak megkapja a gépek listáját a szerver, de így tisztábban szét van választva a háttér és a kliens, és nem is szükségesek a tényleges számításhoz. \newline
+	Ezen az oldalon található minták a ping-pong kommunikációra, melynek segítségével hoztam létre a node-figyelőt. Ez a modul a \texttt{ServerConfig/nodeWatcher.erl} fájlban található meg. \newline
+
+	Ennek mintájára hoztam létre az alábbi figyelőt, melyet regisztrálunk \texttt{pid\_watcher} atom segítségével. 
+	\begin{verbatim}
+	startPidWatch() ->
+	    PidWatch = spawn(nodeWatcher, pidWatch, [self(), []]),
+	    register(pid_watcher, PidWatch),
+	    PidWatch.
+	\end{verbatim}
+
+	A másik gépről ezután lehet küldeni egy "ping"-et, melyet megkap a node-figyelő.
+	\begin{verbatim}
+	registerToServer(Pong_Node) ->
+	    spawn(nodeWatcher, registerToServerNode, [Pong_Node]).
+	...
+	registerToServerNode(Pong_Node) -> 
+	    {pid_watcher, Pong_Node} ! {worker_write, self(), node()},
+	    ...
+	\end{verbatim}
+
 
 \subsection{Struktúra kezelő: mochijson}
 	A mochijson egy Erlang-hoz is használt modul, melynek segítségével egy json string-et át lehet konvertálni Erlang-os struktúrává. \newline 
 	\texttt{git clone https://github.com/mochi/mochiweb.git}(2015.05)
 	paranccsal a teljes mochiweb könyvtárat le lehet tölteni. A \texttt{mochiweb/src} mappában találhatóak azok a fájlok melyeket le lehet fordítani, és be lehet tölteni az Erlang shell-be. Lehet letölteni a fájlokat különállóan is. \newline
 	Eredetileg csak a mochijson.erl-re volt szükségem, de miután komplexebb adatot kellett encode-olnom szükségessé vált még egy fájl betöltése, viszont nem tudtam hogy az még milyen függőségeket hordoz magában, így letöltöttem az egész repository-t. \newline
-
 	Ha Erlang-ban lefordítjuk shell-ben \texttt{mochijson:encode, decode} függvényekkel egyszerűen lehet használni.\newline 
 	Példa képen megtekinthetjük az alábbi egyszerű json-t, mely már tartalmaz objektumot és tömböt.
 	\begin{verbatim}
@@ -128,15 +150,14 @@
 	\begin{verbatim}
 		getDataByJson(JsonSting) -> apply(mochijson, decode, [JsonSting]).
 	\end{verbatim}
-
+	Ismeretek segítségével létre hoztam egy olyan függvényt, ami kinyer egy adott értéket a struktúrából.
 	\begin{verbatim}
 		getElementByKey(array, {array, Array}) -> Array;
 		getElementByKey(struct, {struct, Array}) -> Array;
+		getElementByKey(Name, {struct, Struct}) -> getElementByKey(Name, Struct);
+		getElementByKey(Name,[{Name, Value}]) -> Value;
 	\end{verbatim}
-
-
-	Struktúra kezelő "structHandler"
-
+	Ennek felhasználásával dolgoztam fel a struktúrát.
 
 \subsection{Erlang modul C++-ban : NIF}
 	NIF \cite{erl_nif} (native implemented functions) egy C könyvtár, melynek segítségével implementálhatjuk egy modul függvényeit C-ben vagy C++-ban. 
@@ -182,5 +203,6 @@
 	    return convertList(env, poli);
 	}
 	\end{verbatim}
+
 \subsection{Dokumentációhoz felhasznált programok}
 	A tervezési, és megvalósítási szemléltető képek és diagramok egy webes szerkesztő segítségével valósultak meg. Ez az oldal 2015-ben a http://creately.com/ címen volt elérhető.
