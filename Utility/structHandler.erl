@@ -44,6 +44,9 @@ convetString(Term) ->
   Format = io_lib:format("~p", [Term]),
   lists:flatten(Format).
 
+convertToMochi(Object) -> 
+  StructList = structArrayParser(Object, []),
+  {struct, StructList}.
 structArrayParser([], Array) ->
   Array;
 structArrayParser([H], Array) -> 
@@ -77,10 +80,6 @@ isPoliNullElement(X) ->
     true -> X == 0.0;
     _ -> false
   end.
-
-convertToMochi(Object) -> 
-  StructList = structArrayParser(Object, []),
-  {struct, StructList}.
 
 getTableData(DataSetElement) -> 
 	getElementByKeyList(["tableData"], DataSetElement).

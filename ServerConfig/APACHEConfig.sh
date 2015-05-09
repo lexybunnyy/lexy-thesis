@@ -13,7 +13,7 @@ sudo a2enmod proxy proxy_http
 ##-- fájl 
 ## cd /etc/apache2/sites-available/
 ## sudo cp 000-default.conf szakdoli.conf
-sudo cp /home/oem/git/project/ServerConfig/szakdoli.conf /etc/apache2/sites-available/szakdoli.conf
+sudo cp /home/oem/git/project/ServerConfig/szakdoli.conf /etc/apache2/sites-available/szakdoli.conf  
 ## sudo subl szakdoli.conf
 
 ##-- inicializálás és restart
