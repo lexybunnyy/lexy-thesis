@@ -28,10 +28,11 @@ test() ->
     io:format("\nrunCheck ended\n"),
     Distributed = test:simulateDistributedCalculate(),
     io:format("\nsimulateDistributedCalculate\n"),
-    case test:trueList(ResultCheck ++ Distributed) of 
+    Result = case test:trueList(ResultCheck ++ Distributed) of 
         true -> ok;
         _ -> ResultCheck ++ Distributed
-    end.
+    end,
+    io:format("\n Result ~p \n", [Result]).
 
 load() ->
     code:load_file('test'),
