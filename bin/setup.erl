@@ -7,6 +7,6 @@ main(_) ->
     run:compile(),
     Result = apply(run, test, []),
     case Result of
-        ok ->  io:format("Telepites ok\n");
-        Error -> io:format("Telepites sikertelen: ~p \n", [Error])
+        ok ->  ok; %%io:format("Telepites ok\n");
+        Error -> error %%io:format("Telepites sikertelen: ~p \n", [Error])
     end.
