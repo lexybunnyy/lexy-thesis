@@ -24,15 +24,17 @@ test(WatcherNode) ->
 
 test() -> 
     io:format("test started\n"),
+    io:format("\nrunCheck\n"),
     ResultCheck = test:runCheck(),
-    io:format("\nrunCheck ended\n"),
+    io:format("\n--simulateDistributedCalculate start\n"),
     Distributed = test:simulateDistributedCalculate(),
-    io:format("\nsimulateDistributedCalculate\n"),
+    io:format("\n--simulateDistributedCalculate end\n"),
     Result = case test:trueList(ResultCheck ++ Distributed) of 
         true -> ok;
         _ -> ResultCheck ++ Distributed
     end,
-    io:format("\n Result ~p \n", [Result]).
+    io:format("\n Result ~p \n", [Result]),
+    Result.
 
 load() ->
     code:load_file('test'),

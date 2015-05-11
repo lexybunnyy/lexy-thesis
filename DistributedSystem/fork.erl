@@ -29,6 +29,7 @@ senderArray([H|T] ,N, X) ->
 senderArray(senderstart, PidList, N, DataList) ->
   senderArray(PidList ,N, N-1, DataList);
 senderArray([PidHead] ,N, X, [DataHead]) ->
+  io:format("last senderArray: ~p \n",[PidHead]),
   PidHead ! {forkdata, N-X , DataHead};
 senderArray([PidHead|PidTail] ,N, X, [DataHead|DataTail]) ->
   PidHead ! {forkdata, N-X, DataHead},
@@ -40,6 +41,7 @@ receiver(recivestart,PidList, _EndPid) ->
 receiver([HeadPidList], ResultList) ->
   receive
     {HeadPidList, forkresult, _Number, Result} ->
+      io:format("last receiver: ~p ~p \n",[HeadPidList, Result]),
       ResultList ++ [Result]
   after
     1000000 ->

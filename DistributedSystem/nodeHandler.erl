@@ -28,6 +28,7 @@ distributedFork(NumOfPids, DataList, WatcherNode) ->
   distributedForkHelper(NumOfPids, DataList, NodeList).
 distributedForkHelper(NumOfPids, DataList, NodeList) ->
   {PidList, EndPid} = makeForkPids(NumOfPids, NodeList),
+  io:format("PidList: ~p \n",[PidList]),
   apply(fork, senderArray, [senderstart, PidList, NumOfPids, DataList]),
   apply(fork, receiver, [recivestart, PidList, EndPid]).
 
