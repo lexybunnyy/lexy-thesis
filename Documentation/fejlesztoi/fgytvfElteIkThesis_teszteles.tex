@@ -83,7 +83,7 @@
       &
       	igen
       &
-		Előidézés: beírsz betűket a pontossághoz 
+		\textbf{Előidézés} : beírsz betűket a pontossághoz 
     \\ \hline
         Egy interpoláció adatbetöltési hibák
       &
@@ -96,7 +96,7 @@
       &
       	nem
       &
-		Előidézés: ? Minta adatban fordul csak elő, de ha onnan  is betöltődhet akkor máshonnan is, amikor betölti az adatokat le kellene ezt kezelni.
+		\textbf{Előidézés?}:  Minta adatban fordul csak elő, de ha onnan  is betöltődhet akkor máshonnan is, amikor betölti az adatokat le kellene ezt kezelni.
     \\ \hline
     	Hermite inverz nincs implementálva, és mégis beállítható a felületen.  
       &
@@ -107,25 +107,6 @@
   \end{tabular}\end{center}
   \begin{center}\begin{tabular}{| p{4cm} | p{1.5cm} | p{8cm} |}
   \hline Hiba & Javítva & Info
-  	\\ \hline
-    	Szerver hiba bizonyos mennyiségű adatküldése felett 
-      &
-    	nem
-      &  
-    	Előidézés: 9-nél több egyszerű adat felküldése, minta nagy adatból 4db felett.
-    	A szerver egybe küldi az értékeket, a httpServer modul már nem kapja meg a végét. Nem küldi 2 részletben, ezt kizártuk.
-    \\ \hline
-        Ha kilép egy node, akkor elszáll a számítás 
-      &
-      	nem
-      &
-		Ötletek: node-ok kivételére is kellene opció,vagy kezelni kellene az elszálló node-okat.
-    \\ \hline
-        Node Lista lekérdezésnél valamikor végtelen ciklusba fut a lekérdezés. 
-      &
-      	nem
-      &
-		Hiba: túl sokszor küldjük el ugyanazt az üzenetet, és kapunk vissza rossz választ, kéne bele egy időkorlát is, a várakozásra.
     \\ \hline
       	Apache/2.2.22 verziónál a szerver nem működik. 
       &
@@ -133,28 +114,52 @@
       &
 		\texttt{[Sat May 09 17:20:18 2015] [crit] [client 192.168.1.153] configuration error:  couldn't perform authentication. AuthType not set!: /}\newline
 		Server version: Apache/2.2.22 (Debian)
-		Server built:   Jan 10 2015 15:33:51\newline 
-		Megoldás: a régebbi verzió nem tudja kezelni a Require all granted kulcsszót.
+		Server built:   Jan 10 2015 15:33:51 
+		\newline\textbf{Megoldás}:
+		a régebbi verzió nem tudja kezelni a Require all granted kulcsszót.
+  	\\ \hline
+    	Szerver hiba bizonyos mennyiségű adatküldése felett 
+      &
+    	nem
+      &  
+    	\textbf{Előidézés}: 9-nél több egyszerű adat felküldése, minta nagy adatból 4db felett.
+    	A szerver egybe küldi az értékeket, a httpServer modul már nem kapja meg a végét. Nem küldi 2 részletben, ezt kizártuk.
     \\ \hline
-    	Erlang run:teszt hiba a szerveren. 
+        Ha kilép egy node, akkor elszáll a számítás 
       &
       	nem
       &
+      \textbf{Ötletek}:
+      node-ok kivételére is kellene opció,vagy kezelni kellene az elszálló node-okat.
+    \\ \hline
+        Node Lista lekérdezésnél valamikor végtelen ciklusba fut a lekérdezés. 
+      &
+      	nem
+      &
+      	\textbf{Hiba}:
+		Hiba: túl sokszor küldjük el ugyanazt az üzenetet, és kapunk vissza rossz választ, kéne bele egy időkorlát is, a várakozásra.
+
+    \\ \hline
+    	Erlang run:teszt és telepítés hiba a szerveren erlang 5.9.1 es verziónál
+      &
+      	nem
+      &
+      	\textbf{Telepítő futtatási hiba}: \newline
+      	\texttt{escript: Internal error: badarg}
+		\texttt{"init terminating in do\_boot"}
+        \texttt{\{badarg,[\{io,format,[<0.29.0>,"~p",}
+        \texttt{[[\{io\_lib,format ... }
+		\newline \textbf{Teszt futtatásánál hiba}: \newline
 		\texttt{exception error: no case clause matching <<127,248,0,0,0,0,0,0>>}
      	\texttt{in function  io\_lib\_format:mantissa\_exponent\/1}
      	\texttt{(io\_lib\_format.erl, line 374) }
     \\ \hline
-    	Erlang telepítés hiba a szerveren. 
+    	Erlang: elosztási hiba
       &
-      	igen
+      	nem
       &
-		A telepítés hibával elszáll
-		\texttt{escript: Internal error: badarg}
-		\texttt{"init terminating in do\_boot"}
-        \texttt{\{badarg,[\{io,format,[<0.29.0>,"~p",}
-        \texttt{[[\{io\_lib,format ... }
-
-
+      	Előfordul hogy a szerver elküldi a számító node-nak az adatot, az ki is számolja, viszont az eredmény nem érkezik vissza.\newline
+      	A hiba elég véletlenszerűnek tűnik. Többször is elő tudtam igézni, majd amikor létrehoztam teljesen új elosztott rendszert egy vagy két gépen akkor már nem jelentkezett a hiba.
     \\ \hline
   	\end{tabular}
 	\end{center}

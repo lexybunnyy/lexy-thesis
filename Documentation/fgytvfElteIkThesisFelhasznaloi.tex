@@ -16,45 +16,194 @@
 \section{Telepítési útmutató}
 \subsection{Rendszer követelmények}
 %% A rendszer használatához szükséges minimális, illetve optimális HW/SW környezet
-	A szoftver Linux Mint 17.1 'Rebecca' Cinnamon 64-bit operációs rendszeren lett tesztelve. 
-	\begin{description}
-		\item[Operációs rendszer:] debian alapú rendszer (debian, ubuntu, mint)
-		\item[Apache:] 2.4.7 (Ubuntu)
-		\item[Erlang:] 5.10.4 (SMP,ASYNC\_THREADS) (BEAM) emulator 
-		\item[g++:] 4.8.2 (Ubuntu)
-		\item[Mozilla Firefox:] 37.0.2
-	\end{description}
+	A szoftver Linux Mint 17.1 'Rebecca' Cinnamon 64-bit operációs rendszeren lett tesztelve.
+	\begin{center}
+  	\begin{tabular}{| p{5cm} | p{10cm} |} 
+  	\hline
+        Operációs rendszer & debian alapú rendszer (ubuntu, mint)
+    \\ \hline
+        Apache & 2.4.7 (Ubuntu)
+    \\ \hline
+        Erlang & 5.10.4 (SMP,ASYNC\_THREADS) (BEAM) emulator 
+    \\ \hline
+        g++ & 4.8.2 (Ubuntu)
+    \\ \hline
+        Mozilla Firefox & 37.0.2
+    \\ \hline
+    
+    \end{tabular}
+    \end{center}
+
+    Verzió telepítések ajánlott módja terminálból:
 	\begin{verbatim}
-	sudo apt-get install gcc-4.8
+	sudo apt-get update
+
 	sudo apt-get install g++-4.8
 	sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 20
 	sudo apt-get install erlang
 	sudo apt-get install apache2
 	sudo apt-get install libapache2-mod-proxy-html
 	sudo apt-get install libxml2-dev
+
+	sudo apt-get upgrade
+	\end{verbatim}
+\subsection{Rendszer konfiguráció}
+Első lépésként a forráskódat másoljuk át a gépre.
+Terminálban menjünk a mappába.
+\begin{verbatim}
+user@computername:[project](master)
+\end{verbatim}
+Apache szerver konfigurációt elég csak a szerver gépen futtatni, a segéd számító gépeken nem szükséges.
+\subsubsection{Apache szerver - szakdoli.config}
+	A projektben található /project/ServerConfig/szakdoli.conf fájl mintájára létre lehet hozni a saját szerver konfigurációs fájlunkat.
+	\newline
+	Az elején megadjuk a külső figyelési pontot.
+	\begin{verbatim}
+	Listen 8086
+	<VirtualHost *:8086>
 	\end{verbatim}
 
-%% Első üzembe helyezés leírása – ha van ilyen –, a program indítása (kivéve, ha nem egy
-%%önálló alkalmazásról, hanem egy meglévő rendszer új komponenséről van szó). Itt
-%%ellenőrizzük, hogy a telepítési útmutató megfelel-e a valóságos telepítési folyamatnak.
-\subsection{Szerver és segédgépek üzembe helyezése}
+	Beállíthatjuk a szerver adminját.
+	
 	\begin{verbatim}
-		git clone git+ssh://oem@192.168.1.153/~/git/project
-		sudo cp ./../ServerConfig/szakdoli.conf /etc/apache2/sites-available/szakdoli.conf
+	ServerAdmin webmaster@localhost
+	\end{verbatim}
 
-		sudo vim /etc/apache2/sites-available/szakdoli.conf
-		DocumentRoot /media/usbhdd/data/lexy/project/WebPage/
-        <Directory /media/usbhdd/data/lexy/project/WebPage/>
-            Options FollowSymLinks
+	A mappa helyét \textbf{mindenképpen módosítani kell} a projekt aktuális mappájára, ahova másoltuk.
+	DocumentRoot és a Directory után is.
+	
+	\begin{verbatim}
+		DocumentRoot /home/../project/WebPage/
+		<Directory /home/../project/WebPage/>
+	\end{verbatim}
+	
+	A szerver elosztott része a 8082 porton van elindítva, és erre hozunk létre egy proxy-t hogy a weboldallal lehetősége legyen kommunikálni.
+	
+	\begin{verbatim}
+		ProxyPass /API http://localhost:8082
+		ProxyPassReverse /API http://localhost:8082
+		<Proxy *>
+		    Order deny,allow
+		    Deny from all
+		    Allow from all
+		</Proxy> 
+	\end{verbatim}
+	
+	Ha valami hiba van a szerveren, a logok segítségével ki lehet deríteni a hiba okát. Ehhez lehetőség van beállítani saját mappát is.
 
-        sudo a2enmod proxy proxy_http
-        sudo a2ensite szakdoli.conf
+	\begin{verbatim}
+		ErrorLog ${APACHE_LOG_DIR}/error.log
+		CustomLog ${APACHE_LOG_DIR}/access.log combined
+	\end{verbatim}
+
+\subsubsection{Apache szerver - elindítás}
+	Az előbbi pontban megvalósított szerver konfigurációs fájt át kell helyezni az apache /sites-available mappábájába, és fel kell venni a konfigurálandó fájlok közé. Ha nincsen még a mód proxy\_http-re állítva, azt is meg kell csinálni a restart előtt. 
+	\begin{verbatim}
+		sudo cp ./ServerConfig/szakdoli.conf /etc/apache2/sites-available/szakdoli.conf
+		sudo a2enmod proxy proxy_http
+		sudo a2ensite szakdoli.conf
+	\end{verbatim}
+	Ezután ha a fájl rendben van el lehet indítani a szervert, mely ezután figyelni fogja az adott portokat.
+	\begin{verbatim}
 		sudo /etc/init.d/apache2 restart
 	\end{verbatim}
 
+\subsubsection{Elosztott számításhoz}
+	Az Erlang Node-ok kommunikációjához be kell állítani a .erlang.cookie fájlt mely a /home-ban található. 
+	Nem biztos hogy a fájlnak van írás joga. Ha nincs akkor adni kell neki, és meg kell nyitni valamilyen szerkesztőben.
+	Szerkesztés után pedig ajánlott vissza adni az eredeti jogait.
+	\begin{verbatim}
+		sudo chmod +w ~/.erlang.cookie
+		sudo vim ~/.erlang.cookie
+		sudo chmod 400 ~/.erlang.cookie
+	\end{verbatim}
+	Az alábbi atomot tartalmaznia kell a fájlnak.
+	\begin{verbatim}
+	cat ~/.erlang.cookie
+	distributed_interpolation_bylexy
+	\end{verbatim}
+	Ezután az Erlang-node-ok tudnak egymással kommunikálni, akár több gépen is.
+
+\subsubsection{Szerver tesztelése}
+	Az első üzembe helyezés előtt érdemes lefordítani a fájlokat, és lefuttatni a teszteket hogy tudjuk hogy az Erlang és a C++ verzió kompatibilis az eredetivel. \newline
+	A bin mappában található fájlok segítenek minket a rendszer élesítésében, tehát ebben a mappában van lehetőség a futtatásra.  
+	\begin{verbatim}
+		$ cd project/bin/
+	\end{verbatim}
+
+	Először indítsuk el az alábbi fájlt, mely lefordítja nekünk a kellő részeket. Ennek a fájlnak a futása pár percet igénybe vehet. Ha nem sikerül lefutnia hiba nélkül, akkor nagy valószínűséggel az elosztott számítás nem konfigurálható. 
+	\begin{verbatim}
+		./setup.sh
+	\end{verbatim}
+	Ha sikeres volt a futás akkor elindíthatjuk az erlang shell-t, és a run erlang fájl segítségével betölthetjük a lefordított elemeket. A run:load(). futtatását shell indítás után egyszer szabad lefuttatni, mivel a NIF fájlok nem tudnak újra betöltődni, és ez hibát generál.\newline
+	Érdemes ismét lefuttatni a teszteket, ha sikeres volt akkor a gép alkalmas arra hogy szerver vagy segéd gép legyen.
+	\begin{verbatim}
+		erl
+		c(run).
+		run:load().
+		run:test().
+	\end{verbatim}
+	Ha az erlang fájlokban módosítunk valamit akkor elegendő csak újra indítani a shell-t és lefuttatni a betöltés előtt az Erlang fájlok újra fordítását.
+	\begin{verbatim}
+		erl
+		c(run).
+		run:compile().
+		run:load().
+		run:test().
+	\end{verbatim}  
+	
+%% Első üzembe helyezés leírása – ha van ilyen –, a program indítása (kivéve, ha nem egy
+%%önálló alkalmazásról, hanem egy meglévő rendszer új komponenséről van szó). Itt
+%%ellenőrizzük, hogy a telepítési útmutató megfelel-e a valóságos telepítési folyamatnak.
+
 \subsection{Használati útmutató}
-\subsubsection{Weboldal}
-\subsubsection{Szerver}
+\subsubsection{Szerver elindítása}
+	A szerver elindítását a /project/bin mappában kell végezni. Miután az előző lépésben már a teszteket elvégeztük így elindíthatjuk a szervert és a gépeket.
+	Adnunk kell egy nevet a node-unknak, melyet a shell indításakor az -sname kapcsolóval lehet megadni.
+	\begin{verbatim}
+		$ cd project/bin/
+		erl -s toolbar -sname nodeNameForInterpolation
+		c(run).
+		run:load().
+		run:test().
+	\end{verbatim}
+	Ha a shell-ben minden megfelelően működik (fájlok lefordultak, tesztek lefutottak) akkor incializálhatjuk a portokat, a run:initServer() függvényével. Ez a függvény létrehozza a szerver és a node-figyelő folyamatokat. Kiírja nekünk a képernyőre a figyelő folyamat pid-jét mellyel lehetőségünk van tesztelni, amikor esetleg egy gép felcsatlakozik. 
+	\begin{verbatim}
+		(nodeNameForInterpolation@computername)4> node().
+		nodeNameForInterpolation@computername
+
+		(nodeNameForInterpolation@computername)5> run:initServer().
+		WatcherNode : <0.100.0>
+		%% ...
+	\end{verbatim}
+	A számító folyamathoz szükségünk van a másik gépen meghívott node(). eredményére, mivel ez a node incializálójának paramétere. 
+	\begin{verbatim}
+		(nodeNameForInterpolation@computername2)5> run:initNode(nodeNameForInterpolation@computername).
+		<0.66.0>
+	\end{verbatim}
+	Ekkor ha sikeres volt a feliratkozás akkor a szerver gépen láthatjuk kiírva.
+	\begin{verbatim}
+		Worker Writed <10214.66.0> 'nodeNameForInterpolation@computername2'
+	\end{verbatim}
+	A szerveren ezután le lehet futtatni esetleg többször is a tesztet, hogy tudjuk a közös kommunikáció és a tényleges szétosztás is megtörténik.
+	\begin{verbatim}
+		(test@computername)21> run:test(pid(0,104,0)).
+		(test@computername)21> nodeHandler:getNodelist(pid(0,100,0)).
+	\end{verbatim}
+	Mivel a szerver portjai inicializálódtak, ezért a weboldalról is lehet küldeni a számításokat. 
+	A weboldal elérhető az adott porton. A weboldal elérhetővé vált az apache konfiguráció után, és a kommunikáció is működik, ha a szervert inicializáltuk. Az oldal Mozzilla Firefox-ban lett tesztelve. Linkek ilyen típusúak lehetnek: 
+	\begin{verbatim}
+	http://localhost:8086
+	http://<inet addr>:8086
+	\end{verbatim}
+	Közvetlen szerver kommunikációt az alábbi linken lehet elérni. 
+	Ha a kommunikáció kiépül akkor JSON-t kapunk válaszul, ha nem épül ki kapcsolat, akkor más hibaüzenetet kapunk. 
+	\begin{verbatim}
+	http://localhost:8086/API
+	http://<inet addr>:8086/API 
+	{"success":"false","msg":"Invalid Response"}
+	\end{verbatim}
+
 %% Általános felhasználói tájékoztató (például a szokásostól eltérő képernyő-, billentyű-,
 %%illetve egérkezelés leírása, teendők hibaüzenetek esetén stb.).
 %% A rendszer funkcióinak ismertetése. A feladat jellegéből fakadóan célszerű lehet ezt
