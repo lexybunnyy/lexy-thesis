@@ -8,5 +8,5 @@ main(_) ->
     Result = apply(run, test, []),
     case Result of
         ok ->  ok;%%io:format("Telepites ok\n");
-        Error -> throw(Error)%%io:format("Telepites sikertelen: ~p \n", [Error])
+        Error -> throw(Error) %%io:format("Telepites sikertelen: ~p \n", [Error])
     end.

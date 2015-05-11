@@ -29,7 +29,10 @@ simulateDistributedCalculateHelper(Result) ->
 			[
 				getResultTestHelper(R1, {"1",[0.0,0.0,1.0]}),
 				getResultTestHelper(R2, {"2",[0.0]})
-			]
+			];
+		Wrong -> 
+			io:format("simulateDistributedCalculate error ~p \n", [Wrong]),
+			{error, Wrong}
 	end.
 
 %% ------------------ Run ---------------------------------
