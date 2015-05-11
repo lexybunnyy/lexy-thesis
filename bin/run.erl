@@ -33,7 +33,6 @@ test() ->
         true -> ok;
         _ -> ResultCheck ++ Distributed
     end,
-    %%throw(Result),
     Result.
 
 load() ->

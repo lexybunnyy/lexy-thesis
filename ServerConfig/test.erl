@@ -32,7 +32,7 @@ simulateDistributedCalculateHelper(Result) ->
 			];
 		Wrong -> 
 			io:format("simulateDistributedCalculate error ~p \n", [Wrong]),
-			{error, Wrong}
+			[{error, Wrong}]
 	end.
 
 %% ------------------ Run ---------------------------------

@@ -26,9 +26,9 @@ pidWatch(Parent_Pid, NodeList) ->
             io:format("Worker Writed ~p ~p", [Ping_PID, Ping_NODE]),
             Ping_PID ! ok,
             pidWatch(Parent_Pid, NodeList ++ [Ping_NODE]);
-        {get_pids, Ping_PID} -> 
-			io:format("Get Pids ~p", [NodeList]),
-        	Ping_PID ! {pidlist, self(), NodeList},
+        {get_nodes, Ping_PID} -> 
+			io:format("pidWatch get_nodes ~p", [NodeList]),
+        	Ping_PID ! {nodelist, self(), NodeList},
             pidWatch(Parent_Pid, NodeList)
     end.
 

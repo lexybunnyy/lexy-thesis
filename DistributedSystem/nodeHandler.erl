@@ -33,10 +33,10 @@ distributedForkHelper(NumOfPids, DataList, NodeList) ->
   apply(fork, receiver, [recivestart, PidList, EndPid]).
 
 getNodelist(WatcherNode) -> 
-  WatcherNode ! {get_pids, self()},
+  WatcherNode ! {get_nodes, self()},
   receive
-    {pidlist, WatcherNode, Result} -> 
-        io:format("Node List: ~p \n",[Result]),
+    {nodelist, WatcherNode, Result} -> 
+        io:format("Node List: ~p \n", [Result]),
         Result;
     _other -> 
         io:format("I received : ~p \n",[_other]),
