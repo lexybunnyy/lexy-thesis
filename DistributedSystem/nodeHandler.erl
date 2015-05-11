@@ -34,14 +34,17 @@ distributedForkHelper(NumOfPids, DataList, NodeList) ->
 
 getNodelist(WatcherNode) -> 
   WatcherNode ! {get_nodes, self()},
+  getNodelist(receiver, WatcherNode).
+getNodelist(receiver, WatcherNode) -> 
   receive
     {nodelist, WatcherNode, Result} -> 
         io:format("Node List: ~p \n", [Result]),
         Result;
     _other -> 
         io:format("I received : ~p \n",[_other]),
-        getNodelist(WatcherNode)
-  end.
+        getNodelist(receiver, WatcherNode)
+  end;
+getNodelist(_, _) -> error.
 
 nodeCall(NumOfPids, LogicModule, DataList) -> 
   {PidList, EndPid} = make_pids(LogicModule, NumOfPids),
