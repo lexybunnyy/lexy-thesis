@@ -33,7 +33,7 @@ test() ->
         true -> ok;
         _ -> ResultCheck ++ Distributed
     end,
-    %%io:format("\n Result ~p \n", [Result]),
+    %%throw(Result),
     Result.
 
 load() ->
