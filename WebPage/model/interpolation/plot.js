@@ -152,7 +152,7 @@ function interpolationPlot(aConfig) {
 			gSettings[key].value = setterValues[key];
 		});
 		gSettings.derivNum_max.value = setterValues.derivNum_max;
-        gSettings.precision.value = setterValues.precision;
+        gSettings.precision.value = setterValues.precision || 0.1;
 	};
 	
     return that;

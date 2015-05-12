@@ -93,6 +93,18 @@ function interpolationMenulist (aConfig) {
 		return data;
 	}
 
+	function getPolyStr(aCurrentPoly) {
+		if(!aCurrentPoly) {
+			return '';
+		}
+		var i = 0;
+		var poli = [];
+		for (i = 0; i < aCurrentPoly.length; i++) {
+			poli.push(aCurrentPoly[i] + '*x^' + i);
+		}
+		return poli.join(' + ');
+	}
+
 	that.loadItemSettings = function(index) {
 		gActualData = index || gActualData;
 		try {
@@ -107,6 +119,17 @@ function interpolationMenulist (aConfig) {
 		gInterpTable.setData(tableData);
 		gInterpPlot.setPlotSettings(loadObject.plotSetting);
 		gInterpPlot.refresh(gInterpTable.getData(), gCurrentPoly);
+
+		Base.get("type").value = loadObject.type || '0';
+		Base.get("inverse").checked = loadObject.inverse || false;
+		Base.get("polynomial").value = getPolyStr(gCurrentPoly);
+		
+		if (Base.get("type").value === '2') {
+			Base.get("inverse").disabled = true;
+			Base.get("inverse").checked = false;
+		} else {
+			Base.get("inverse").removeAttribute("disabled");
+		}
 	}
 
 	/** Betölti az összes Interpolációt az adott adathalmazból */
@@ -160,6 +183,7 @@ function interpolationMenulist (aConfig) {
 		for (i = 1; i < gTable.getNumOfRows(); i++) {
 			saveObject.data_set.push(getData(i, server));
 		}
+		saveObject.nodenumber = Base.get("nodenumber").value;
 		return saveObject;
 	}
 

@@ -193,3 +193,16 @@ body
 	position: relative; 
 	overflow: hidden;
 }
+
+.buttonDiv {
+	margin-left: 40px;
+	padding: 5px;
+}
+
+.margin_top {
+	margin-top: 40px;
+}
+
+.buttonDiv input {
+	margin: 5px;
+}

@@ -29,12 +29,7 @@
     <script language="javascript" type="text/javascript" src="init/events.js"></script>
 </head>
 <body>
-	<div >
-		<input type="button" name="loadExample1"  value="loadExample1">
-		<input type="button" name="loadExample2"  value="loadExample2">
-		<input type="button" name="loadExample3"  value="loadExample3">
-	</div>
-	<div >
+	<div class="buttonDiv margin_top">
 		<input type="button" name="sendServer"  value="Küldés a szerverre">
 		<input type="button" name="saveButton"  value="Mentés">
 		<input type="button" name="resultLoad"  value="Eredmények Betöltése">
@@ -44,25 +39,31 @@
 			<h1>Táblázat</h1>
 			<table id="tableViewTable" class="bordered"><tr>
 			<th id="tableViewOptions">
-				<p><input type="button" name="refresh_button" value="New"></p>
-				<p><input type="button" name="addcolumn_button" value="Add Column"></p>
-				<p><input type="button" name="addrow_button" value="Add Row"></p>
+				<p><input type="button" name="refresh_button" value="Frissítés"></p>
+				<p><input type="button" name="addcolumn_button" value="Új oszlop"></p>
+				<p><input type="button" name="addrow_button" value="Új sor"></p>
 				<p>x : <input type="text" name="input_coord_x" id="input_coord_x" ></p>
 				<p>
 					<span id="y_label">y<span/> :
 					<input type="text" name="input_coord_y" id="input_coord_y">
 				</p>
-				<p><input type="button" name="addPoint"  value="Add The Point"></p>
+				<p><input type="button" name="addPoint"  value="Pont hozzáadása"></p>
 			</th>
 			<th>
 				<label>Inverz Interpoláció: </label>
 				<input type="checkbox" name="inverse">
-				 <label>Típusa: </label>
+				<label>Típusa: 
 				 <select name="type">
 				  <option value="0">Lagrange</option>
 				  <option value="1">Newton</option>
 				  <option value="2">Hermite</option>
 				</select> 
+				</label>
+
+				<label>
+					Eredmény:
+					<input name="polynomial">
+				</label>
 				<table id="interpolationTable"></table>
 			</th>
 			</tr></table>
@@ -71,7 +72,7 @@
 			<table id="plotViewTable" class="bordered"><tr>
 			<th>
 				<h4>Plot Show Settings</h4>
-				<input type="button" name="refreshPlot"  value="Refresh">
+				<input type="button" name="refreshPlot"  value="Frissítés">
 				<p>	Min X : </p>
 				<input type="number" name="minx" id="minx" >
 				<p> Max X : </p>
@@ -96,12 +97,20 @@
 			</tr></table>
 		</div>
 		<div id="data_set_menulist">
-			<input type="button" name="saveInMenulist"  value="Save Settings">
-			<input type="button" name="addNewMenulistItem"  value="New">
+			<input type="button" name="saveInMenulist"  value="Mentés">
+			<input type="button" name="addNewMenulistItem"  value="Új">
+			<label>Maximális gépszám:
+			<input type="number" name="nodenumber" id="nodenumber" > (-1: nincs, 0: csak szerver)
+			</label>
 			<table id="interpoationSetTable"></table>
 		</div>
 	</div>
-	<div id="jsons">
+	<div class="buttonDiv">
+		<input type="button" name="loadExample1"  value="Minta 1">
+		<!--<input type="button" name="loadExample2"  value="Minta 2">
+		<input type="button" name="loadExample3"  value="Minta 3">-->
+	</div>
+	<div class="buttonDiv">
 		<label for="sendServerText">
 			Szerverre küldendő adat:
    			<input type="text" id="sendServerText" name="sendServerText"/>

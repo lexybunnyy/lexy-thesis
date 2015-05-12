@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="model/interpolation/|source/flot-0.8.2/examples/axes-time-zones/|source/flot-0.8.2/|test/|model/|init/|source/flot-0.8.2/examples/shared/jquery-ui/" kind="src" path=""/>
+	<classpathentry kind="src" path="init"/>
+	<classpathentry excluding="interpolation/" kind="src" path="model"/>
+	<classpathentry kind="src" path="model/interpolation"/>
+	<classpathentry excluding="examples/axes-time-zones/|examples/shared/jquery-ui/" kind="src" path="source/flot-0.8.2"/>
+	<classpathentry kind="src" path="source/flot-0.8.2/examples/axes-time-zones"/>
+	<classpathentry kind="src" path="source/flot-0.8.2/examples/shared/jquery-ui"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="con" path="org.eclipse.wst.jsdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path=""/>
+</classpath>

@@ -13,6 +13,8 @@ $(function() {
     Base.get('maxy').onclick = saveAndReload;
     Base.get('maxderivnum').onclick = saveAndReload;
     Base.get('precision').onclick = saveAndReload;
+    Base.get("inverse").onclick = saveAndReload;
+    Base.get("type").onchange = saveAndReload;
 
     Base.get('addPoint').onclick = function() {
         var x = parseFloat(setInput.x.value);
@@ -21,9 +23,10 @@ $(function() {
             interpTable.addPoint(x, y, 0);
             interpPlot.refresh(interpTable.getData());
         }
+        saveAndReload();
     };
 
-		/** Leggenerálja/Elmenti a Listában szereplő összes Interpolációt */
+	/** Leggenerálja/Elmenti a Listában szereplő összes Interpolációt */
 	function save() {
 		interpMenulist.saveItemSettings();
         Base.get('sendServerText').value = JSON.stringify(interpMenulist.getDataArray(true));
