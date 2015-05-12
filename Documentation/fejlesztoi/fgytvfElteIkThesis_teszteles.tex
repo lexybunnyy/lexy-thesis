@@ -43,9 +43,9 @@
 			Ha mégis szükség lenne az általános párhuzamosítás tesztelésére, ezt kellene továbbfejleszteni.
 
 		\item[test:runCheck, run] \hfill \\
-			Futtatást kezelő függvények
+			Futtatást kezelő függvények.
 			Lefuttatják azokat a teszteket amiket a ServerConfig/main.erl-ből már el lehet indítani. 
-			A main-ben található függvény tesztelésére a  test:simulateDistributedCalculate függvényt használjuk, amit a bin/run.erl-ben lévő tesztesetek 
+			A main-ben található függvény tesztelésére a test:simulateDistributedCalculate függvényt használjuk, amit a bin/run.erl-ben lévő teszt futtat.
 		\item[test:simulateDistributedCalculate] \hfill \\
 			Egy olyan minta adatból, melyet a szerver is küldhet, elvégzi a számítást és ellenőrzi az eredményt. \newline
 			Ha megadjuk neki a node-figyelő pid-jét akkor elosztott számítást is teszteli, és a node-figyelővel való kommunikációt. 
@@ -59,7 +59,7 @@
 			Json string-ből a számításhoz szükséges minden paraméter kinyerésének tesztelése (structHandler teszt).
 		\item[test:convertStruct] \hfill \\
 			structHandler függvényeinek tesztje: 
-			getNewPointStruct, appendNewPointStruct, convertPoints
+			getNewPointStruct, appendNewPointStruct, convertPoints.
 		\item[test:simulateFirstParseAndRun] \hfill \\
 			Kibontja az első elemet a mintából, és számítás után ellenőrzi az eredmény helyességét. \newline
 			Ez a teszt a számítást és az adat konvertálást teszteli, a párhuzamosítást/elosztást nem.
@@ -98,6 +98,12 @@
       &
 		\textbf{Előidézés?}:  Minta adatban fordul csak elő, de ha onnan  is betöltődhet akkor máshonnan is, amikor betölti az adatokat le kellene ezt kezelni.
     \\ \hline
+    	Amikor pontot adunk hozzá nem frissül 
+      &
+      	nem
+      &
+		\textbf{Előidézés?}: Pont hozzáadása gomb esetén nem mentődnek el a háttérben az adatok
+    \\ \hline
     	Hermite inverz nincs implementálva, és mégis beállítható a felületen.  
       &
       	nem
@@ -116,7 +122,16 @@
 		Server version: Apache/2.2.22 (Debian)
 		Server built:   Jan 10 2015 15:33:51 
 		\newline\textbf{Megoldás}:
-		a régebbi verzió nem tudja kezelni a Require all granted kulcsszót.
+		a régebbi verzió nem tudja kezelni a \texttt{"Require all granted"} kulcsszót.
+	\\ \hline
+        Node Lista lekérdezésnél valamikor végtelen ciklusba fut a lekérdezés. 
+      &
+      	igen
+      &
+      	\textbf{Hiba}:
+		Hiba: túl sokszor küldjük el ugyanazt az üzenetet, és kapunk vissza rossz választ, kéne bele egy időkorlát is, a várakozásra. Másik hiba pedig hogy így egy régebbi üzenet lekezelése is megtörténhetett, így nem a legfrissebb node listát kaptuk meg. 
+		\newline 
+		\textbf{Megoldás}: Csak egyszer küldjük el, és ha rossz válasz érkezik, akkor tovább figyelünk.
   	\\ \hline
     	Szerver hiba bizonyos mennyiségű adatküldése felett 
       &
@@ -124,21 +139,6 @@
       &  
     	\textbf{Előidézés}: 9-nél több egyszerű adat felküldése, minta nagy adatból 4db felett.
     	A szerver egybe küldi az értékeket, a httpServer modul már nem kapja meg a végét. Nem küldi 2 részletben, ezt kizártuk.
-    \\ \hline
-        Ha kilép egy node, akkor elszáll a számítás 
-      &
-      	nem
-      &
-      \textbf{Ötletek}:
-      node-ok kivételére is kellene opció,vagy kezelni kellene az elszálló node-okat.
-    \\ \hline
-        Node Lista lekérdezésnél valamikor végtelen ciklusba fut a lekérdezés. 
-      &
-      	nem
-      &
-      	\textbf{Hiba}:
-		Hiba: túl sokszor küldjük el ugyanazt az üzenetet, és kapunk vissza rossz választ, kéne bele egy időkorlát is, a várakozásra.
-
     \\ \hline
     	Erlang run:teszt és telepítés hiba a szerveren erlang 5.9.1 es verziónál
       &
@@ -154,6 +154,10 @@
      	\texttt{in function  io\_lib\_format:mantissa\_exponent\/1}
      	\texttt{(io\_lib\_format.erl, line 374) }
     \\ \hline
+	\end{tabular}\end{center}
+
+  	\begin{center}\begin{tabular}{| p{4cm} | p{1.5cm} | p{8cm} |}
+	\hline Hiba & Javítva & Info \\ \hline
     	Erlang: elosztási hiba
       &
       	nem
@@ -161,5 +165,12 @@
       	Előfordul hogy a szerver elküldi a számító node-nak az adatot, az ki is számolja, viszont az eredmény nem érkezik vissza.\newline
       	A hiba elég véletlenszerűnek tűnik. Többször is elő tudtam igézni, majd amikor létrehoztam teljesen új elosztott rendszert egy vagy két gépen akkor már nem jelentkezett a hiba.
     \\ \hline
-  	\end{tabular}
-	\end{center}
+        Ha kilép egy node, akkor elszáll a számítás 
+      &
+      	nem
+      &
+      \textbf{Ötletek}:
+      Node-ok kivételére is kellene opció,vagy kezelni kellene az elszálló node-okat.
+      \newline Mielőtt elkezdjük a számítást, mindegyik node-ot ellenőrizzük, amelyik nem létezik már azt kivesszük a listából. Ha számítás közben hal meg: Bizonyos időközönként szintén küldünk egy ping-et az adott szervernek hogy létezik-e még. Ha meghalt a node akkor hibával tér vissza az adott számítás a kliensnek. 
+    \\ \hline
+  	\end{tabular}\end{center}

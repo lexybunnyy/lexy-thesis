@@ -39,23 +39,29 @@
 	sudo apt-get update
 
 	sudo apt-get install g++-4.8
-	sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 20
+	sudo update-alternatives 
+	    --install /usr/bin/g++ g++ /usr/bin/g++-4.8 20
 	sudo apt-get install erlang
-	sudo apt-get install apache2
-	sudo apt-get install libapache2-mod-proxy-html
-	sudo apt-get install libxml2-dev
 
 	sudo apt-get upgrade
 	\end{verbatim}
+	Apache szerver konfigurációt elég csak a szerver gépen futtatni, a segéd számító gépeken nem szükséges, ezért a telepítést is csak ott szükséges elvégezni.
+	\begin{verbatim}
+	sudo apt-get install apache2
+	sudo apt-get install libapache2-mod-proxy-html
+	sudo apt-get install libxml2-dev
+	\end{verbatim}
+	A weboldal megtekintéséhez Mozilla Firefox javasolt, ennek azon a gépen kell működnie amelyiken a klienst kívánjuk futtatni.
 \subsection{Rendszer konfiguráció}
 Első lépésként a forráskódat másoljuk át a gépre.
 Terminálban menjünk a mappába.
 \begin{verbatim}
 user@computername:[project](master)
 \end{verbatim}
-Apache szerver konfigurációt elég csak a szerver gépen futtatni, a segéd számító gépeken nem szükséges.
+
+Az apache szerverhez kapcsolódó lépéseket csak a szerveren kell elvégezni.
 \subsubsection{Apache szerver - szakdoli.config}
-	A projektben található /project/ServerConfig/szakdoli.conf fájl mintájára létre lehet hozni a saját szerver konfigurációs fájlunkat.
+	A projektben található \texttt{/project/ServerConfig/szakdoli.conf} fájl mintájára létre lehet hozni a saját szerver konfigurációs fájlunkat.
 	\newline
 	Az elején megadjuk a külső figyelési pontot.
 	\begin{verbatim}
@@ -63,7 +69,7 @@ Apache szerver konfigurációt elég csak a szerver gépen futtatni, a segéd sz
 	<VirtualHost *:8086>
 	\end{verbatim}
 
-	Beállíthatjuk a szerver adminját.
+	Beállíthatjuk a szerver admin-ját.
 	
 	\begin{verbatim}
 	ServerAdmin webmaster@localhost
@@ -97,7 +103,7 @@ Apache szerver konfigurációt elég csak a szerver gépen futtatni, a segéd sz
 	\end{verbatim}
 
 \subsubsection{Apache szerver - elindítás}
-	Az előbbi pontban megvalósított szerver konfigurációs fájt át kell helyezni az apache /sites-available mappábájába, és fel kell venni a konfigurálandó fájlok közé. Ha nincsen még a mód proxy\_http-re állítva, azt is meg kell csinálni a restart előtt. 
+	Az előbbi pontban megvalósított szerver konfigurációs fájt át kell helyezni az \texttt{apache2/sites-available} mappájába, és fel kell venni a konfigurálandó fájlok közé. Ha nincsen még a mód proxy\_http-re állítva, azt is meg kell csinálni az újraindítás (restart) előtt. 
 	\begin{verbatim}
 		sudo cp ./ServerConfig/szakdoli.conf /etc/apache2/sites-available/szakdoli.conf
 		sudo a2enmod proxy proxy_http
@@ -109,7 +115,8 @@ Apache szerver konfigurációt elég csak a szerver gépen futtatni, a segéd sz
 	\end{verbatim}
 
 \subsubsection{Elosztott számításhoz}
-	Az Erlang Node-ok kommunikációjához be kell állítani a .erlang.cookie fájlt mely a /home-ban található. 
+	Ezt a pontot a szerveren és a segéd számító gépeken is el kell végezni. \newline
+	Az Erlang Node-ok kommunikációjához be kell állítani a \texttt{.erlang.cookie} fájlt mely a \texttt{/home}-ban található. 
 	Nem biztos hogy a fájlnak van írás joga. Ha nincs akkor adni kell neki, és meg kell nyitni valamilyen szerkesztőben.
 	Szerkesztés után pedig ajánlott vissza adni az eredeti jogait.
 	\begin{verbatim}
@@ -119,8 +126,8 @@ Apache szerver konfigurációt elég csak a szerver gépen futtatni, a segéd sz
 	\end{verbatim}
 	Az alábbi atomot tartalmaznia kell a fájlnak.
 	\begin{verbatim}
-	cat ~/.erlang.cookie
-	distributed_interpolation_bylexy
+		cat ~/.erlang.cookie
+		distributed_interpolation_bylexy
 	\end{verbatim}
 	Ezután az Erlang-node-ok tudnak egymással kommunikálni, akár több gépen is.
 
@@ -135,7 +142,7 @@ Apache szerver konfigurációt elég csak a szerver gépen futtatni, a segéd sz
 	\begin{verbatim}
 		./setup.sh
 	\end{verbatim}
-	Ha sikeres volt a futás akkor elindíthatjuk az erlang shell-t, és a run erlang fájl segítségével betölthetjük a lefordított elemeket. A run:load(). futtatását shell indítás után egyszer szabad lefuttatni, mivel a NIF fájlok nem tudnak újra betöltődni, és ez hibát generál.\newline
+	Ha sikeres volt a futás akkor elindíthatjuk az Erlang shell-t, és a run.erl fájl segítségével betölthetjük a lefordított elemeket. A run:load() futtatását shell indítás után egyszer szabad lefuttatni, mivel a NIF fájlok nem tudnak újra betöltődni, és ez hibát generál.\newline
 	Érdemes ismét lefuttatni a teszteket, ha sikeres volt akkor a gép alkalmas arra hogy szerver vagy segéd gép legyen.
 	\begin{verbatim}
 		erl
@@ -143,7 +150,7 @@ Apache szerver konfigurációt elég csak a szerver gépen futtatni, a segéd sz
 		run:load().
 		run:test().
 	\end{verbatim}
-	Ha az erlang fájlokban módosítunk valamit akkor elegendő csak újra indítani a shell-t és lefuttatni a betöltés előtt az Erlang fájlok újra fordítását.
+	Ha az Erlang fájlokban módosítunk valamit akkor elegendő csak újra indítani a shell-t és lefuttatni a betöltés előtt az Erlang fájlok újra fordítását.
 	\begin{verbatim}
 		erl
 		c(run).
@@ -158,8 +165,8 @@ Apache szerver konfigurációt elég csak a szerver gépen futtatni, a segéd sz
 
 \subsection{Használati útmutató}
 \subsubsection{Szerver elindítása}
-	A szerver elindítását a /project/bin mappában kell végezni. Miután az előző lépésben már a teszteket elvégeztük így elindíthatjuk a szervert és a gépeket.
-	Adnunk kell egy nevet a node-unknak, melyet a shell indításakor az -sname kapcsolóval lehet megadni.
+	A szerver elindítását a \texttt{/project/bin} mappában kell végezni. Miután az előző lépésben már a teszteket elvégeztük így elindíthatjuk a szervert és a gépeket.
+	Adnunk kell egy nevet a node-unknak, melyet a shell indításakor az \texttt{-sname} kapcsolóval lehet megadni.
 	\begin{verbatim}
 		$ cd project/bin/
 		erl -s toolbar -sname nodeNameForInterpolation
@@ -167,7 +174,7 @@ Apache szerver konfigurációt elég csak a szerver gépen futtatni, a segéd sz
 		run:load().
 		run:test().
 	\end{verbatim}
-	Ha a shell-ben minden megfelelően működik (fájlok lefordultak, tesztek lefutottak) akkor incializálhatjuk a portokat, a run:initServer() függvényével. Ez a függvény létrehozza a szerver és a node-figyelő folyamatokat. Kiírja nekünk a képernyőre a figyelő folyamat pid-jét mellyel lehetőségünk van tesztelni, amikor esetleg egy gép felcsatlakozik. 
+	Ha a shell-ben minden megfelelően működik (fájlok lefordultak, tesztek lefutottak) akkor inicializálhatjuk a portokat, a run:initServer() függvényével. Ez a függvény létrehozza a szerver és a node-figyelő folyamatokat. Kiírja nekünk a képernyőre a figyelő folyamat pid-jét mellyel lehetőségünk van tesztelni, amikor esetleg egy gép felcsatlakozik. 
 	\begin{verbatim}
 		(nodeNameForInterpolation@computername)4> node().
 		nodeNameForInterpolation@computername
@@ -176,7 +183,7 @@ Apache szerver konfigurációt elég csak a szerver gépen futtatni, a segéd sz
 		WatcherNode : <0.100.0>
 		%% ...
 	\end{verbatim}
-	A számító folyamathoz szükségünk van a másik gépen meghívott node(). eredményére, mivel ez a node incializálójának paramétere. 
+	A számító folyamathoz szükségünk van a másik gépen meghívott node(). eredményére, mivel ez a node inicializációjának paramétere. 
 	\begin{verbatim}
 		(nodeNameForInterpolation@computername2)5> run:initNode(nodeNameForInterpolation@computername).
 		<0.66.0>
@@ -191,7 +198,7 @@ Apache szerver konfigurációt elég csak a szerver gépen futtatni, a segéd sz
 		(test@computername)21> nodeHandler:getNodelist(pid(0,100,0)).
 	\end{verbatim}
 	Mivel a szerver portjai inicializálódtak, ezért a weboldalról is lehet küldeni a számításokat. 
-	A weboldal elérhető az adott porton. A weboldal elérhetővé vált az apache konfiguráció után, és a kommunikáció is működik, ha a szervert inicializáltuk. Az oldal Mozzilla Firefox-ban lett tesztelve. Linkek ilyen típusúak lehetnek: 
+	A weboldal elérhető az adott porton. A weboldal elérhetővé vált az apache konfiguráció után, és a kommunikáció is működik, ha a szervert inicializáltuk. Az oldal Mozilla Firefox-ban lett tesztelve. Linkek ilyen típusúak lehetnek: 
 	\begin{verbatim}
 	http://localhost:8086
 	http://<inet addr>:8086
@@ -203,6 +210,72 @@ Apache szerver konfigurációt elég csak a szerver gépen futtatni, a segéd sz
 	http://<inet addr>:8086/API 
 	{"success":"false","msg":"Invalid Response"}
 	\end{verbatim}
+\subsubsection{Weboldal használata}
+	A weboldalt a szerver konfiguráció után el lehet érni az \texttt{http://<inet addr>:8086} linken, ahol a \texttt{<inet addr>} az adott gép kívülről elérhető címe. Ha helyi gépen van a szerver akkor az oldal elérhető a \texttt{http://localhost:8086} linken.
+
+	\paragraph{}
+	Amikor megnyitjuk az oldalt látjuk jobb oldalt a listát, bal oldalt pedig a Grafikon és Táblázat elnevezéssel az interpoláció szerkesztésére alkalmas felületet (\ref{fig:webpage1}).
+
+	\begin{figure}[h]
+		\includegraphics[width=15cm]{pics/webpage1}
+		\centering
+		\caption{Weboldal megnyitás után\label{fig:webpage1}}
+	\end{figure}
+
+	\paragraph{}
+	Először a jobb oldalon fel kell vennünk pár interpolálni kívánt adathalmazt. Egy sor egy interpoláció számítást jelent. Az elnevezés, tulajdonképpen egy gomb, mellyel az adott sor elemeit lehet betölteni.\newline
+	Itt látható az a json, amelyben az adatok el vannak tárolva egyesével. Ebből tölti be a bal oldalra az interpoláció pontjait és tulajdonságait is. A névre kattintás hatására az adatok abból a sorból betöltődnek (\ref{fig:webpage_menulist}).
+
+	\begin{figure}[h]
+		\includegraphics[width=13cm]{pics/webpage_menulist}
+		\centering
+		\caption{Interpolációk listája\label{fig:webpage_menulist}}
+	\end{figure}
+	
+	\paragraph{}
+	Ha kiválasztottuk a sort, akkor megjelenik a bal oldalon a grafikon és a táblázat az aktuális értékekkel. A táblázatba felvehetünk új pontokat, és azokat a frissítés gomb hatására a grafikonon is megtekinthetjük. A grafikonon kattintva az aktuális koordináták bekerülnek az x,y elnevezésű inputokba, ahonnan az új pont felvétel hatására bekerül a táblázatba (\ref{fig:webpage_table_plot}).
+
+	\begin{figure}[h]
+		\includegraphics[width=15cm]{pics/webpage_table_plot}
+		\centering
+		\caption{Grafikon és táblázat\label{fig:webpage_table_plot}}
+	\end{figure}
+
+	\begin{figure}[h]
+		\includegraphics[width=8cm]{pics/webpage_buttons}
+		\centering
+		\caption{Gombok\label{fig:webpage_buttons}}
+	\end{figure}
+
+	\begin{figure}[h]
+		\includegraphics[width=15cm]{pics/webpage_inputs}
+		\centering
+		\caption{Adatok betöltése, mentése az inputokba történik \label{fig:webpage_inputs}}
+	\end{figure}
+
+	\paragraph{}
+	Az oldalon megtekinthetőek még az egyes részekhez tartozó gombok, melyekkel új elemeket lehet létrehozni, vagy törölni régieket, valamint van lehetőség a mentésre is.
+	Fent található gombok(\ref{fig:webpage_buttons}) segítségével minta adathalmazokat lehet betölteni, vagy a régieket lehet menteni. Ha befejeztük az adathalmazok szerkesztését akkor a küldés gombbal van lehetőség a szervernek elküldeni a szerkesztett adatokat.
+	\newline 
+	A szerver számítás után felugrik egy ablak, amelyben megkapjuk válaszul hogy sikeres vagy sikertelen volt a szerver kommunikáció(\ref{fig:webpage_unsuccess}).\newline
+	Sikeres szerver kommunikáció esetén ha a listában kiválasztunk egy elemet, akkor annak eredményét is megtekinthetjük, a grafikonon.
+	\newline Abban az esetben amikor szerver hiba van nagy valószínűséggel a szerver kapcsolatban van a gond. Első lépésként ellenőrizni kell a szervert, hogy működik-e, és a tesztjei lefutnak-e. Ha működik minden tesztje és fut a szerver, mégis hiba van akkor az adatforgalmat kell ellenőrizni, hogy minden információ megérkezett-e, érdemes ilyenkor a szerver kommunikációt kielemezni, nincs-e valami lekorlátozva, vagy blokkolva.
+	\newline
+	Ha számítás sikeres volt akkor az interpoláció kiválasztása után megtekinthető lesz az eredmény. Ha nem sikerült az adott interpolációhoz a számítást végre hajtani, akkor nem láthatjuk a polinomot, és a szerveren az Erlang shell-ben megjelenik nagy valószínűséggel a hiba üzenet.
+
+	\begin{figure}[h]
+		\includegraphics[width=6cm]{pics/webpage_unsuccess}
+		\includegraphics[width=6cm]{pics/webpage_success}
+		\centering
+		\caption{Sikeres és sikertelen kapcsolat\label{fig:webpage_unsuccess}}
+	\end{figure}
+
+	\begin{figure}[h]
+		\includegraphics[width=15cm]{pics/webpage_plot_result}
+		\centering
+		\caption{Eredmény kirajzolása\label{fig:webpage_plot_result}}
+	\end{figure}
+
 
 %% Általános felhasználói tájékoztató (például a szokásostól eltérő képernyő-, billentyű-,
 %%illetve egérkezelés leírása, teendők hibaüzenetek esetén stb.).
@@ -215,3 +288,12 @@ Apache szerver konfigurációt elég csak a szerver gépen futtatni, a segéd sz
 %%netek stb.) és azok magyarázata – az esetleges üzemeltetési teendőkkel együtt. Itt vegyük
 %%figyelembe, hogy tartalmaz-e biztonsági, illetve hibaelhárítási előírásokat?
 %% Egyéb, a szoftver használatához szükséges információk.
+\newpage
+\section{Összefoglaló}
+	A feladat felületi oldala egyszerűen átlátható, de a gombok és listák kezelése nem kellőképpen dinamikus. Ennek az is az oka hogy egy elég komplex felületről van szó, ahol minden egységnek minden egységgel kommunikálnia kell valamilyen formában. \newline
+	Az adatok szerkesztése után egy gombra kattintással el is küldi a szervernek a szükséges információkat, melyekből a szerver számol, és eredményt ad vissza.
+	\newline
+	A kliens-szerver kommunikációt még bonyolítja az elosztott kommunikáció.
+	Mivel igen sok rendszert érint, a telepítési folyamat nem is biztos hogy minden gépen végig tud menni. \newline
+	Viszont kellőképpen le van tesztelve a folyamat ahhoz hogy a felhasználó tudja már a telepítés után hogy a rendszerén működni fognak-e a számítások. \newline
+	Ha minden sikeresen végre hajtódik, akkor a felhasználó a kívánt ponthalmazokat és polinomokat láthatja a grafikonon, mint a sikeres interpoláció eredményét.

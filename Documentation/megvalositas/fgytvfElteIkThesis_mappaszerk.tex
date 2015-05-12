@@ -1,5 +1,5 @@
 
-A fájlszerkezetnek a tervezésénél nem voltak a belső részek komolyabban megtervezve, dinamikusan változtak. 3 mappa volt a tervezett: elosztott rendszer, weboldal és a külső fájlok mappája. A többi mappa mind a külsők, és a belsők a fejlesztés során lettek bele tervezve, amikor a fájlok mennyisége, vagy az új technológia szeparálása megkívánta azt.
+A fájlszerkezetnek a tervezésénél nem voltak összetett mappa szerkezetek, dinamikusan változtak. 3 mappa volt a tervezett: elosztott rendszer, weboldal és a külső fájlok mappája. A többi mappa mind a \texttt{project/}-ben lévő mappák és az almappák a fejlesztés során lettek bele tervezve, amikor a fájlok mennyisége, vagy az új technológia szeparálása megkívánta azt.
 
 \begin{figure}[h]
 	\includegraphics[width=5cm]{pics/folders_all}
@@ -12,7 +12,7 @@ A fájlszerkezetnek a tervezésénél nem voltak a belső részek komolyabban me
 		Az interpoláció számítás megvalósítását valamint az Erlang-modullá alakítását is tartalmazó mappa.
 		Függvényei a DistributedSystem mappából hívódnak.
 	\item[DistributedSystem] \hfill \\ 
-		Elosztás logikáját tartamazó mappa, melynek függvényei a ServerConfig mappából hívódnak. 
+		Elosztás logikáját tartalmazó mappa, melynek függvényei a ServerConfig mappából hívódnak. 
 	\item[ServerConfig] \hfill \\ 
 		Szerver megvalósítását tartalmazó mappa.
 	\item[Utility] \hfill \\ 

@@ -8,56 +8,56 @@
 	\end{figure}
 	\begin{description}
 		\item[webpage.js :] \hfill \\  
-		Globális változók inicializálása és pár alapbeállítás lefuttatása
+		Globális változók inicializálása és pár alapbeállítás lefuttatása.
 		
 		\item[webpage.html :]  \hfill \\ 
-		Weboldal megjelenítése, fájlok betöltése
+		Weboldal megjelenítése, fájlok betöltése.
 		
 		\item[/init] \hfill \\ 
-		Inicializáló függvények hívásai és események
+		Inicializáló függvények hívásai és események.
 		\begin{description}
 			\item[menulist.js : ] \hfill \\ 
-				Interpolációk listájának inicializálója
+				Interpolációk listájának inicializálója.
 		  	\item[plot.js : ] \hfill \\ 
-		  		Interpolációs grafikon inicializálása
+		  		Interpolációs grafikon inicializálása.
 			\item[table.js : ] \hfill \\ 
-				Interpolációs táblázat inicializálása
+				Interpolációs táblázat inicializálása.
 		 	\item[events.js : ] \hfill \\ 
-		 		Gombra kattintások eseményei
+		 		Gombra kattintások eseményei.
 		\end{description}
 
 		\item[/model] \hfill \\ 
-		Objektumok, melyeket az inicializáló lépésben hívunk, és azok segédletei
+		Objektumok, melyeket az inicializáló lépésben hívunk, és azok segédletei.
 		\begin{description}
 		 	\item[base.js : ] \hfill \\
 		 		Globális függvények \newline
-		 		Base.get, Base.erlangJSON, Base.forEach
+		 		Base.get, Base.erlangJSON, Base.forEach.
 		 	\item[base\_table.js : ] \hfill \\
-		 		Általános táblázat generáló függvény
+		 		Általános táblázat generáló függvény.
 		 	\item[connection.js : ] \hfill \\
-		 		Szerver kapcsolat meghívására szolgáló függvény \newline
+		 		Szerver kapcsolat meghívására szolgáló függvény. \newline
 		 		Connection.request
 		 	\item[plot\_types.js : ] \hfill \\
-		 		A grafikon kirajzoló típus objektumai
+		 		A grafikon kirajzoló típus objektumai.
 		 	\item[polinome.js : ] \hfill \\  
-		 		Polinom kirajzolását segítő függvények \newline
-		 		makePolinome található benne és egyéb segédfüggvények
+		 		Polinom kirajzolását segítő függvények. \newline
+		 		A makePolinome található benne és egyéb segédfüggvények.
 		 	\item[web\_page\_debug.js : ] \hfill \\ 
-		 		A Weboldalon történő kiíratást segítő objektum \newline
-		 		Jelenleg sehol nem használjuk már, de a megvalósítás során fontos szerepe volt a hibajavításban
+		 		A Weboldalon történő kiíratást segítő objektum. \newline
+		 		Jelenleg sehol nem használjuk már, de a megvalósítás során fontos szerepe volt a hibajavításban.
 		\end{description}
 		\item[/model/interpolation] \hfill \\
-			Az oldal 3 fő részegységének függvényei
+			Az oldal 3 fő részegységének függvényei:
 			\begin{description}
 			\item[menulist.js : ] \hfill \\ 
-				Interpolációk lista megvalósítása \newline
-				function interpolationMenulist (aConfig) Objektum fájlja
+				Interpolációk lista megvalósítása. \newline
+				function interpolationMenulist (aConfig) Objektum fájlja.
 		  	\item[plot.js : ] \hfill \\ 
-		  		Interpolációs grafikon megvalósítása \newline
-				function interpolationPlot(aConfig) Objektum fájlja
+		  		Interpolációs grafikon megvalósítása. \newline
+				function interpolationPlot(aConfig) Objektum fájlja.
 			\item[table.js : ] \hfill \\
-				Interpolációs táblázat megvalósítása \newline
-				function interpolationTable(aConfig) Objektum fájlja
+				Interpolációs táblázat megvalósítása. \newline
+				function interpolationTable(aConfig) Objektum fájlja.
 			\end{description}
 
 		\item[/test] \hfill \\ 
@@ -93,7 +93,7 @@
 
 	\begin{description}
 		\item[makePolinome(inPolinome, plotFor)] \hfill \\ 
-			Polinom pontjainak legenerálására szolgáló függvény, a grafikon kirajzolónak megfelelő típusban
+			Polinom pontjainak legenerálására szolgáló függvény, a grafikon kirajzolónak megfelelő típusban.
 			\begin{description}
 				\item[inPolinome] \hfill \\ 
 					A polinom tömbös formában.
@@ -101,10 +101,10 @@
 					A polinom intervalluma és pontossága.
 			\end{description}
 		\item[Connection.request(aConfig)] \hfill \\ 
-			Elküldi a szervernek az értékeket
+			Elküldi a szervernek az értékeket.
 			\begin{description}
 				\item[aConfig.params] \hfill \\
-				A kommunikációban a paraméter amelyet átküldünk a szervernek
+				A kommunikációban a paraméter amelyet átküldünk a szervernek.
 				\item[aConfig.callback] \hfill \\
 				Sikeres visszatérés esetén ez a függvény fut le a szervertől vissza adott válasszal. 
 			\end{description}
@@ -165,14 +165,14 @@
 			\item[that.loadItemSettings(index)]
 			\hfill \\ Feldogozza az adatsort a táblából, és betölti az adatokat a táblába.
 			\item[that.loadAll(savedObject, resultObject)] 
-			\hfill \\Betölti az összes Interpolációt az adott adathalmazból
+			\hfill \\Betölti az összes Interpolációt az adott adathalmazból.
 			\item[newMenulist()] 
 			\hfill \\
-			Új menülista: régi menü kitörlése, és egy új generálása
+			Új menülista: régi menü kitörlése, és egy új generálása.
 			\hfill \\ 
 			\end{description}
 		\item[interpolationPlot (aConfig)]
-			\hfill \\ Grafikon megjelenítése: "Flot" segítségével létrehoztam az alábbi Objektumot. Ebben valósítottam meg a kirajzolást, és annak tulajdonságait.
+			\hfill \\ Grafikon megjelenítése: \texttt{Flot} segítségével létrehoztam az alábbi Objektumot. Ebben valósítottam meg a kirajzolást, és annak tulajdonságait.
 			\begin{description}
 			\item[that.refresh(points, polynomials)]
 			\hfill \\ Pontok és a polinomok alapján frissíti a grafikont.
@@ -186,7 +186,7 @@
 			\item[generateType()]
 			\hfill \\ Legenerálja a grafikon azon bemenő paraméterét, amely a grafikon megjelenítését állítja.
 			\item[setDefaultSettings()]
-			\hfill \\ Legenerálja a grafikon azon bemenő paraméterét, amely a grafikon megjelenítését állítja.
+			\hfill \\ Beállítja a grafikon paramétereit és értékeit az alapértelmezett értékekre.
 			\item[generatePointSet(tableArray, derivNum)]
 			\hfill \\ Legenerálja az adott pontokat, az interpolációs táblázatból.
 			\end{description}

@@ -1,4 +1,4 @@
-\subsection{Grafikon kirajzoló - Flot}
+\subsection{Grafikon kirajzoló - Flot \label{subsec:flot}}
 
 	\begin{figure}[h]
 	\includegraphics[width=13cm]{pics/plot}
@@ -10,19 +10,19 @@
 	\subsubsection{Felhasználás}
 	HTML fájlban egy egyszerű DIV-ként jelenik meg, melyet aztán a JavaScript tölt meg tartalommal.
 	\begin{verbatim}
-	<div id=\"resultplot\" class=\"demo-placeholder\"></div>
+		<div id=\"resultplot\" class=\"demo-placeholder\"></div>
 	\end{verbatim}
 	A JavaScript-ben hivatkozhatunk erre a \texttt{DIV}-re, majd az adatok és a típusok segítségével alábbi módon hivatkozhatjuk meg: 
 	\begin{verbatim}
-	var placeholder = $("#resultplot");
-	var plot = $.plot(placeholder, flot_data, type);
+		var placeholder = $("#resultplot");
+		var plot = $.plot(placeholder, flot_data, type);
 	\end{verbatim}
 	A paraméterezése a grafikon kirajzolónak az alábbi: 
 	\begin{description}
 		\item[placeholder] \hfill \\ 
- 			DIV hivatkozása
+ 			DIV hivatkozása.
  		 \item[type] \hfill \\ 
- 			Megjelenítendő grafikon típusa
+ 			Megjelenítendő grafikon típusa.
  			\newline
  			A Flot sok lehetőséget nyújt a típusok kiválasztására, és ezekre való példákból megalkottam a saját típusomat mely a következőket tartalmazza egy objektumban:
 	 		\begin{verbatim}
@@ -34,7 +34,7 @@
 				xaxis: { zoomRange: [0.1, 1], panRange: [-1000, 1000] }
 				yaxis: { zoomRange: [0.1, 100], panRange: [-1000, 1000] }
 	 		\end{verbatim} 
-	 		X és Y koordinátákon nagyítás és mozgatási beállítások interaktívvá állítása
+	 		X és Y koordinátákon nagyítás és mozgatási beállítások interaktívvá állítása a xaxis, yaxis elemekkel valósul meg.
 		 	\begin{verbatim}
 				grid: { hoverable: true, clickable: true }
 		 	\end{verbatim} 
@@ -73,15 +73,15 @@
 		\end{verbatim}
 	\end{description}
 
-\subsection{Http szerver}
+\subsection{Http szerver \label{subsec:httpszerver}}
 	A szerver kommunikációt Erlang oldalon 2 megtalált minta fájlból állítottam elő. Az egyikben egy egyszerű szerver kommunikációt mutattak be Erlang-ban\cite{simpleserver}. \newline
 	A másik pedig az Erlang dokumentációjában megtalálható minta kommunikáció tcp protokollal\cite{tcpserver}.
 
-\subsection{Ping-pong Node figyelő}
+\subsection{Ping-pong - node figyelő \label{subsec:nodewatcher}}
 	http://www.erlang.org/doc/getting\_started/conc\_prog.html
 	Az Erlang oldalán található dokumentációban, mely az elosztás és a node kommunikációt mutatja be, sok minta kódot tartalmaz, melyekből könnyen elő tudtam állítani a saját kódomat.\newline
 	Ez alapján a párhuzamosítottan számoló programomat könnyen át tudtam alakítani elosztott módon számítóvá. \newline 
-	Emelett kellett valami lehetőség arra hogy a gépek fel tudjanak csatlakozni a szerverre. Lehetőség lett volna arra is hogy a figyelő helyett csak megkapja a gépek listáját a szerver, de így tisztábban szét van választva a háttér és a kliens, és nem is szükségesek a tényleges számításhoz. \newline
+	Emellett kellett valami lehetőség arra hogy a gépek fel tudjanak csatlakozni a szerverre. Lehetőség lett volna arra is hogy a figyelő helyett csak megkapja a gépek listáját a szerver, de így tisztábban szét van választva a háttér és a kliens, és nem is szükségesek a tényleges számításhoz. \newline
 	Ezen az oldalon található minták a ping-pong kommunikációra, melynek segítségével hoztam létre a node-figyelőt. Ez a modul a \texttt{ServerConfig/nodeWatcher.erl} fájlban található meg. \newline
 
 	Ennek mintájára hoztam létre az alábbi figyelőt, melyet regisztrálunk \texttt{pid\_watcher} atom segítségével. 
@@ -103,7 +103,7 @@
 	\end{verbatim}
 
 
-\subsection{Struktúra kezelő: mochijson}
+\subsection{Struktúra kezelő - mochijson \label{subsec:mochijson}}
 	A mochijson egy Erlang-hoz is használt modul, melynek segítségével egy json string-et át lehet konvertálni Erlang-os struktúrává. \newline 
 	\texttt{git clone https://github.com/mochi/mochiweb.git}(2015.05)
 	paranccsal a teljes mochiweb könyvtárat le lehet tölteni. A \texttt{mochiweb/src} mappában találhatóak azok a fájlok melyeket le lehet fordítani, és be lehet tölteni az Erlang shell-be. Lehet letölteni a fájlokat különállóan is. \newline
@@ -137,7 +137,7 @@
 		    ]}}
 		]}
 	\end{verbatim}
-	Az \texttt{mochijson:encode} segítségével pedig ezt a struktúrát vissza tujduk alakítani json string-gé. Bár az eredményt shell-ben binary formában lehet egyszerűen megtekinteni, és ebben a formában is kell vissza küldeni a kliensnek. 
+	Az \texttt{mochijson:encode} segítségével pedig ezt a struktúrát vissza tudjuk alakítani json string-gé. Bár az eredményt shell-ben binary formában lehet egyszerűen megtekinteni, és ebben a formában is kell vissza küldeni a kliensnek. 
 	\begin{verbatim}
 		iolist_to_binary(mochijson:encode(ErlStruct)).
 		<<"{\"1\":{\"result\":[0.1,0.5,0.7],\"time\":0.5}}">>
@@ -145,7 +145,7 @@
 
 
 	\subsubsection{Felhasználás}
-	Ennek a típusa nem egyszerű, főleg ilyen komplex adathalmaznál. Ennek kezelésére létre lett hozva a Utility/structHandler modul. \newline 
+	Ennek a típusa nem egyszerű, főleg ilyen komplex adathalmaznál. Ennek kezelésére létre lett hozva a \texttt{Utility/structHandler} modul. \newline 
 	Első lépésben a string-et konvertáljuk a kellő típussá. 
 	\begin{verbatim}
 		getDataByJson(JsonSting) -> apply(mochijson, decode, [JsonSting]).
@@ -159,11 +159,12 @@
 	\end{verbatim}
 	Ennek felhasználásával dolgoztam fel a struktúrát.
 
-\subsection{Erlang modul C++-ban : NIF}
+\subsection{\label{subsec:nif} Erlang modul C++-ban - NIF}
+
 	NIF \cite{erl_nif} (native implemented functions) egy C könyvtár, melynek segítségével implementálhatjuk egy modul függvényeit C-ben vagy C++-ban. 
 	\subsubsection{Felhasználás}
 	A calculator Erlang-modul megvalósítását C++-ban implementáltuk.\newline
-	Calculator/ mappában található erlang.cpp és a calculator.erl fájlokban használjuk fel a NIF-et.
+	\texttt{Calculator/} mappában található \texttt{erlang.cpp} és a \texttt{calculator.erl} fájlokban használjuk fel a NIF-et.
 	Amely fájlban végezzük a modul közvetlen kommunikációját az Erlang-al ott le kell tölteni az \texttt{erl\_nif} könyvtárat.
 	\begin{verbatim}
 		#include "erl_nif.h"
@@ -180,10 +181,10 @@
 		ERL_NIF_INIT(calculator, nif_funcs, NULL, NULL, NULL, NULL)
 	\end{verbatim}
 	Amikor meghívódik az Erlang-ból ez a modul, paraméterként \texttt{ERL\_NIF\_TERM} típusú változókat kapunk, melyeket lehetőség van átkonvertálni C++-os típusokká. \newline
-	Az \texttt{enif\_get\_int} függvény segítségével egy változóból kinyerhetjük az integer-ré konvertált értékét. Hasonlóan használjuk az \texttt{enif\_get\_double} függvényt mely értelem szerűen egy double típusú értéket ad vissza.
+	Az \texttt{enif\_get\_int} függvény segítségével egy változóból kinyerhetjük az integer-ré konvertált értéket. Hasonlóan használjuk az \texttt{enif\_get\_double} függvényt mely értelemszerűen egy double típusú értéket ad vissza.
 	\newline
 	Egy lista elemeit \texttt{enif\_get\_list\_cell} függvény segítségével tudtam átkonvertálni. 
-	Ennek segítségével megvalósítottam a vektor-rá és mátrix-á alakító függvényeket,
+	Ennek segítségével megvalósítottam a vektor-rá és mátrix-á átalakító függvényeket,
 	\begin{verbatim}
 		ERL_NIF_TERM head; ERL_NIF_TERM tail = arg;
 		//...
@@ -195,7 +196,7 @@
 	Ennek implementálása a \texttt{convertList} függvényben történt.
 	\newline
 	A tényleges híváshoz a \texttt{nif\_funcs}-ban meghivatkozott \texttt{calculate\_nif}-et kell implementálni. \newline
-	Ebben meghívódnak a kovertáló függvények a helyes paraméterezés kialakításához, majd az eredménnyel vissza térünk egy lista formájában.
+	Ebben meghívódnak a konvertáló függvények a helyes paraméterezés kialakításához, majd az eredménnyel visszatérünk egy lista formájában.
 	\begin{verbatim}
 	static ERL_NIF_TERM calculate_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
 	    //...

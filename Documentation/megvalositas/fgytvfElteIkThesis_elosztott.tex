@@ -16,15 +16,15 @@ Ha létrehozta a processzeket lista elemein végig megy, és azokat szétküldi 
 	\item[httpServer:start(Port, WatcherNode)] 
 		\hfill \\
 		Elindítja a szervert, az adott porton. \newline
-		Ezt a függvényt a main-ben hívjuk, meg ahol már megkapja a node-figyelő pid-jét és az alapértelmezett port-ot 
+		Ezt a függvényt a main-ben hívjuk, meg ahol már megkapja a node-figyelő pid-jét és az alapértelmezett port-ot.
 	\item[httpServer:response(Str, WatcherNode)] \hfill \\ 
 		Miután érkezik egy kérés a szervernek ebben a függvényben kezeljük le. Innen indul ki minden folyamat ami a számítást végzi. \newline 
 		Az alábbi sorrendben hívódnak meg a függvények: \newline
-		getDecodeData, convertData, callMain, convertToSend
+		getDecodeData, convertData, callMain, convertToSend.
 	\item[httpServer:getDecodeData(\_)] \hfill \\ 
-		Visszatér a szervernek küldött paraméterrel
+		Visszatér a szervernek küldött paraméterrel.
 	\item[httpServer:convertData(ResponseParams)] \hfill \\ 
-		Létrehozza a kapott adatból az Erlang struktúrát
+		Létrehozza a kapott adatból az Erlang struktúrát.
 	\item[httpServer:callMain(RespJson, WatcherNode)] \hfill \\ 
 		Amikor az adatokat feldolgoztuk és minden rendben ment, elindítjuk a main függvényét, ezen függvény segítségével.
 	\item[httpServer:convertToSend(Object)] \hfill \\ 
@@ -32,7 +32,7 @@ Ha létrehozta a processzeket lista elemein végig megy, és azokat szétküldi 
 	\end{description}
 \subsection{Adat feldolgozás}
 	Az adatot JSON-ben kapja a szerver. Az adathalmaz kibontásához MonchiJSON lett alkalmazva. 
-	A segédfüggvények és konvertálók a "Utility/structHandler.erl" fájlban lettek megvalósítva.\newline
+	A segédfüggvények és konvertálók a \texttt{Utility/structHandler.erl} fájlban lettek megvalósítva.\newline
 	Elsősorban a megkapott speciális adathalmaz kibontására használtak az itt lévő függvények, de egyéb segédfüggvények is megtalálhatóak ebben a fájlban, amelyek a konvertálással kapcsolatosak.
 
 	\subsubsection{\underline{
@@ -43,7 +43,7 @@ Ha létrehozta a processzeket lista elemein végig megy, és azokat szétküldi 
 		Visszatér egy értékkel, amely az adott kulcson van, ha egy elemű a kulcs lista. Több elem esetén a kulcsokban lévő értékeket nézi, és visszaadja a legbelső kulcson lévő elemet.
 
 		\item[structHandler:getElementByKey()] \hfill \\ 
-		Visszatér egy objektumban az adott kulcson lévő értékkel
+		Visszatér egy objektumban az adott kulcson lévő értékkel.
 	\end{description}
 	\subsubsection{\underline{Adat Struktúra az interpoláció meghívásához}}
 	\begin{description}
@@ -55,7 +55,7 @@ Ha létrehozta a processzeket lista elemein végig megy, és azokat szétküldi 
 		Visszatér az adatok halmazával. Ebből a halmazon, vagyis listán kell végig menni, és szétosztani az elemeit. 
 		
 		\item[structHandler:getPoints] \hfill \\
-		Pontok visszanyerése egy speciális módon, melyet a "calulator" fel tud használni
+		Pontok visszanyerése egy speciális módon, melyet a \texttt{calulator} fel tud használni.
 
 		\input{./../code1.tex}
 
@@ -102,8 +102,8 @@ Ha létrehozta a processzeket lista elemein végig megy, és azokat szétküldi 
 	\begin{description}
 		\item[nodeHandler:distributedFork(NumOfPids, DataList, WatcherNode)]
 		\hfill \\
-		Létrehozza a számításhoz szükséges Node Struktúrát.
-		LogicModule-ban szereplő senderstart, recivestart, worker\_main 
+		Létrehozza a számításhoz szükséges node Struktúrát.
+		LogicModule-ban szereplő senderstart, recivestart, worker\_main függvényeket kezeli.
 		\item[nodeHandler:getNodelist]
 		\hfill \\
 		Lekéri a node-figyelőtől a felcsatlakozott node-okat.
