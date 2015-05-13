@@ -44,10 +44,12 @@ response(Str, WatcherNode) ->
 %%http://erlang.org/doc/man/gen_tcp.html
 
 do_recv(Sock, Bs) ->
-    case gen_tcp:recv(Sock, 0) of
+    case gen_tcp:recv(Sock, 0, 100) of
         {ok, B} ->
-            {ok, list_to_binary(B)};
+            do_recv(Sock, [Bs, B]);
         {error, closed} ->
+            {ok, list_to_binary(Bs)};
+        {error, timeout} ->
             {ok, list_to_binary(Bs)}
     end.
 
