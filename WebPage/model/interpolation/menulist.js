@@ -27,19 +27,28 @@ function interpolationMenulist (aConfig) {
 		var newIndex = gTable.addNewRowToTable();
 		gIndexMax = gIndexMax + 1;
 
-		gTable.setValue(newIndex, 0, gIndexMax);
-		gTable.setValue(newIndex, 1, 'new_interpolation_' + gIndexMax, gCellButtonForm);
+		gTable.setValue(newIndex, 0, gIndexMax, gCellButtonForm);
+		gTable.setValue(newIndex, 1, 'new_interpolation_' + gIndexMax);
 		gTable.getInputTag(newIndex, 1).onclick = function () {
+			that.loadItemSettings(newIndex);
+		};
+		gTable.getInputTag(newIndex, 0).onclick = function () {
+			that.loadItemSettings(newIndex);
+		};
+		gTable.getInputTag(newIndex, 2).onclick = function () {
 			that.loadItemSettings(newIndex);
 		};
 
 		var ID = gTable.getValue(newIndex, 0);
 
-		gTable.setValue(newIndex, 3, 'DEL', gCellButtonForm);
+		gTable.setValue(newIndex, 3, '-- Törlés --', gCellButtonForm);
 		gTable.getInputTag(newIndex, 3).onclick = function () {
 			var row = gTable.findValue(0, ID);
 			if (row && row > 0) {
 				gTable.remove(row+1);
+			}
+			if (gTable.getNumOfRows() === 1) {
+				newMenulist(true);
 			}
 		};
 		return newIndex;
@@ -52,12 +61,16 @@ function interpolationMenulist (aConfig) {
 	}
 
 	/** Új menülista: régi menü kitörlése, és egy új generálása */
-	function newMenulist(){
+	function newMenulist(isnewitem){
+		gIndexMax = 0;
 		gTable.newTable();
 		newMenuListHeaderItem('Id');
-		newMenuListHeaderItem('Name');
-		newMenuListHeaderItem('JSON');
-		newMenuListHeaderItem('Delete');
+		newMenuListHeaderItem('Név');
+		newMenuListHeaderItem('Adatok');
+		newMenuListHeaderItem('Törlés');
+		if (isnewitem) {
+			that.newItem();
+		}
 	}
 	
 	/** Gombok Inicializálása */
@@ -106,6 +119,9 @@ function interpolationMenulist (aConfig) {
 	}
 
 	that.loadItemSettings = function(index) {
+		if (gActualData === index) {
+			return;
+		}
 		gActualData = index || gActualData;
 		try {
 			var loadJSON = gTable.getValue(gActualData, 2);
@@ -130,6 +146,9 @@ function interpolationMenulist (aConfig) {
 		} else {
 			Base.get("inverse").removeAttribute("disabled");
 		}
+
+		var name = gTable.getValue(gActualData, 1);
+		Base.get("selectedItemLabel").textContent = name + " (" + gActualData + ")"; 
 	}
 
 	/** Betölti az összes Interpolációt az adott adathalmazból */
@@ -137,9 +156,8 @@ function interpolationMenulist (aConfig) {
 		newMenulist();
 		Base.forEach(savedObject.data_set, function(id, value) {
 			var i = that.newItem();
-
-			var tableData = value.tableData;
-			tableData.polynomial = resultObject[value.id];
+			var tableData = value.tableData || {};
+			tableData.polynomial = resultObject[value.id] || null;
 
 			gTable.setValue(i, 0, value.id);
 			gTable.setValue(i, 1, value.name);
@@ -187,7 +205,7 @@ function interpolationMenulist (aConfig) {
 		return saveObject;
 	}
 
-	newMenulist();
+	newMenulist(true);
 
     return that;
 }

@@ -206,3 +206,7 @@ body
 .buttonDiv input {
 	margin: 5px;
 }
+
+#interpoationSetTable td:first-child input{
+    width: 30px;
+}
