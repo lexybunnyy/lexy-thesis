@@ -26,21 +26,29 @@ initPort() ->
 	{WatcherNode, SimpleServer}.
 
 callDistributedCaluclate(Data) -> 
-	DataSet = apply(structHandler, getDataSet, [Data]),
-	DataLength = length(DataSet),
-	apply(nodeHandler, distributedFork, [DataLength, DataSet]).
+	Params = getParamsByData(Data),
+	apply(nodeHandler, distributedFork, Params).
 
 callDistributedCaluclate(Data, WatcherNode) -> 
-	DataSet = apply(structHandler, getDataSet, [Data]),
-	DataLength = length(DataSet),
-	apply(nodeHandler, distributedFork, [DataLength, DataSet, WatcherNode]).
+	Params = getParamsByData(Data, WatcherNode),
+	apply(nodeHandler, distributedFork, Params).
 
 callDistributedCaluclate2(Data, WatcherNode) -> 
-	DataSet = apply(structHandler, getDataSet, [Data]),
-	DataLength = length(DataSet),
-	try apply(nodeHandler, distributedFork, [DataLength, DataSet, WatcherNode]) of 
+	Params = getParamsByData(Data, WatcherNode),
+	try apply(nodeHandler, distributedFork, Params) of 
 		SuccessPattern -> SuccessPattern
 	catch 
 		error:Msg -> 
 			{error, Msg}
 	end.
+
+getParamsByData(Data) -> 
+	DataSet = apply(structHandler, getDataSet, [Data]),
+	DataLength = length(DataSet),
+	[DataLength, DataSet].
+getParamsByData(Data, WatcherNode) -> 
+	{MaxNodeNumber, _e} = 
+		string:to_integer(structHandler:getElementByKeyList(["nodenumber"], Data)),
+	DataSet = apply(structHandler, getDataSet, [Data]),
+	DataLength = length(DataSet),
+	[DataLength, DataSet, WatcherNode, MaxNodeNumber].

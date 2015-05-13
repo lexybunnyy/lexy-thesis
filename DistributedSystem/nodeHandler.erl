@@ -23,14 +23,31 @@
 distributedFork(NumOfPids, DataList) -> 
   NodeList = [node()],
   distributedForkHelper(NumOfPids, DataList, NodeList).
-distributedFork(NumOfPids, DataList, WatcherNode) -> 
-  NodeList = getNodelist(WatcherNode) ++ [node()],
+distributedFork(NumOfPids, DataList, WatcherNode, MaxNodeNumber) ->
+  AllNodeList = getNodelist(WatcherNode),
+  NodeList = sliceNodeList(MaxNodeNumber, AllNodeList),
+  io:format("Distributed Slice: ~p ~p \n", [MaxNodeNumber, NodeList]),
   distributedForkHelper(NumOfPids, DataList, NodeList).
+
 distributedForkHelper(NumOfPids, DataList, NodeList) ->
   {PidList, EndPid} = makeForkPids(NumOfPids, NodeList),
   io:format("PidList: ~p \n",[PidList]),
   apply(fork, senderArray, [senderstart, PidList, NumOfPids, DataList]),
   apply(fork, receiver, [recivestart, PidList, EndPid]).
+
+sliceNodeList(0, _NodeList) -> 
+  [node()];
+sliceNodeList(Number, NodeList) when Number < 0 -> 
+  NodeList ++ [node()];
+sliceNodeList(Number, NodeList) when erlang:length(NodeList) >= Number -> 
+  io:format("NodeList: ~p \n",[lists:split(Number, NodeList)]),
+  {NodeListRes, Nodes} = lists:split(Number, NodeList),
+  io:format("NodeList: ~p \n",[{NodeListRes, Nodes}]),
+  NodeListRes;
+sliceNodeList(_Other, NodeList) -> 
+  NodeList ++ [node()].
+
+
 
 getNodelist(WatcherNode) -> 
   WatcherNode ! {get_nodes, self()},
