@@ -27,8 +27,7 @@ pidWatch(Parent_Pid, NodeList) ->
             Ping_PID ! ok,
             pidWatch(Parent_Pid, NodeList ++ [Ping_NODE]);
         {get_nodes, Ping_PID} -> 
-			io:format("pidWatch get_nodes ~p", [NodeList]),
-        	Ping_PID ! {nodelist, self(), NodeList},
+        	Ping_PID ! {nodelist, self(), nodes()},
             pidWatch(Parent_Pid, NodeList)
     end.
 

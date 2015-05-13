@@ -44,16 +44,16 @@ receiver([HeadPidList], ResultList) ->
       io:format("last receiver: ~p ~p \n",[HeadPidList, Result]),
       ResultList ++ [Result]
   after
-    1000000 ->
-      [ResultList, afterEnded]
+    100000 ->
+      ResultList
   end;
 receiver([HeadPidList|TailPidList], ResultList) ->
   receive
     {HeadPidList, forkresult, _Number, Result} ->
       receiver(TailPidList, ResultList++[Result])
   after
-    1000000 ->
-      [ResultList, afterEnded]
+    100000 ->
+      receiver(TailPidList, ResultList)
   end.
 
 %%-----------------------------------------------------worker processes
@@ -84,6 +84,7 @@ receiveData(RecPid) ->
   end.
 
 calculate(Data) ->
+  %%timer:sleep(5000),
   Id = apply(structHandler, getId, [Data]),
   try apply(calculator, calculateByData, [Data]) of 
     Result -> {Id, Result}
