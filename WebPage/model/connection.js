@@ -13,7 +13,7 @@ Connection.request = function (aConfig) {
 		data: JSON.stringify(aConfig.params),
 	}).done(function(result) {
     	console.log( "success", result);
-    	alert("Számítás Befejeződött!");
+    	alert("Számítás Befejeződött!\nIdő: " + result['time'] + "ms");
     	aConfig.callback(result);
 	}).fail(function(info, textstatus) {
 	    console.log( "error", info, textstatus);

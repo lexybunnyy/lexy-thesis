@@ -29,10 +29,13 @@ handle(Conn, WatcherNode) ->
 
 response(Str, WatcherNode) ->
     ResponseStruct = erlang:decode_packet(http_bin, Str, []),
+    Start = now(),
     ResponseParams = getDecodeData(ResponseStruct),
     RespData = convertData(ResponseParams),
     Result = callMain(RespData, WatcherNode),
-    B = convertToSend(Result),
+    End = now(),
+    DiffMS = timer:now_diff(End, Start) / 1000,
+    B = convertToSend(Result ++ [{"time", DiffMS}]),
     iolist_to_binary(
       io_lib:fwrite(
          "HTTP/1.0 200 OK\nContent-Type: application/json\nContent-Length: ~p\n\n~s",
