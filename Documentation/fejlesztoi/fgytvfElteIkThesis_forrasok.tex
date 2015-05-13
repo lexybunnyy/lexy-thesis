@@ -6,7 +6,7 @@
 	\caption{Grafikon kirajzoló\label{fig:plot}}
 	\end{figure}
 	
-	A Grafikon megjelenítéséhez a Flot 8.0.2-es verzióját használom. Ez egy jQuery-s könyvtár, melyben egyszerűen és látványosan lehet grafikonokat kirajzolni. A forrás a \textit{WebPage/source/flot-8.0.2} mappában érhető el.
+	A Grafikon megjelenítéséhez a Flot 8.0.2-es verzióját használom. Ez egy jQuery-s könyvtár, melyben egyszerűen és látványosan lehet grafikonokat kirajzolni. A forrás a \textit{WebPage/source/flot-8.0.2} mappában érhető el \cite{flotcharts}.
 	\subsubsection{Felhasználás}
 	HTML fájlban egy egyszerű DIV-ként jelenik meg, melyet aztán a JavaScript tölt meg tartalommal.
 	\begin{verbatim}
@@ -74,15 +74,14 @@
 	\end{description}
 
 \subsection{Http szerver \label{subsec:httpszerver}}
-	A szerver kommunikációt Erlang oldalon 2 megtalált minta fájlból állítottam elő. Az egyikben egy egyszerű szerver kommunikációt mutattak be Erlang-ban\cite{simpleserver}. \newline
-	A másik pedig az Erlang dokumentációjában megtalálható minta kommunikáció tcp protokollal\cite{tcpserver}.
+	A szerver kommunikációt Erlang oldalon 2 megtalált minta fájlból állítottam elő. Az egyikben egy egyszerű szerver kommunikációt mutattak be Erlang-ban \cite{simpleserver}. \newline
+	A másik pedig az Erlang dokumentációjában megtalálható minta kommunikáció tcp protokollal \cite{tcpserver}.
 
 \subsection{Ping-pong - node figyelő \label{subsec:nodewatcher}}
-	http://www.erlang.org/doc/getting\_started/conc\_prog.html
-	Az Erlang oldalán található dokumentációban, mely az elosztás és a node kommunikációt mutatja be, sok minta kódot tartalmaz, melyekből könnyen elő tudtam állítani a saját kódomat.\newline
+	Az Erlang oldalán található dokumentációban, mely az elosztás és a node kommunikációt mutatja be, sok minta kódot tartalmaz, melyekből könnyen elő tudtam állítani a saját kódomat \cite{pingpong}.\newline
 	Ez alapján a párhuzamosítottan számoló programomat könnyen át tudtam alakítani elosztott módon számítóvá. \newline 
 	Emellett kellett valami lehetőség arra hogy a gépek fel tudjanak csatlakozni a szerverre. Lehetőség lett volna arra is hogy a figyelő helyett csak megkapja a gépek listáját a szerver, de így tisztábban szét van választva a háttér és a kliens, és nem is szükségesek a tényleges számításhoz. \newline
-	Ezen az oldalon található minták a ping-pong kommunikációra, melynek segítségével hoztam létre a node-figyelőt. Ez a modul a \texttt{ServerConfig/nodeWatcher.erl} fájlban található meg. \newline
+	Ezen az oldalon található minták a \textit{"ping-pong"} kommunikációra, melynek segítségével hoztam létre a node-figyelőt. Ez a modul a \texttt{ServerConfig/nodeWatcher.erl} fájlban található meg. \newline
 
 	Ennek mintájára hoztam létre az alábbi figyelőt, melyet regisztrálunk \texttt{pid\_watcher} atom segítségével. 
 	\begin{verbatim}
@@ -104,7 +103,7 @@
 
 
 \subsection{Struktúra kezelő - mochijson \label{subsec:mochijson}}
-	A mochijson egy Erlang-hoz is használt modul, melynek segítségével egy json string-et át lehet konvertálni Erlang-os struktúrává. \newline 
+	A mochijson \cite{mochijson} egy Erlang-hoz is használt modul, melynek segítségével egy json string-et át lehet konvertálni Erlang-os struktúrává. \newline 
 	\texttt{git clone https://github.com/mochi/mochiweb.git}(2015.05)
 	paranccsal a teljes mochiweb könyvtárat le lehet tölteni. A \texttt{mochiweb/src} mappában találhatóak azok a fájlok melyeket le lehet fordítani, és be lehet tölteni az Erlang shell-be. Lehet letölteni a fájlokat különállóan is. \newline
 	Eredetileg csak a mochijson.erl-re volt szükségem, de miután komplexebb adatot kellett encode-olnom szükségessé vált még egy fájl betöltése, viszont nem tudtam hogy az még milyen függőségeket hordoz magában, így letöltöttem az egész repository-t. \newline

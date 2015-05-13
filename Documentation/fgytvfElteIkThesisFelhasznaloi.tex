@@ -143,7 +143,7 @@ Az apache szerverhez kapcsolódó lépéseket csak a szerveren kell elvégezni.
 	\begin{verbatim}
 		./setup.sh
 	\end{verbatim}
-	Ha sikeres volt a futás akkor elindíthatjuk az Erlang shell-t, és a run.erl fájl segítségével betölthetjük a lefordított elemeket. A run:load() futtatását shell indítás után egyszer szabad lefuttatni, mivel a NIF fájlok nem tudnak újra betöltődni, és ez hibát generál.\newline
+	Ha sikeres volt a futás akkor elindíthatjuk az Erlang shell-t, és a \texttt{run.erl} fájl segítségével betölthetjük a lefordított elemeket. A \texttt{run:load()} futtatását shell indítás után egyszer szabad lefuttatni, mivel a NIF fájlok nem tudnak újra betöltődni, és ez hibát generál.\newline
 	Érdemes ismét lefuttatni a teszteket, ha sikeres volt akkor a gép alkalmas arra hogy szerver vagy segéd gép legyen.
 	\begin{verbatim}
 		erl
@@ -175,7 +175,7 @@ Az apache szerverhez kapcsolódó lépéseket csak a szerveren kell elvégezni.
 		run:load().
 		run:test().
 	\end{verbatim}
-	Ha a shell-ben minden megfelelően működik (fájlok lefordultak, tesztek lefutottak) akkor inicializálhatjuk a portokat, a run:initServer() függvényével. Ez a függvény létrehozza a szerver és a node-figyelő folyamatokat. Kiírja nekünk a képernyőre a figyelő folyamat pid-jét mellyel lehetőségünk van tesztelni, amikor esetleg egy gép felcsatlakozik. 
+	Ha a shell-ben minden megfelelően működik (fájlok lefordultak, tesztek lefutottak) akkor inicializálhatjuk a portokat, a \texttt{run:initServer()} függvényével. Ez a függvény létrehozza a szerver és a node-figyelő folyamatokat. Kiírja nekünk a képernyőre a figyelő folyamat pid-jét mellyel lehetőségünk van tesztelni, amikor esetleg egy gép felcsatlakozik. 
 	\begin{verbatim}
 		(nodeNameForInterpolation@computername)4> node().
 		nodeNameForInterpolation@computername
@@ -184,7 +184,7 @@ Az apache szerverhez kapcsolódó lépéseket csak a szerveren kell elvégezni.
 		WatcherNode : <0.100.0>
 		...
 	\end{verbatim}
-	A számító folyamathoz szükségünk van a másik gépen meghívott node(). eredményére, mivel ez a node inicializációjának paramétere. 
+	A számító folyamathoz szükségünk van a másik gépen meghívott \texttt{node()}. eredményére, mivel ez a node inicializációjának paramétere. 
 	\begin{verbatim}
 		(nodeNameForInterpolation@computername2)5> 
 		    run:initNode(nodeNameForInterpolation@computername).
@@ -246,18 +246,6 @@ Az apache szerverhez kapcsolódó lépéseket csak a szerveren kell elvégezni.
 		\caption{Grafikon és táblázat\label{fig:webpage_table_plot}}
 	\end{figure}
 
-	\begin{figure}[h]
-		\includegraphics[width=8cm]{pics/webpage_buttons}
-		\centering
-		\caption{Gombok\label{fig:webpage_buttons}}
-	\end{figure}
-
-	\begin{figure}[h]
-		\includegraphics[width=15cm]{pics/webpage_inputs}
-		\centering
-		\caption{Adatok betöltése, mentése az inputokba történik \label{fig:webpage_inputs}}
-	\end{figure}
-
 	\paragraph{}
 	Az oldalon megtekinthetőek még az egyes részekhez tartozó gombok, melyekkel új elemeket lehet létrehozni, vagy törölni régieket, valamint van lehetőség a mentésre is.
 	Fent található gombok(\ref{fig:webpage_buttons}) segítségével minta adathalmazokat lehet betölteni, vagy a régieket lehet menteni. Ha befejeztük az adathalmazok szerkesztését akkor a küldés gombbal van lehetőség a szervernek elküldeni a szerkesztett adatokat.
@@ -268,6 +256,22 @@ Az apache szerverhez kapcsolódó lépéseket csak a szerveren kell elvégezni.
 	\newline
 	Ha számítás sikeres volt akkor az interpoláció kiválasztása után megtekinthető lesz az eredmény. Ha nem sikerült az adott interpolációhoz a számítást végrehajtani, akkor nem láthatjuk a polinomot, és a szerveren az Erlang shell-ben megjelenik nagy valószínűséggel a hibaüzenet.
 
+	A feladat felületi oldala egyszerűen átlátható, de a gombok és listák kezelése nem kellőképpen dinamikus. Ennek az is az oka hogy egy elég komplex felületről van szó, ahol minden egységnek minden egységgel kommunikálnia kell valamilyen formában. \newline
+	Az adatok szerkesztése után egy gombra kattintással el is küldi a szervernek a szükséges információkat, melyekből a szerver számol, és eredményt ad vissza. \newline
+	Ha minden sikeresen végre hajtódik, akkor a felhasználó a kívánt ponthalmazokat és polinomokat láthatja a grafikonon, mint a sikeres interpoláció eredményét.
+
+	\begin{figure}[h]
+		\includegraphics[width=7cm]{pics/webpage_buttons}
+		\centering
+		\caption{Globális gombok\label{fig:webpage_buttons}}
+	\end{figure}
+
+	\begin{figure}[h]
+		\includegraphics[width=15cm]{pics/webpage_inputs}
+		\centering
+		\caption{Adatok betöltése, mentése az inputokba történik \label{fig:webpage_inputs}}
+	\end{figure}
+
 	\begin{figure}[h]
 		\includegraphics[width=6cm]{pics/webpage_unsuccess}
 		\includegraphics[width=6cm]{pics/webpage_success}
@@ -276,13 +280,10 @@ Az apache szerverhez kapcsolódó lépéseket csak a szerveren kell elvégezni.
 	\end{figure}
 
 	\begin{figure}[h]
-		\includegraphics[width=15cm]{pics/webpage_plot_result}
+		\includegraphics[width=14cm]{pics/webpage_plot_result}
 		\centering
 		\caption{Eredmény kirajzolása\label{fig:webpage_plot_result}}
 	\end{figure}
-	A feladat felületi oldala egyszerűen átlátható, de a gombok és listák kezelése nem kellőképpen dinamikus. Ennek az is az oka hogy egy elég komplex felületről van szó, ahol minden egységnek minden egységgel kommunikálnia kell valamilyen formában. \newline
-	Az adatok szerkesztése után egy gombra kattintással el is küldi a szervernek a szükséges információkat, melyekből a szerver számol, és eredményt ad vissza. \newline
-	Ha minden sikeresen végre hajtódik, akkor a felhasználó a kívánt ponthalmazokat és polinomokat láthatja a grafikonon, mint a sikeres interpoláció eredményét.
 
 %% Általános felhasználói tájékoztató (például a szokásostól eltérő képernyő-, billentyű-,
 %%illetve egérkezelés leírása, teendők hibaüzenetek esetén stb.).

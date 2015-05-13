@@ -97,19 +97,25 @@
       &
       	igen
       &
-		\textbf{Előidézés?}:  Minta adatban fordul csak elő, de ha onnan  is betöltődhet akkor máshonnan is, amikor betölti az adatokat le kellene ezt kezelni.
+		\textbf{Előidézés}:  Minta adatban fordul csak elő, de ha onnan  is betöltődhet akkor máshonnan is, amikor betölti az adatokat le kellene ezt kezelni.
    \\ \hline
     	Amikor pontot adunk hozzá nem frissül 
       &
       	igen
       &
-		\textbf{Előidézés?}: Pont hozzáadása gomb esetén nem mentődnek el a háttérben az adatok
+		\textbf{Előidézés}: Pont hozzáadása gomb esetén nem mentődnek el a háttérben az adatok
     \\ \hline
     	Hermite inverz nincs implementálva, és mégis beállítható a felületen.  
       &
       	igen
       &
 		El tudjuk küldeni az oldalról úgy az adatokat hogy Hermite interpolációnál is állítható az inverz, közben a szerver nem inverz interpolációt fog számolni.
+	\\ \hline
+    	Listában a törlés gomb nem működik megfelelően.    
+      &
+      	nem
+      &
+		Interpolációk listájában a törlés gomb hatására nem törli ki az adott sort. 
 	\\ \hline
   \end{tabular}\end{center}
   \begin{center}\begin{tabular}{| p{4cm} | p{1.5cm} | p{8cm} |}
@@ -139,23 +145,9 @@
     	igen
       &  
     	\textbf{Előidézés}: 9-nél több egyszerű adat felküldése, minta nagy adatból 4db felett.
-    	A szerver egybe küldi az értékeket, a httpServer modul már nem kapja meg a végét.
+    	A szerver egybe küldi az értékeket, a httpServer modul már nem kapja meg a végét. \newline
     	\textbf{Hiba}: A tcp kapcsolat nem záródik le, ezért bele kellett nyúlni az eredeti minta kód logikájába is.\newline
     	\textbf{Megoldás}: Bizonyos idő után lezárjuk a kapcsolatot Timeout-al, olyan idő lett megadva amelyben már remélhetőleg minden csomag megérkezik.
-    \\ \hline
-    	Erlang run:teszt és telepítés hiba a szerveren erlang 5.9.1 es verziónál
-      &
-      	nem
-      &
-      	\textbf{Telepítő futtatási hiba}: \newline
-      	\texttt{escript: Internal error: badarg}
-		\texttt{"init terminating in do\_boot"}
-        \texttt{\{badarg,[\{io,format,[<0.29.0>,"~p",}
-        \texttt{[[\{io\_lib,format ... }
-		\newline \textbf{Teszt futtatásánál hiba}: \newline
-		\texttt{exception error: no case clause matching <<127,248,0,0,0,0,0,0>>}
-     	\texttt{in function  io\_lib\_format:mantissa\_exponent\/1}
-     	\texttt{(io\_lib\_format.erl, line 374) }
     \\ \hline
 	\end{tabular}\end{center}
 
@@ -176,5 +168,19 @@
       &
       	Előfordul hogy a szerver elküldi a számító node-nak az adatot, az ki is számolja, viszont az eredmény nem érkezik vissza.\newline
       	A hiba elég véletlenszerűnek tűnik. Többször is elő tudtam igézni, majd amikor létrehoztam teljesen új elosztott rendszert egy vagy két gépen akkor már nem jelentkezett a hiba. 
+    \\ \hline
+    	Erlang run:teszt és telepítés hiba a szerveren erlang 5.9.1 es verziónál
+      &
+      	nem
+      &
+      	\textbf{Telepítő futtatási hiba}: \newline
+      	\texttt{escript: Internal error: badarg}
+		\texttt{"init terminating in do\_boot"}
+        \texttt{\{badarg,[\{io,format,[<0.29.0>,"~p",}
+        \texttt{[[\{io\_lib,format ... }
+		\newline \textbf{Teszt futtatásánál hiba}: \newline
+		\texttt{exception error: no case clause matching <<127,248,0,0,0,0,0,0>>}
+     	\texttt{in function  io\_lib\_format:mantissa\_exponent\/1}
+     	\texttt{(io\_lib\_format.erl, line 374) }
     \\ \hline
   	\end{tabular}\end{center}
