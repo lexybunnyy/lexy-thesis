@@ -11,6 +11,7 @@ run:deleteCompiledFiles().
 erl -s toolbar -sname interpMainComputer
 c(run).
 run:load().
+run:test().
 run:initServer().
 
 erl -s toolbar -sname interpCaluclator1

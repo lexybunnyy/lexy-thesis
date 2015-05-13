@@ -20,7 +20,7 @@ A weboldalon össze állított adatokat küldjük fel a szerverre, a szerver a m
 	A felület sok gombot tartalmaz, melyek hatására frissíthetőek az adatok. Amikor frissítünk egy részt, általában mentődnek az értékek egy inputba JSON formában.
 
 \subsection{Elosztott rendszer}
-	Az elosztott rendszer megvalósításához az alábbi technológiák merültek fel: C++/PVM, Erlang.
+	Az elosztott rendszer megvalósításához az alábbi technológiák merültek fel: \newline C++/PVM, Erlang.
 	Miután a JavaScript mellett döntöttem a grafikus felületen, ezután optimálisabbnak tűnt egy hasonlóan gyengén típusos nyelvnek a használata. Az Erlang elég jól támogatja párhuzamosítást és a szerver kommunikációt is, és bár az algoritmusok implementálása nehézkesebb lett volna, de C++-ban megvalósított függvények beépítése miatt ez a probléma megoldódott.
 	\newline
 	A JavaScript-ből kapott json kibontására talált mochijson segítségével az adatokat át lehetett dolgozni Erlang-os típusokká, alkalmazásáról a \ref{subsec:mochijson} pontban lesz szó.

@@ -16,15 +16,15 @@
 \section{Telepítési útmutató}
 \subsection{Rendszer követelmények}
 %% A rendszer használatához szükséges minimális, illetve optimális HW/SW környezet
-	A szoftver Linux Mint 17.1 'Rebecca' Cinnamon 64-bit operációs rendszeren lett tesztelve.
+	A program tesztelése Linux Mint 17.1 'Rebecca' Cinnamon 64-bit-es konfigurációjú gépen történt.
 	\begin{center}
-  	\begin{tabular}{| p{5cm} | p{10cm} |} 
+  	\begin{tabular}{| p{5cm} | p{8cm} |} 
   	\hline
         Operációs rendszer & debian alapú rendszer (ubuntu, mint)
     \\ \hline
         Apache & 2.4.7 (Ubuntu)
     \\ \hline
-        Erlang & 5.10.4 (SMP,ASYNC\_THREADS) (BEAM) emulator 
+        Erlang & 5.10.4 emulator \newline (SMP,ASYNC\_THREADS) (BEAM)
     \\ \hline
         g++ & 4.8.2 (Ubuntu)
     \\ \hline
@@ -103,9 +103,10 @@ Az apache szerverhez kapcsolódó lépéseket csak a szerveren kell elvégezni.
 	\end{verbatim}
 
 \subsubsection{Apache szerver - elindítás}
-	Az előbbi pontban megvalósított szerver konfigurációs fájt át kell helyezni az \texttt{apache2/sites-available} mappájába, és fel kell venni a konfigurálandó fájlok közé. Ha nincsen még a mód proxy\_http-re állítva, azt is meg kell csinálni az újraindítás (restart) előtt. 
+	Az előbbi pontban megvalósított szerver konfigurációs fájt át kell helyezni az \\ \texttt{apache2/sites-available} mappájába, és fel kell venni a konfigurálandó fájlok közé. Ha nincsen még a mód proxy\_http-re állítva, azt is meg kell csinálni az újraindítás (restart) előtt. 
 	\begin{verbatim}
-		sudo cp ./ServerConfig/szakdoli.conf /etc/apache2/sites-available/szakdoli.conf
+		sudo cp ./ServerConfig/szakdoli.conf 
+		     /etc/apache2/sites-available/szakdoli.conf
 		sudo a2enmod proxy proxy_http
 		sudo a2ensite szakdoli.conf
 	\end{verbatim}
@@ -118,7 +119,7 @@ Az apache szerverhez kapcsolódó lépéseket csak a szerveren kell elvégezni.
 	Ezt a pontot a szerveren és a segéd számító gépeken is el kell végezni. \newline
 	Az Erlang Node-ok kommunikációjához be kell állítani a \texttt{.erlang.cookie} fájlt mely a \texttt{/home}-ban található. 
 	Nem biztos hogy a fájlnak van írás joga. Ha nincs akkor adni kell neki, és meg kell nyitni valamilyen szerkesztőben.
-	Szerkesztés után pedig ajánlott vissza adni az eredeti jogait.
+	Szerkesztés után pedig ajánlott visszaadni az eredeti jogait.
 	\begin{verbatim}
 		sudo chmod +w ~/.erlang.cookie
 		sudo vim ~/.erlang.cookie
@@ -150,7 +151,7 @@ Az apache szerverhez kapcsolódó lépéseket csak a szerveren kell elvégezni.
 		run:load().
 		run:test().
 	\end{verbatim}
-	Ha az Erlang fájlokban módosítunk valamit akkor elegendő csak újra indítani a shell-t és lefuttatni a betöltés előtt az Erlang fájlok újra fordítását.
+	Ha az Erlang fájlokban módosítunk valamit akkor elegendő csak újraindítani a shell-t és lefuttatni a betöltés előtt az Erlang fájlok újrafordítását.
 	\begin{verbatim}
 		erl
 		c(run).
@@ -181,11 +182,12 @@ Az apache szerverhez kapcsolódó lépéseket csak a szerveren kell elvégezni.
 
 		(nodeNameForInterpolation@computername)5> run:initServer().
 		WatcherNode : <0.100.0>
-		%% ...
+		...
 	\end{verbatim}
 	A számító folyamathoz szükségünk van a másik gépen meghívott node(). eredményére, mivel ez a node inicializációjának paramétere. 
 	\begin{verbatim}
-		(nodeNameForInterpolation@computername2)5> run:initNode(nodeNameForInterpolation@computername).
+		(nodeNameForInterpolation@computername2)5> 
+		    run:initNode(nodeNameForInterpolation@computername).
 		<0.66.0>
 	\end{verbatim}
 	Ekkor ha sikeres volt a feliratkozás akkor a szerver gépen láthatjuk kiírva.
@@ -210,6 +212,9 @@ Az apache szerverhez kapcsolódó lépéseket csak a szerveren kell elvégezni.
 	http://<inet addr>:8086/API 
 	{"success":"false","msg":"Invalid Response"}
 	\end{verbatim}
+	A kliens-szerver kommunikációt még bonyolítja az elosztott kommunikáció.
+	Mivel igen sok rendszert érint, a telepítési folyamat nem is biztos hogy minden gépen végig tud menni. \newline
+	Viszont kellőképpen tesztelt a folyamat ahhoz hogy a felhasználó tudja már a telepítés után hogy a rendszerén működni fognak-e a számítások.
 \subsubsection{Weboldal használata}
 	A weboldalt a szerver konfiguráció után el lehet érni az \texttt{http://<inet addr>:8086} linken, ahol a \texttt{<inet addr>} az adott gép kívülről elérhető címe. Ha helyi gépen van a szerver akkor az oldal elérhető a \texttt{http://localhost:8086} linken.
 
@@ -259,9 +264,9 @@ Az apache szerverhez kapcsolódó lépéseket csak a szerveren kell elvégezni.
 	\newline 
 	A szerver számítás után felugrik egy ablak, amelyben megkapjuk válaszul hogy sikeres vagy sikertelen volt a szerver kommunikáció(\ref{fig:webpage_unsuccess}).\newline
 	Sikeres szerver kommunikáció esetén ha a listában kiválasztunk egy elemet, akkor annak eredményét is megtekinthetjük, a grafikonon.
-	\newline Abban az esetben amikor szerver hiba van nagy valószínűséggel a szerver kapcsolatban van a gond. Első lépésként ellenőrizni kell a szervert, hogy működik-e, és a tesztjei lefutnak-e. Ha működik minden tesztje és fut a szerver, mégis hiba van akkor az adatforgalmat kell ellenőrizni, hogy minden információ megérkezett-e, érdemes ilyenkor a szerver kommunikációt kielemezni, nincs-e valami lekorlátozva, vagy blokkolva.
+	\newline Abban az esetben amikor szerver hiba van nagy valószínűséggel a szerver kapcsolatban van a gond. Első lépésként ellenőrizni kell a szervert, hogy működik-e, és a tesztjei lefutnak-e. Ha működik minden tesztje és fut a szerver, mégis hiba van akkor az adatforgalmat kell ellenőrizni, hogy minden információ megérkezett-e, érdemes ilyenkor a szerver kommunikációt kielemezni, nincs-e valami korlátozva, vagy blokkolva.
 	\newline
-	Ha számítás sikeres volt akkor az interpoláció kiválasztása után megtekinthető lesz az eredmény. Ha nem sikerült az adott interpolációhoz a számítást végre hajtani, akkor nem láthatjuk a polinomot, és a szerveren az Erlang shell-ben megjelenik nagy valószínűséggel a hiba üzenet.
+	Ha számítás sikeres volt akkor az interpoláció kiválasztása után megtekinthető lesz az eredmény. Ha nem sikerült az adott interpolációhoz a számítást végrehajtani, akkor nem láthatjuk a polinomot, és a szerveren az Erlang shell-ben megjelenik nagy valószínűséggel a hibaüzenet.
 
 	\begin{figure}[h]
 		\includegraphics[width=6cm]{pics/webpage_unsuccess}
@@ -275,7 +280,9 @@ Az apache szerverhez kapcsolódó lépéseket csak a szerveren kell elvégezni.
 		\centering
 		\caption{Eredmény kirajzolása\label{fig:webpage_plot_result}}
 	\end{figure}
-
+	A feladat felületi oldala egyszerűen átlátható, de a gombok és listák kezelése nem kellőképpen dinamikus. Ennek az is az oka hogy egy elég komplex felületről van szó, ahol minden egységnek minden egységgel kommunikálnia kell valamilyen formában. \newline
+	Az adatok szerkesztése után egy gombra kattintással el is küldi a szervernek a szükséges információkat, melyekből a szerver számol, és eredményt ad vissza. \newline
+	Ha minden sikeresen végre hajtódik, akkor a felhasználó a kívánt ponthalmazokat és polinomokat láthatja a grafikonon, mint a sikeres interpoláció eredményét.
 
 %% Általános felhasználói tájékoztató (például a szokásostól eltérő képernyő-, billentyű-,
 %%illetve egérkezelés leírása, teendők hibaüzenetek esetén stb.).
@@ -288,12 +295,3 @@ Az apache szerverhez kapcsolódó lépéseket csak a szerveren kell elvégezni.
 %%netek stb.) és azok magyarázata – az esetleges üzemeltetési teendőkkel együtt. Itt vegyük
 %%figyelembe, hogy tartalmaz-e biztonsági, illetve hibaelhárítási előírásokat?
 %% Egyéb, a szoftver használatához szükséges információk.
-\newpage
-\section{Összefoglaló}
-	A feladat felületi oldala egyszerűen átlátható, de a gombok és listák kezelése nem kellőképpen dinamikus. Ennek az is az oka hogy egy elég komplex felületről van szó, ahol minden egységnek minden egységgel kommunikálnia kell valamilyen formában. \newline
-	Az adatok szerkesztése után egy gombra kattintással el is küldi a szervernek a szükséges információkat, melyekből a szerver számol, és eredményt ad vissza.
-	\newline
-	A kliens-szerver kommunikációt még bonyolítja az elosztott kommunikáció.
-	Mivel igen sok rendszert érint, a telepítési folyamat nem is biztos hogy minden gépen végig tud menni. \newline
-	Viszont kellőképpen le van tesztelve a folyamat ahhoz hogy a felhasználó tudja már a telepítés után hogy a rendszerén működni fognak-e a számítások. \newline
-	Ha minden sikeresen végre hajtódik, akkor a felhasználó a kívánt ponthalmazokat és polinomokat láthatja a grafikonon, mint a sikeres interpoláció eredményét.

@@ -137,7 +137,7 @@
 		    ]}}
 		]}
 	\end{verbatim}
-	Az \texttt{mochijson:encode} segítségével pedig ezt a struktúrát vissza tudjuk alakítani json string-gé. Bár az eredményt shell-ben binary formában lehet egyszerűen megtekinteni, és ebben a formában is kell vissza küldeni a kliensnek. 
+	Az \texttt{mochijson:encode} segítségével pedig ezt a struktúrát vissza tudjuk alakítani json string-gé. Bár az eredményt shell-ben binary formában lehet egyszerűen megtekinteni, és ebben a formában is kell visszaküldeni a kliensnek. 
 	\begin{verbatim}
 		iolist_to_binary(mochijson:encode(ErlStruct)).
 		<<"{\"1\":{\"result\":[0.1,0.5,0.7],\"time\":0.5}}">>
@@ -154,7 +154,8 @@
 	\begin{verbatim}
 		getElementByKey(array, {array, Array}) -> Array;
 		getElementByKey(struct, {struct, Array}) -> Array;
-		getElementByKey(Name, {struct, Struct}) -> getElementByKey(Name, Struct);
+		getElementByKey(Name, {struct, Struct}) -> 
+		    getElementByKey(Name, Struct);
 		getElementByKey(Name,[{Name, Value}]) -> Value;
 	\end{verbatim}
 	Ennek felhasználásával dolgoztam fel a struktúrát.
@@ -192,13 +193,14 @@
 		    //...
 		}
 	\end{verbatim}
-	A számítás eredménye egy vektor, így az eredményül kapott értéket vissza kell valahogyan konvertálni Erlang-os típussá. Ezt az \texttt{enif\_make\_double} és az \texttt{enif\_make\_list\_from\_array} függvények segítségével lehet megvalósítani. 
+	A számítás eredménye egy vektor, így az eredményül kapott értéket vissza kell valahogyan konvertálni Erlang-os típussá. Ezt az \texttt{enif\_make\_double} és az \\ \texttt{enif\_make\_list\_from\_array} függvények segítségével lehet megvalósítani. 
 	Ennek implementálása a \texttt{convertList} függvényben történt.
 	\newline
 	A tényleges híváshoz a \texttt{nif\_funcs}-ban meghivatkozott \texttt{calculate\_nif}-et kell implementálni. \newline
 	Ebben meghívódnak a konvertáló függvények a helyes paraméterezés kialakításához, majd az eredménnyel visszatérünk egy lista formájában.
 	\begin{verbatim}
-	static ERL_NIF_TERM calculate_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
+	static ERL_NIF_TERM calculate_nif
+	(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
 	    //...
 	    poli = interpolateMain(X, Y, type, isInverse);
 	    return convertList(env, poli);

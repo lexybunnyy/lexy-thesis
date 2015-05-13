@@ -44,8 +44,9 @@
 
 		\item[test:runCheck, run] \hfill \\
 			Futtatást kezelő függvények.
-			Lefuttatják azokat a teszteket amiket a ServerConfig/main.erl-ből már el lehet indítani. 
-			A main-ben található függvény tesztelésére a test:simulateDistributedCalculate függvényt használjuk, amit a bin/run.erl-ben lévő teszt futtat.
+			Lefuttatják azokat a teszteket amiket a \\ 
+			\texttt{ServerConfig/main.erl}-ből már el lehet indítani. 
+			\newline \texttt{test:simulateDistributedCalculate} függvényt a main-ben található függvény tesztelésére használjuk, amit a bin/run.erl-ben lévő teszt futtat.
 		\item[test:simulateDistributedCalculate] \hfill \\
 			Egy olyan minta adatból, melyet a szerver is küldhet, elvégzi a számítást és ellenőrzi az eredményt. \newline
 			Ha megadjuk neki a node-figyelő pid-jét akkor elosztott számítást is teszteli, és a node-figyelővel való kommunikációt. 
@@ -58,7 +59,7 @@
 		\item[test:getParseJSONParams] \hfill \\
 			Json string-ből a számításhoz szükséges minden paraméter kinyerésének tesztelése (structHandler teszt).
 		\item[test:convertStruct] \hfill \\
-			structHandler függvényeinek tesztje: 
+			structHandler függvényeinek tesztje: \newline
 			getNewPointStruct, appendNewPointStruct, convertPoints.
 		\item[test:simulateFirstParseAndRun] \hfill \\
 			Kibontja az első elemet a mintából, és számítás után ellenőrzi az eredmény helyességét. \newline
@@ -87,26 +88,26 @@
     \\ \hline
         Egy interpoláció adatbetöltési hibák
       &
-      	nem
+      	igen
       &
       	Egy interpoláció tulajdonságainak betöltésénél nem állítja be az interpoláció típust és azt hogy inverz-e.
       	Nem jelenítjük meg a polinomokat sem bármilyen egyéb formában.
     \\ \hline
         Eredmény betöltésnél előfordul hogy a pontosság undefined 
       &
-      	nem
+      	igen
       &
 		\textbf{Előidézés?}:  Minta adatban fordul csak elő, de ha onnan  is betöltődhet akkor máshonnan is, amikor betölti az adatokat le kellene ezt kezelni.
-    \\ \hline
+   \\ \hline
     	Amikor pontot adunk hozzá nem frissül 
       &
-      	nem
+      	igen
       &
 		\textbf{Előidézés?}: Pont hozzáadása gomb esetén nem mentődnek el a háttérben az adatok
     \\ \hline
     	Hermite inverz nincs implementálva, és mégis beállítható a felületen.  
       &
-      	nem
+      	igen
       &
 		El tudjuk küldeni az oldalról úgy az adatokat hogy Hermite interpolációnál is állítható az inverz, közben a szerver nem inverz interpolációt fog számolni.
 	\\ \hline
@@ -135,10 +136,12 @@
   	\\ \hline
     	Szerver hiba bizonyos mennyiségű adatküldése felett 
       &
-    	nem
+    	igen
       &  
     	\textbf{Előidézés}: 9-nél több egyszerű adat felküldése, minta nagy adatból 4db felett.
-    	A szerver egybe küldi az értékeket, a httpServer modul már nem kapja meg a végét. Nem küldi 2 részletben, ezt kizártuk.
+    	A szerver egybe küldi az értékeket, a httpServer modul már nem kapja meg a végét.
+    	\textbf{Hiba}: A tcp kapcsolat nem záródik le, ezért bele kellett nyúlni az eredeti minta kód logikájába is.\newline
+    	\textbf{Megoldás}: Bizonyos idő után lezárjuk a kapcsolatot Timeout-al, olyan idő lett megadva amelyben már remélhetőleg minden csomag megérkezik.
     \\ \hline
     	Erlang run:teszt és telepítés hiba a szerveren erlang 5.9.1 es verziónál
       &
@@ -157,13 +160,7 @@
 	\end{tabular}\end{center}
 
   	\begin{center}\begin{tabular}{| p{4cm} | p{1.5cm} | p{8cm} |}
-	\hline Hiba & Javítva & Info \\ \hline
-    	Erlang: elosztási hiba
-      &
-      	nem
-      &
-      	Előfordul hogy a szerver elküldi a számító node-nak az adatot, az ki is számolja, viszont az eredmény nem érkezik vissza.\newline
-      	A hiba elég véletlenszerűnek tűnik. Többször is elő tudtam igézni, majd amikor létrehoztam teljesen új elosztott rendszert egy vagy két gépen akkor már nem jelentkezett a hiba.
+	\hline Hiba & Javítva & Info 
     \\ \hline
         Ha kilép egy node, akkor elszáll a számítás 
       &
@@ -171,6 +168,13 @@
       &
       \textbf{Ötletek}:
       Node-ok kivételére is kellene opció,vagy kezelni kellene az elszálló node-okat.
-      \newline Mielőtt elkezdjük a számítást, mindegyik node-ot ellenőrizzük, amelyik nem létezik már azt kivesszük a listából. Ha számítás közben hal meg: Bizonyos időközönként szintén küldünk egy ping-et az adott szervernek hogy létezik-e még. Ha meghalt a node akkor hibával tér vissza az adott számítás a kliensnek. 
+      \newline Mielőtt elkezdjük a számítást, mindegyik node-ot ellenőrizzük, amelyik nem létezik már azt kivesszük a listából. Ha számítás közben hal meg: Bizonyos időközönként szintén küldünk egy ping-et az adott szervernek hogy létezik-e még. Ha meghalt a node akkor hibával tér vissza az adott számítás a kliensnek.
+   	\\ \hline
+    	Erlang: elosztási hiba
+      &
+      	nem
+      &
+      	Előfordul hogy a szerver elküldi a számító node-nak az adatot, az ki is számolja, viszont az eredmény nem érkezik vissza.\newline
+      	A hiba elég véletlenszerűnek tűnik. Többször is elő tudtam igézni, majd amikor létrehoztam teljesen új elosztott rendszert egy vagy két gépen akkor már nem jelentkezett a hiba. 
     \\ \hline
   	\end{tabular}\end{center}
