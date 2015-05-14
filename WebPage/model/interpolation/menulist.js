@@ -7,7 +7,7 @@ function interpolationMenulist (aConfig) {
     var that = {};
 	var gInterpPlot = aConfig.interpolationPlot;
 	var gInterpTable = aConfig.interpolationTable;
-	var gActualData = 1;
+	var gActualData = 0;
 	var gIndexMax = 0;
     var gCellButtonForm = {
         "type" :  "button",
@@ -30,12 +30,15 @@ function interpolationMenulist (aConfig) {
 		gTable.setValue(newIndex, 0, gIndexMax, gCellButtonForm);
 		gTable.setValue(newIndex, 1, 'new_interpolation_' + gIndexMax);
 		gTable.getInputTag(newIndex, 1).onclick = function () {
+			that.saveItemSettings();
 			that.loadItemSettings(newIndex);
 		};
 		gTable.getInputTag(newIndex, 0).onclick = function () {
+			that.saveItemSettings();
 			that.loadItemSettings(newIndex);
 		};
 		gTable.getInputTag(newIndex, 2).onclick = function () {
+			that.saveItemSettings();
 			that.loadItemSettings(newIndex);
 		};
 
@@ -49,6 +52,9 @@ function interpolationMenulist (aConfig) {
 			}
 			if (gTable.getNumOfRows() === 1) {
 				newMenulist(true);
+			}
+			if (gActualData === newIndex) {
+				that.loadItemSettings(0);
 			}
 		};
 		return newIndex;
@@ -123,11 +129,15 @@ function interpolationMenulist (aConfig) {
 			return;
 		}
 		gActualData = index || gActualData;
-		try {
-			var loadJSON = gTable.getValue(gActualData, 2);
-			var loadObject = JSON.parse(loadJSON);
-		} catch (e){
-			loadObject = {};
+		var loadObject = {};
+		if (gActualData !== 0) {
+			try {
+				var rowId = gTable.findValue(0, String(gActualData));
+				var loadJSON = gTable.getValue(rowId, 2);
+				loadObject = JSON.parse(loadJSON);
+			} catch (e){
+				loadObject = {};
+			}
 		}
 		var tableData = loadObject.tableData;
 		var gCurrentPoly = tableData ? tableData.polynomial : null;
@@ -147,7 +157,7 @@ function interpolationMenulist (aConfig) {
 			Base.get("inverse").removeAttribute("disabled");
 		}
 
-		var name = gTable.getValue(gActualData, 1);
+		var name = gActualData ? gTable.getValue(rowId, 1) : '';
 		Base.get("selectedItemLabel").textContent = name + " (" + gActualData + ")"; 
 	}
 
@@ -168,10 +178,14 @@ function interpolationMenulist (aConfig) {
 				plotSetting: value.plotSetting
 			}));
 		});
+		that.loadItemSettings(0);
 	}
 
 	/** Elmenti az adatokat a táblából (az aktuális Interpolációból) */
 	that.saveItemSettings = function() {
+		if (gActualData === 0) {
+			return;
+		}
 		var saveObject = {};
 		saveObject.type = Base.get("type").value;
 		saveObject.inverse = Base.get("inverse").checked;
@@ -206,6 +220,6 @@ function interpolationMenulist (aConfig) {
 	}
 
 	newMenulist(true);
-
+	that.loadItemSettings(0);
     return that;
 }
