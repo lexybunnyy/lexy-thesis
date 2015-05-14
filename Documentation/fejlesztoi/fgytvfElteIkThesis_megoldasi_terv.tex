@@ -13,8 +13,8 @@ A weboldalon össze állított adatokat küldjük fel a szerverre, a szerver a m
 	A weboldalon meg kell valósítani a pontok dinamikus kirajzolását, és a táblázatos formában történő megjelenítést és szerkeszthetőséget. Mivel több interpolációt küldünk fel a szervernek ezért a weboldalon több szerkesztésére is lehetőséget kell adni. \newline 
 	Több interpoláció számítás szerkesztésének megvalósításához kell egy menü rendszer, amelyben eltárolódnak az adatok, és képesek betöltődni.\newline
 	Az oldalon input-okat használunk még, és a dinamikus táblázat is JavaScript-ből van legenerálva. A táblázatokban sorok beszúrására teljes táblázat törlésre is lehetőséget kell adni. 
-	A táblázatokban inputok vannak az egyes cellákban melyben egyszerű értékek, vagy akár komplexebb Objektumok is találhatóak. A bonyolultabb objektumokat json string-ben tároljuk ezekben az inputokban. \newline
-	A menü listájában új adathalmazokat hozhat létre, a régieket szerkesztheti.
+	A táblázatokban inputok vannak az egyes cellákban melyben egyszerű értékek, vagy akár komplexebb objektumok is találhatóak. A bonyolultabb objektumokat json string-ben tároljuk ezekben az inputokban. \newline
+	Az interpolációk listájában új adathalmazokat hozhat létre, a régieket szerkesztheti.
 	Amikor a felhasználó pontokat, megjelenítést frissít a legtöbb esetben az oldal már a háttérben menti az adatokat a listába. Amikor egy másik interpolációt választunk ki, akkor az betöltődik a táblázatba, és a grafikonba. A módosítások és mentés esetén az aktuálisan kiválasztott interpolációs adathalmaz sora fog frissülni.
 	Ha a felhasználó végzett egy gombra nyomással a program legenerálja a szükséges objektumot. \newline
 	A felület sok gombot tartalmaz, melyek hatására frissíthetőek az adatok. Amikor frissítünk egy részt, általában mentődnek az értékek egy inputba JSON formában.

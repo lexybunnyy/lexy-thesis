@@ -83,7 +83,7 @@ Az apache szerverhez kapcsolódó lépéseket csak a szerveren kell elvégezni.
 		<Directory /home/../project/WebPage/>
 	\end{verbatim}
 	
-	A szerver elosztott része a 8082 porton van elindítva, és erre hozunk létre egy proxy-t hogy a weboldallal lehetősége legyen kommunikálni.
+	A szerver elosztott része a 8082 porton van elindítva, és erre hozunk létre egy proxy-t, hogy a weboldallal lehetősége legyen kommunikálni.
 	
 	\begin{verbatim}
 		ProxyPass /API http://localhost:8082
@@ -116,9 +116,9 @@ Az apache szerverhez kapcsolódó lépéseket csak a szerveren kell elvégezni.
 	\end{verbatim}
 
 \subsubsection{Elosztott számításhoz}
-	Ezt a pontot a szerveren és a segéd számító gépeken is el kell végezni. \newline
-	Az Erlang Node-ok kommunikációjához be kell állítani a \texttt{.erlang.cookie} fájlt mely a \texttt{/home}-ban található. 
-	Nem biztos hogy a fájlnak van írás joga. Ha nincs akkor adni kell neki, és meg kell nyitni valamilyen szerkesztőben.
+	Ezt a folyamatot a szerveren és a segéd számításokat végző gépeken is el kell végezni. \newline
+	Az Erlang node-ok kommunikációjához be kell állítani a \texttt{.erlang.cookie} fájlt mely a \texttt{/home}-ban található. 
+	Nem biztos, hogy a fájlnak van írás joga. Ha nincs akkor adni kell neki, és meg kell nyitni valamilyen szerkesztőben.
 	Szerkesztés után pedig ajánlott visszaadni az eredeti jogait.
 	\begin{verbatim}
 		sudo chmod +w ~/.erlang.cookie
@@ -133,8 +133,8 @@ Az apache szerverhez kapcsolódó lépéseket csak a szerveren kell elvégezni.
 	Ezután az Erlang-node-ok tudnak egymással kommunikálni, akár több gépen is.
 
 \subsubsection{Szerver tesztelése}
-	Az első üzembe helyezés előtt érdemes lefordítani a fájlokat, és lefuttatni a teszteket hogy tudjuk hogy az Erlang és a C++ verzió kompatibilis az eredetivel. \newline
-	A bin mappában található fájlok segítenek minket a rendszer élesítésében, tehát ebben a mappában van lehetőség a futtatásra.  
+	Az első üzembe helyezés előtt érdemes lefordítani a fájlokat, és lefuttatni a teszteket, hogy tudjuk hogy az Erlang és a C++ verzió kompatibilis az eredetivel. \newline
+	A \texttt{/bin} mappában található fájlok segítenek minket a rendszer élesítésében, tehát ebben a mappában van lehetőség a futtatásra.  
 	\begin{verbatim}
 		$ cd project/bin/
 	\end{verbatim}
@@ -166,7 +166,7 @@ Az apache szerverhez kapcsolódó lépéseket csak a szerveren kell elvégezni.
 
 \subsection{Használati útmutató}
 \subsubsection{Szerver elindítása}
-	A szerver elindítását a \texttt{/project/bin} mappában kell végezni. Miután az előző lépésben már a teszteket elvégeztük így elindíthatjuk a szervert és a gépeket.
+	A szerver elindítását szintén a \texttt{/project/bin} mappában kell végezni. Miután az előző lépésben már a teszteket elvégeztük így elindíthatjuk a szervert és a gépeket.
 	Adnunk kell egy nevet a node-unknak, melyet a shell indításakor az \texttt{-sname} kapcsolóval lehet megadni.
 	\begin{verbatim}
 		$ cd project/bin/
@@ -177,38 +177,37 @@ Az apache szerverhez kapcsolódó lépéseket csak a szerveren kell elvégezni.
 	\end{verbatim}
 	Ha a shell-ben minden megfelelően működik (fájlok lefordultak, tesztek lefutottak) akkor inicializálhatjuk a portokat, a \texttt{run:initServer()} függvényével. Ez a függvény létrehozza a szerver és a node-figyelő folyamatokat. Kiírja nekünk a képernyőre a figyelő folyamat pid-jét mellyel lehetőségünk van tesztelni, amikor esetleg egy gép felcsatlakozik. 
 	\begin{verbatim}
-		(nodeNameForInterpolation@computername)4> node().
-		nodeNameForInterpolation@computername
+		(test@computername)4> node().
+		test@computername
 
-		(nodeNameForInterpolation@computername)5> run:initServer().
+		(test@computername)5> run:initServer().
 		WatcherNode : <0.100.0>
 		...
 	\end{verbatim}
-	A számító folyamathoz szükségünk van a másik gépen meghívott \texttt{node()}. eredményére, mivel ez a node inicializációjának paramétere. 
+	A számító folyamathoz szükségünk van a másik gépen meghívott \texttt{node()} eredményére, mivel ez a node inicializációjának paramétere. 
 	\begin{verbatim}
-		(nodeNameForInterpolation@computername2)5> 
-		    run:initNode(nodeNameForInterpolation@computername).
+		(test2@computername2)5> 
+		    run:initNode(test@computername).
 		<0.66.0>
 	\end{verbatim}
 	Ekkor ha sikeres volt a feliratkozás akkor a szerver gépen láthatjuk kiírva.
 	\begin{verbatim}
-		Worker Writed <10214.66.0> 'nodeNameForInterpolation@computername2'
+		Worker Writed <10214.66.0> 'test2@computername2'
 	\end{verbatim}
 	A szerveren ezután le lehet futtatni esetleg többször is a tesztet, hogy tudjuk a közös kommunikáció és a tényleges szétosztás is megtörténik.
 	\begin{verbatim}
-		(test@computername)21> run:test(pid(0,104,0)).
+		(test@computername)21> run:test(pid(0,100,0)).
 		(test@computername)21> nodeHandler:getNodelist(pid(0,100,0)).
 	\end{verbatim}
 	Mivel a szerver portjai inicializálódtak, ezért a weboldalról is lehet küldeni a számításokat. 
-	A weboldal elérhető az adott porton. A weboldal elérhetővé vált az apache konfiguráció után, és a kommunikáció is működik, ha a szervert inicializáltuk. Az oldal Mozilla Firefox-ban lett tesztelve. Linkek ilyen típusúak lehetnek: 
+	A weboldal elérhető az apache által megadott porton (8086). A weboldal elérhetővé vált az apache konfiguráció után, és a kommunikáció is működik, ha a szervert inicializáltuk. Az oldal Mozilla Firefox-ban lett tesztelve.
+	\newline A hivatkozási link az alábbi formában elérhető, ahol <inet addr> a szerver gép ip-címe, vagy domain neve (például helyi gép esetén localhost):  
 	\begin{verbatim}
-	http://localhost:8086
 	http://<inet addr>:8086
 	\end{verbatim}
 	Közvetlen szerver kommunikációt az alábbi linken lehet elérni. 
-	Ha a kommunikáció kiépül akkor JSON-t kapunk válaszul, ha nem épül ki kapcsolat, akkor más hibaüzenetet kapunk. 
+	Ha a kommunikáció kiépül akkor az alábbi JSON-t kapunk válaszul, ha nem épül ki kapcsolat, akkor más hibaüzenetet kapunk. 
 	\begin{verbatim}
-	http://localhost:8086/API
 	http://<inet addr>:8086/API 
 	{"success":"false","msg":"Invalid Response"}
 	\end{verbatim}
@@ -216,10 +215,11 @@ Az apache szerverhez kapcsolódó lépéseket csak a szerveren kell elvégezni.
 	Mivel igen sok rendszert érint, a telepítési folyamat nem is biztos hogy minden gépen végig tud menni. \newline
 	Viszont kellőképpen tesztelt a folyamat ahhoz hogy a felhasználó tudja már a telepítés után hogy a rendszerén működni fognak-e a számítások.
 \subsubsection{Weboldal használata}
-	A weboldalt a szerver konfiguráció után el lehet érni az \texttt{http://<inet addr>:8086} linken, ahol a \texttt{<inet addr>} az adott gép kívülről elérhető címe. Ha helyi gépen van a szerver akkor az oldal elérhető a \texttt{http://localhost:8086} linken.
+	A weboldalt a szerver konfiguráció után el lehet érni az \texttt{http://<inet addr>:8086} linken.
 
 	\paragraph{}
-	Amikor megnyitjuk az oldalt látjuk jobb oldalt a listát, bal oldalt pedig a Grafikon és Táblázat elnevezéssel az interpoláció szerkesztésére alkalmas felületet (\ref{fig:webpage1}).
+	Amikor megnyitjuk az oldalt látjuk jobb oldalt a listát, bal oldalt pedig a Grafikon és Táblázat elnevezéssel az interpoláció szerkesztésére alkalmas felületet
+	(Lásd: \ref{fig:webpage1}. ábra).
 
 	\begin{figure}[h]
 		\includegraphics[width=15cm]{pics/webpage1}
@@ -228,17 +228,19 @@ Az apache szerverhez kapcsolódó lépéseket csak a szerveren kell elvégezni.
 	\end{figure}
 
 	\paragraph{}
-	Először a jobb oldalon fel kell vennünk pár interpolálni kívánt adathalmazt. Egy sor egy interpoláció számítást jelent. Az elnevezés, tulajdonképpen egy gomb, mellyel az adott sor elemeit lehet betölteni.\newline
-	Itt látható az a json, amelyben az adatok el vannak tárolva egyesével. Ebből tölti be a bal oldalra az interpoláció pontjait és tulajdonságait is. A névre kattintás hatására az adatok abból a sorból betöltődnek (\ref{fig:webpage_menulist}).
+	Először a jobb oldalon található listában van lehetőségünk felvenni az interpolálni kívánt adathalmazokat. Egy sor egy interpolációs számítást jelent. Az sorban található gombra vagy szövegdobozokba kattintunk akkor az adott sor elemeit betölti.
+	A \textit{"-- Törlés --"} gomb hatására viszont az adott sor törlésre kerül. \newline
+	Adatok oszlopban látható az a json, amelyben az adatok el vannak tárolva egyesével. Ebből tölti be a bal oldalra az interpoláció pontjait és tulajdonságait is. A névre kattintás hatására az adatok abból a sorból betöltődnek (Lásd: \ref{fig:webpage_menulist}. ábra). \newline 
+	A listába van lehetőségünk kívülről is betölteni adatokat. Például ha frissítjük az oldalt a lista kiürül, de az utoljára felvett értékeket az \textit{"Elmentett adat"} JSON-jében megtalálhatjuk, és onnan az \textit{"Eredmény betöltése"} gombbal van lehetőségünk betölteni a listába.
 
 	\begin{figure}[h]
-		\includegraphics[width=13cm]{pics/webpage_menulist}
+		\includegraphics[width=11cm]{pics/webpage_menulist}
 		\centering
 		\caption{Interpolációk listája\label{fig:webpage_menulist}}
 	\end{figure}
 	
 	\paragraph{}
-	Ha kiválasztottuk a sort, akkor megjelenik a bal oldalon a grafikon és a táblázat az aktuális értékekkel. A táblázatba felvehetünk új pontokat, és azokat a frissítés gomb hatására a grafikonon is megtekinthetjük. A grafikonon kattintva az aktuális koordináták bekerülnek az x,y elnevezésű inputokba, ahonnan az új pont felvétel hatására bekerül a táblázatba (\ref{fig:webpage_table_plot}).
+	Ha kiválasztottuk a sort, akkor megjelenik a bal oldalon a grafikon és a táblázat az aktuális értékekkel. A táblázatba felvehetünk új pontokat, és azokat a frissítés gomb hatására a grafikonon is megtekinthetjük. A grafikonon kattintva az aktuális koordináták bekerülnek az x,y elnevezésű inputokba, ahonnan a \textit{"Pont hozzáadása"} gomb segítségével bekerül a táblázatba (Lásd: \ref{fig:webpage_table_plot}. ábra). Mielőtt az új pontot felvennénk, kézzel is szerkeszthetjük. A táblázatban van lehetőség új oszlopok és sorok felvételére, és az egyes pontok szerkesztésére. Miután a pontokat kézzel szerkesztettük a grafikon mellett található \textit{"Frissítés"} gombbal a grafikonon is megtekinthetjük.
 
 	\begin{figure}[h]
 		\includegraphics[width=15cm]{pics/webpage_table_plot}
@@ -247,13 +249,16 @@ Az apache szerverhez kapcsolódó lépéseket csak a szerveren kell elvégezni.
 	\end{figure}
 
 	\paragraph{}
-	Az oldalon megtekinthetőek még az egyes részekhez tartozó gombok, melyekkel új elemeket lehet létrehozni, vagy törölni régieket, valamint van lehetőség a mentésre is.
-	Fent található gombok(\ref{fig:webpage_buttons}) segítségével minta adathalmazokat lehet betölteni, vagy a régieket lehet menteni. Ha befejeztük az adathalmazok szerkesztését akkor a küldés gombbal van lehetőség a szervernek elküldeni a szerkesztett adatokat.
+	Az oldalon megtekinthetőek még az egyes részekhez tartozó gombok, melyekkel új elemeket lehet létrehozni, vagy törölni régieket, valamint van lehetőség a mentésre is (Lásd: \ref{fig:webpage_buttons}. ábra).
+	A \textit{"Minta 1"} gomb segítségével minta adathalmazt lehet betölteni a \textit{"Elmentett adat"}-ba, majd onnan az \textit{"Eredmény Betöltése"} gombbal a listában is megtekinthetjük. 
+	\newline Ha befejeztük az adathalmazok szerkesztését akkor a küldés gombbal van lehetőség a szervernek elküldeni a szerkesztett adatokat.
 	\newline 
-	A szerver számítás után felugrik egy ablak, amelyben megkapjuk válaszul hogy sikeres vagy sikertelen volt a szerver kommunikáció(\ref{fig:webpage_unsuccess}).\newline
+	A szerver számítás után felugrik egy ablak, amelyben megkapjuk válaszul hogy sikeres vagy sikertelen volt a szerver kommunikáció (Lásd: \ref{fig:webpage_unsuccess}. ábra). 
+	\newline
+	A sikeres kommunikáció ablakában megtekinthető a számítás ideje is, mely csak a szerveren számított időt méri, a szerver és a kliens közötti kommunikáció ezt az időt nem befolyásolja. \newline
 	Sikeres szerver kommunikáció esetén ha a listában kiválasztunk egy elemet, akkor annak eredményét is megtekinthetjük, a grafikonon.
 	\newline Abban az esetben amikor szerver hiba van nagy valószínűséggel a szerver kapcsolatban van a gond. Első lépésként ellenőrizni kell a szervert, hogy működik-e, és a tesztjei lefutnak-e. Ha működik minden tesztje és fut a szerver, mégis hiba van akkor az adatforgalmat kell ellenőrizni, hogy minden információ megérkezett-e, érdemes ilyenkor a szerver kommunikációt kielemezni, nincs-e valami korlátozva, vagy blokkolva.
-	\newline
+	\newpage
 	Ha számítás sikeres volt akkor az interpoláció kiválasztása után megtekinthető lesz az eredmény. Ha nem sikerült az adott interpolációhoz a számítást végrehajtani, akkor nem láthatjuk a polinomot, és a szerveren az Erlang shell-ben megjelenik nagy valószínűséggel a hibaüzenet.
 
 	A feladat felületi oldala egyszerűen átlátható, de a gombok és listák kezelése nem kellőképpen dinamikus. Ennek az is az oka hogy egy elég komplex felületről van szó, ahol minden egységnek minden egységgel kommunikálnia kell valamilyen formában. \newline

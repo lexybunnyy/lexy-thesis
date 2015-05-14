@@ -1,4 +1,3 @@
-	A felület manuális teszteléssel lett kipróbálva, automatizált tesztesetek nem lesznek.
 \subsection{Kalkulátor tesztelés}
 	Ebben a részben a cpp-ben írt tesztesetekről lesz szó. \newline
 	A tesztelést folyamatosan végeztem a minta adatok alapján. A függvények implementálása közben ezekre a minta adatokra meghívtam, majd ezekkel számoltam. A teszteléshez a logTest.cpp fájlban található függvényeket alkalmaztam. \newline
@@ -113,7 +112,7 @@
 	\\ \hline
     	Listában a törlés gomb nem működik megfelelően.    
       &
-      	nem
+      	igen
       &
 		Interpolációk listájában a törlés gomb hatására nem törli ki az adott sort. 
 	\\ \hline
@@ -156,11 +155,13 @@
     \\ \hline
         Ha kilép egy node, akkor elszáll a számítás 
       &
-      	nem
+      	igen
       &
       \textbf{Ötletek}:
       Node-ok kivételére is kellene opció,vagy kezelni kellene az elszálló node-okat.
       \newline Mielőtt elkezdjük a számítást, mindegyik node-ot ellenőrizzük, amelyik nem létezik már azt kivesszük a listából. Ha számítás közben hal meg: Bizonyos időközönként szintén küldünk egy ping-et az adott szervernek hogy létezik-e még. Ha meghalt a node akkor hibával tér vissza az adott számítás a kliensnek.
+      \newline \textbf{Megoldás}:
+      10 percet várunk maximálisan egy Node-tól kapott eredményre, utána lezárjuk a kapcsolatot.
    	\\ \hline
     	Erlang: elosztási hiba
       &
