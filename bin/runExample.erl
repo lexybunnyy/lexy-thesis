@@ -8,13 +8,22 @@ run:load().
 run:test().
 run:deleteCompiledFiles().
 
+%% Szerver futtatás 
 erl -s toolbar -sname interpMainComputer
 c(run).
 run:load().
 run:test().
 run:initServer().
 
-erl -s toolbar -sname interpCaluclator1
+%% Másik gépen
+erl -sname interpCaluclator1
+c(run).
+run:load().
+run:test().
+run:initNode(interpMainComputer@lexymint).
+
+%% Másik gépen
+erl -sname interpCaluclator2
 c(run).
 run:load().
 run:test().

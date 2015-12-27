@@ -38,8 +38,8 @@ function interpolationMenulist (aConfig) {
 			that.loadItemSettings(newIndex);
 		};
 		gTable.getInputTag(newIndex, 2).onclick = function () {
-			that.saveItemSettings();
-			that.loadItemSettings(newIndex);
+			//that.saveItemSettings();
+			//that.loadItemSettings(newIndex);
 		};
 
 		var ID = gTable.getValue(newIndex, 0);
@@ -140,7 +140,7 @@ function interpolationMenulist (aConfig) {
 			}
 		}
 		var tableData = loadObject.tableData;
-		var gCurrentPoly = tableData ? tableData.polynomial : null;
+		gCurrentPoly = tableData ? tableData.polynomial : null;
 		
 		gInterpTable.setData(tableData);
 		gInterpPlot.setPlotSettings(loadObject.plotSetting);
